@@ -10,7 +10,12 @@ import { pStatusEditor } from "./pStatusEditor.js";
  * 
  */
 
-export function metadataEditor(dv) {
+// `mountEl` is the DOM element the feature renders into. Previously the two
+// root containers were created via `dv.el(...)` (which both creates the element
+// AND appends it to the surrounding dataviewjs output). Outside a dataviewjs
+// block there is no such output context, so the caller passes in an element
+// (e.g. a modal's contentEl) and we build into it with `createEl(...)`.
+export function metadataEditor(dv, mountEl) {
 
     const metaEditState = {
         featureBoxActive: true,
@@ -23,10 +28,10 @@ export function metadataEditor(dv) {
         }
     }
 
-    const miniContainer = dv.el("div", "> _Seite bearbeiten (+)_");
+    const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
     miniContainer.style.display = "none";
     miniContainer.style.cursor = "pointer";
-    const container = dv.el("div", "");
+    const container = mountEl.createEl("div");
     
     const renderActiveContainer = () => {
         if (metaEditState.featureBoxActive) {

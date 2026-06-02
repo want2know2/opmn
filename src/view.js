@@ -62,8 +62,8 @@ class OpmnView extends ItemView {
     const slot = root.createEl("div", { cls: "opmn-feature-slot" });
     slot.createEl("p", {
       text:
-        "Feature mount point. metadataEditor / bulkMetaEditor will be wired in " +
-        "here next.",
+        "Feature mount point. The metadata editor currently opens from the " +
+        "\u201COPMN: Metadata editor\u201D ribbon icon (and command).",
     });
   }
 }

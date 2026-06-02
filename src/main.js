@@ -2,6 +2,7 @@
 
 const { Plugin } = require("obsidian");
 const { OpmnView, VIEW_TYPE_OPMN } = require("./view.js");
+const { MetadataEditorModal } = require("./metadataEditorModal.js");
 
 // Plugin entry point. This is the native-plugin equivalent of the
 // CodeScript Toolkit `startup.js` `invoke(app)` function: it runs once when
@@ -21,6 +22,17 @@ module.exports = class OpmnPlugin extends Plugin {
       id: "open-opmn-view",
       name: "Open view",
       callback: () => this.activateView(),
+    });
+
+    // 4. Second ribbon icon + command: open the Metadata editor modal.
+    this.addRibbonIcon("table-properties", "OPMN: Metadata editor", () => {
+      new MetadataEditorModal(this.app).open();
+    });
+
+    this.addCommand({
+      id: "open-opmn-metadata-editor",
+      name: "Open metadata editor",
+      callback: () => new MetadataEditorModal(this.app).open(),
     });
   }
 

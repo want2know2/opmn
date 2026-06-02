@@ -1,14 +1,7 @@
-"use strict";
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -23,66 +16,66 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/dvApi.js
-var require_dvApi = __commonJS({
-  "src/dvApi.js"(exports2, module2) {
-    "use strict";
-    function getDataviewApi(app2) {
-      var _a, _b, _c, _d;
-      return (_d = (_c = (_b = (_a = app2 == null ? void 0 : app2.plugins) == null ? void 0 : _a.plugins) == null ? void 0 : _b.dataview) == null ? void 0 : _c.api) != null ? _d : null;
-    }
-    module2.exports = { getDataviewApi };
-  }
+// src/main.js
+var main_exports = {};
+__export(main_exports, {
+  default: () => OpmnPlugin
 });
+module.exports = __toCommonJS(main_exports);
+var import_obsidian3 = require("obsidian");
 
 // src/view.js
-var require_view = __commonJS({
-  "src/view.js"(exports2, module2) {
-    "use strict";
-    var { ItemView } = require("obsidian");
-    var { getDataviewApi } = require_dvApi();
-    var VIEW_TYPE_OPMN2 = "opmn-view";
-    var OpmnView2 = class extends ItemView {
-      getViewType() {
-        return VIEW_TYPE_OPMN2;
-      }
-      getDisplayText() {
-        return "OPMN";
-      }
-      getIcon() {
-        return "layout-dashboard";
-      }
-      async onOpen() {
-        this.render();
-      }
-      async onClose() {
-        this.contentEl.empty();
-      }
-      render() {
-        const root = this.contentEl;
-        root.empty();
-        root.createEl("h2", { text: "OPMN" });
-        const dv = getDataviewApi(this.app);
-        if (!dv) {
-          const err = root.createEl("p", {
-            text: "Dataview API not found. Make sure the Dataview plugin is installed and enabled, then reopen this view."
-          });
-          err.style.color = "var(--text-error)";
-          return;
-        }
-        const pageCount = dv.pages().length;
-        root.createEl("p", {
-          text: `Dataview connected \u2014 ${pageCount} pages indexed.`
-        });
-        const slot = root.createEl("div", { cls: "opmn-feature-slot" });
-        slot.createEl("p", {
-          text: "Feature mount point. The metadata editor currently opens from the \u201COPMN: Metadata editor\u201D ribbon icon (and command)."
-        });
-      }
-    };
-    module2.exports = { OpmnView: OpmnView2, VIEW_TYPE_OPMN: VIEW_TYPE_OPMN2 };
+var import_obsidian = require("obsidian");
+
+// src/dvApi.js
+function getDataviewApi(app2) {
+  var _a, _b, _c, _d;
+  return (_d = (_c = (_b = (_a = app2 == null ? void 0 : app2.plugins) == null ? void 0 : _a.plugins) == null ? void 0 : _b.dataview) == null ? void 0 : _c.api) != null ? _d : null;
+}
+
+// src/view.js
+var VIEW_TYPE_OPMN = "opmn-view";
+var OpmnView = class extends import_obsidian.ItemView {
+  getViewType() {
+    return VIEW_TYPE_OPMN;
   }
-});
+  getDisplayText() {
+    return "OPMN";
+  }
+  getIcon() {
+    return "layout-dashboard";
+  }
+  async onOpen() {
+    this.render();
+  }
+  async onClose() {
+    this.contentEl.empty();
+  }
+  render() {
+    const root = this.contentEl;
+    root.empty();
+    root.createEl("h2", { text: "OPMN" });
+    const dv = getDataviewApi(this.app);
+    if (!dv) {
+      const err = root.createEl("p", {
+        text: "Dataview API not found. Make sure the Dataview plugin is installed and enabled, then reopen this view."
+      });
+      err.style.color = "var(--text-error)";
+      return;
+    }
+    const pageCount = dv.pages().length;
+    root.createEl("p", {
+      text: `Dataview connected \u2014 ${pageCount} pages indexed.`
+    });
+    const slot = root.createEl("div", { cls: "opmn-feature-slot" });
+    slot.createEl("p", {
+      text: "Feature mount point. The metadata editor currently opens from the \u201COPMN: Metadata editor\u201D ribbon icon (and command)."
+    });
+  }
+};
+
+// src/metadataEditorModal.js
+var import_obsidian2 = require("obsidian");
 
 // shared/services/fuzzyService.js
 function scoreFuzzy(userInputString, searchableFieldsOfPageStr) {
@@ -135,10 +128,6 @@ function rankFuzzy(userInputString, entTypeCandidatePages, searchableFieldsOfPag
   });
   return scored.filter((x) => x.score > 0).sort((a, b) => b.score - a.score).map((x) => x.item);
 }
-var init_fuzzyService = __esm({
-  "shared/services/fuzzyService.js"() {
-  }
-});
 
 // shared/utils/valueUtils.js
 function toStringValue(val) {
@@ -156,20 +145,11 @@ function toArray(x, asString = false) {
   }
   return arr;
 }
-var init_valueUtils = __esm({
-  "shared/utils/valueUtils.js"() {
-  }
-});
 
 // shared/services/metadataService.js
 function einzelnerFeldWert(dvPage, feld) {
   return feld.split(".").reduce((o, k) => o == null ? void 0 : o[k], dvPage);
 }
-var init_metadataService = __esm({
-  "shared/services/metadataService.js"() {
-    init_valueUtils();
-  }
-});
 
 // shared/utils/namingUtils.js
 function splitName(str) {
@@ -177,10 +157,6 @@ function splitName(str) {
   const splitArr = str.split(" _ ");
   return splitArr[splitArr.length - 1];
 }
-var init_namingUtils = __esm({
-  "shared/utils/namingUtils.js"() {
-  }
-});
 
 // shared/services/pageDisplayNameService.js
 function getPageDisplayName(dv, pageRef) {
@@ -233,11 +209,6 @@ function getPageDisplayName(dv, pageRef) {
     displayNameSource
   };
 }
-var init_pageDisplayNameService = __esm({
-  "shared/services/pageDisplayNameService.js"() {
-    init_namingUtils();
-  }
-});
 
 // shared/services/pageLinkService.js
 function toWikiLink(pageRef) {
@@ -251,10 +222,6 @@ function toWikiLinkWithAlias(pageRef, alias) {
     return toWikiLink(pageRef);
   return `[[${pageRef.path.replace(/\.md$/, "")}|${alias}]]`;
 }
-var init_pageLinkService = __esm({
-  "shared/services/pageLinkService.js"() {
-  }
-});
 
 // shared/services/pageReferenceService.js
 function resolvePageReference(dv, p) {
@@ -280,10 +247,6 @@ function resolvePageReference(dv, p) {
     }
   };
 }
-var init_pageReferenceService = __esm({
-  "shared/services/pageReferenceService.js"() {
-  }
-});
 
 // shared/services/pageNormService.js
 function getPageNormObject(dv, p) {
@@ -313,13 +276,6 @@ function getPageNormObject(dv, p) {
   normObject.displayLink = toWikiLinkWithAlias(pageRef, displayName);
   return normObject;
 }
-var init_pageNormService = __esm({
-  "shared/services/pageNormService.js"() {
-    init_pageDisplayNameService();
-    init_pageLinkService();
-    init_pageReferenceService();
-  }
-});
 
 // shared/services/queryService.js
 function dvLinkSuche(dv, listeSuchSeiten, listeSuchFelder, suchtiefe, undOderOption) {
@@ -378,14 +334,55 @@ function undOderAuswerten(pfadListen, uoOption) {
   }
   return result.sort((a, b) => a.localeCompare(b));
 }
-var init_queryService = __esm({
-  "shared/services/queryService.js"() {
-    init_valueUtils();
-    init_metadataService();
-  }
-});
 
 // shared/services/entityService.js
+var ENTITY_TYPES = [
+  {
+    key: "kat",
+    label: "Kategorie",
+    query: dvQueryKat
+  },
+  {
+    key: "the",
+    label: "Thema",
+    query: dvQueryThe
+  },
+  {
+    key: "ere",
+    label: "Ereignis",
+    query: dvQueryEre
+  },
+  {
+    key: "inh",
+    label: "Inhalt",
+    query: dvQueryInh
+  },
+  {
+    key: "gen",
+    label: "Genre",
+    query: dvQueryGen
+  },
+  {
+    key: "per",
+    label: "Person",
+    query: dvQueryPer
+  },
+  {
+    key: "org",
+    label: "Organisation",
+    query: dvQueryOrg
+  },
+  {
+    key: "geg",
+    label: "Gegenstand",
+    query: dvQueryGeg
+  },
+  {
+    key: "geo",
+    label: "Geo",
+    query: dvQueryGeo
+  }
+];
 function dvQueryKat(dv) {
   return dvLinkSuche(dv, ["Kategorie", "Datenbankinterne Entit\xE4t"], ["ist", "istdin"], 0, true);
 }
@@ -414,59 +411,6 @@ function dvQueryGeg(dv) {
 function dvQueryGeo(dv) {
   return dvLinkSuche(dv, ["Geo", "Datenbankinterne Entit\xE4t"], ["ist", "istdin"], 0, true);
 }
-var ENTITY_TYPES;
-var init_entityService = __esm({
-  "shared/services/entityService.js"() {
-    init_queryService();
-    ENTITY_TYPES = [
-      {
-        key: "kat",
-        label: "Kategorie",
-        query: dvQueryKat
-      },
-      {
-        key: "the",
-        label: "Thema",
-        query: dvQueryThe
-      },
-      {
-        key: "ere",
-        label: "Ereignis",
-        query: dvQueryEre
-      },
-      {
-        key: "inh",
-        label: "Inhalt",
-        query: dvQueryInh
-      },
-      {
-        key: "gen",
-        label: "Genre",
-        query: dvQueryGen
-      },
-      {
-        key: "per",
-        label: "Person",
-        query: dvQueryPer
-      },
-      {
-        key: "org",
-        label: "Organisation",
-        query: dvQueryOrg
-      },
-      {
-        key: "geg",
-        label: "Gegenstand",
-        query: dvQueryGeg
-      },
-      {
-        key: "geo",
-        label: "Geo",
-        query: dvQueryGeo
-      }
-    ];
-  }
-});
 
 // features/metadataEditor/entityButtons.js
 function entityButtons(btnBox, btnCallbackFn) {
@@ -479,11 +423,6 @@ function entityButtons(btnBox, btnCallbackFn) {
     });
   });
 }
-var init_entityButtons = __esm({
-  "features/metadataEditor/entityButtons.js"() {
-    init_entityService();
-  }
-});
 
 // features/metadataEditor/fuzzySearch.js
 function fuzzySearch(fuzzyBox, renderResults) {
@@ -494,11 +433,6 @@ function fuzzySearch(fuzzyBox, renderResults) {
   });
   renderResults("");
 }
-var init_fuzzySearch = __esm({
-  "features/metadataEditor/fuzzySearch.js"() {
-    init_fuzzyService();
-  }
-});
 
 // features/metadataEditor/feldIstEditor.js
 function feldIstEditor(dv, container, metaEditState) {
@@ -563,26 +497,11 @@ function feldIstEditor(dv, container, metaEditState) {
   });
   return renderFuzzy;
 }
-var init_feldIstEditor = __esm({
-  "features/metadataEditor/feldIstEditor.js"() {
-    init_fuzzyService();
-    init_metadataService();
-    init_pageNormService();
-    init_valueUtils();
-    init_entityButtons();
-    init_fuzzySearch();
-  }
-});
 
 // shared/services/pStatusService.js
 function dvQueryPStatus(dv) {
   return dvLinkSuche(dv, ["p-Status", "Datenbankinterne Entit\xE4t"], ["ist", "istdin"], 0, true);
 }
-var init_pStatusService = __esm({
-  "shared/services/pStatusService.js"() {
-    init_queryService();
-  }
-});
 
 // features/metadataEditor/pStatusEditor.js
 function pStatusEditor(dv, container, metaEditState, refreshCallback) {
@@ -652,20 +571,8 @@ function pStatusEditor(dv, container, metaEditState, refreshCallback) {
     });
   };
 }
-var init_pStatusEditor = __esm({
-  "features/metadataEditor/pStatusEditor.js"() {
-    init_fuzzyService();
-    init_pageNormService();
-    init_pStatusService();
-    init_fuzzySearch();
-  }
-});
 
 // features/metadataEditor/metadataEditor.js
-var metadataEditor_exports = {};
-__export(metadataEditor_exports, {
-  metadataEditor: () => metadataEditor
-});
 function metadataEditor(dv, mountEl) {
   const metaEditState = {
     featureBoxActive: true,
@@ -732,56 +639,38 @@ function metadataEditor(dv, mountEl) {
     // übergeben und dort beim Anklicken 
   );
 }
-var init_metadataEditor = __esm({
-  "features/metadataEditor/metadataEditor.js"() {
-    init_feldIstEditor();
-    init_pStatusEditor();
-  }
-});
 
 // src/metadataEditorModal.js
-var require_metadataEditorModal = __commonJS({
-  "src/metadataEditorModal.js"(exports2, module2) {
-    "use strict";
-    var { Modal } = require("obsidian");
-    var { getDataviewApi } = require_dvApi();
-    var { metadataEditor: metadataEditor2 } = (init_metadataEditor(), __toCommonJS(metadataEditor_exports));
-    var MetadataEditorModal2 = class extends Modal {
-      onOpen() {
-        this.titleEl.setText("Metadata editor");
-        const { contentEl } = this;
-        contentEl.empty();
-        const dv = getDataviewApi(this.app);
-        if (!dv) {
-          contentEl.createEl("p", {
-            text: "Dataview API not found. Make sure the Dataview plugin is installed and enabled."
-          });
-          return;
-        }
-        try {
-          metadataEditor2(dv, contentEl);
-        } catch (e) {
-          console.error("[OPMN] metadataEditor failed:", e);
-          const err = contentEl.createEl("pre", {
-            text: "metadataEditor error:\n" + (e && e.stack ? e.stack : String(e))
-          });
-          err.style.color = "var(--text-error)";
-          err.style.whiteSpace = "pre-wrap";
-        }
-      }
-      onClose() {
-        this.contentEl.empty();
-      }
-    };
-    module2.exports = { MetadataEditorModal: MetadataEditorModal2 };
+var MetadataEditorModal = class extends import_obsidian2.Modal {
+  onOpen() {
+    this.titleEl.setText("Metadata editor");
+    const { contentEl } = this;
+    contentEl.empty();
+    const dv = getDataviewApi(this.app);
+    if (!dv) {
+      contentEl.createEl("p", {
+        text: "Dataview API not found. Make sure the Dataview plugin is installed and enabled."
+      });
+      return;
+    }
+    try {
+      metadataEditor(dv, contentEl);
+    } catch (e) {
+      console.error("[OPMN] metadataEditor failed:", e);
+      const err = contentEl.createEl("pre", {
+        text: "metadataEditor error:\n" + (e && e.stack ? e.stack : String(e))
+      });
+      err.style.color = "var(--text-error)";
+      err.style.whiteSpace = "pre-wrap";
+    }
   }
-});
+  onClose() {
+    this.contentEl.empty();
+  }
+};
 
 // src/main.js
-var { Plugin } = require("obsidian");
-var { OpmnView, VIEW_TYPE_OPMN } = require_view();
-var { MetadataEditorModal } = require_metadataEditorModal();
-module.exports = class OpmnPlugin extends Plugin {
+var OpmnPlugin = class extends import_obsidian3.Plugin {
   async onload() {
     this.registerView(VIEW_TYPE_OPMN, (leaf) => new OpmnView(leaf));
     this.addRibbonIcon("layout-dashboard", "Open OPMN", () => {

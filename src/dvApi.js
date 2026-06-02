@@ -1,5 +1,3 @@
-"use strict";
-
 // Single, canonical way to reach the Dataview plugin's JavaScript API from
 // *outside* a `dataviewjs` code block.
 //
@@ -12,8 +10,6 @@
 //
 // Returns `null` when Dataview is not installed / not yet loaded, so callers
 // can show a friendly message instead of crashing.
-function getDataviewApi(app) {
+export function getDataviewApi(app) {
   return app?.plugins?.plugins?.dataview?.api ?? null;
 }
-
-module.exports = { getDataviewApi };

@@ -15,6 +15,7 @@ import { pStatusEditor } from "./pStatusEditor.js";
 // AND appends it to the surrounding dataviewjs output). Outside a dataviewjs
 // block there is no such output context, so the caller passes in an element
 // (e.g. a modal's contentEl) and we build into it with `createEl(...)`.
+
 export function metadataEditor(dv, mountEl) {
 
     const metaEditState = {

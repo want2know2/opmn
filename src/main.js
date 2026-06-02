@@ -23,7 +23,7 @@ export default class OpmnPlugin extends Plugin {
     });
 
     // 4. Second ribbon icon + command: open the Metadata editor modal.
-    this.addRibbonIcon("table-properties", "OPMN: Metadata editor", () => {
+    this.addRibbonIcon("table-properties", "OPMN: Open Metadata editor", () => {
       new MetadataEditorModal(this.app).open();
     });
 

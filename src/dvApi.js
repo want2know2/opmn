@@ -13,3 +13,4 @@
 export function getDataviewApi(app) {
   return app?.plugins?.plugins?.dataview?.api ?? null;
 }
+

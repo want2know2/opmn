@@ -1,15 +1,13 @@
-"use strict";
+import { ItemView } from "obsidian";
+import { getDataviewApi } from "./dvApi.js";
 
-const { ItemView } = require("obsidian");
-const { getDataviewApi } = require("./dvApi.js");
-
-const VIEW_TYPE_OPMN = "opmn-view";
+export const VIEW_TYPE_OPMN = "opmn-view";
 
 // A custom tab/view. `this.contentEl` is the full content area of the tab and
 // is the plugin equivalent of the container you used to get back from
 // `dv.el(...)`. You build into it with the same `createEl(...)` API you already
 // use throughout the existing feature code.
-class OpmnView extends ItemView {
+export class OpmnView extends ItemView {
   getViewType() {
     return VIEW_TYPE_OPMN;
   }
@@ -67,5 +65,3 @@ class OpmnView extends ItemView {
     });
   }
 }
-
-module.exports = { OpmnView, VIEW_TYPE_OPMN };

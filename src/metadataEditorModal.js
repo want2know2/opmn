@@ -1,13 +1,11 @@
-"use strict";
-
-const { Modal } = require("obsidian");
-const { getDataviewApi } = require("./dvApi.js");
-const { metadataEditor } = require("../features/metadataEditor/metadataEditor.js");
+import { Modal } from "obsidian";
+import { getDataviewApi } from "./dvApi.js";
+import { metadataEditor } from "../features/metadataEditor/metadataEditor.js";
 
 // A modal dialog that hosts the `metadataEditor` feature. `this.contentEl` is
 // the modal body and is handed to the feature as its mount element, together
 // with the Dataview API (used for the queries the feature runs).
-class MetadataEditorModal extends Modal {
+export class MetadataEditorModal extends Modal {
   onOpen() {
     this.titleEl.setText("Metadata editor");
 
@@ -42,5 +40,3 @@ class MetadataEditorModal extends Modal {
     this.contentEl.empty();
   }
 }
-
-module.exports = { MetadataEditorModal };

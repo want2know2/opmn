@@ -1,13 +1,11 @@
-"use strict";
-
-const { Plugin } = require("obsidian");
-const { OpmnView, VIEW_TYPE_OPMN } = require("./view.js");
-const { MetadataEditorModal } = require("./metadataEditorModal.js");
+import { Plugin } from "obsidian";
+import { OpmnView, VIEW_TYPE_OPMN } from "./view.js";
+import { MetadataEditorModal } from "./metadataEditorModal.js";
 
 // Plugin entry point. This is the native-plugin equivalent of the
 // CodeScript Toolkit `startup.js` `invoke(app)` function: it runs once when
 // Obsidian loads the plugin and is where we register everything.
-module.exports = class OpmnPlugin extends Plugin {
+export default class OpmnPlugin extends Plugin {
   async onload() {
     // 1. Register our custom view type.
     this.registerView(VIEW_TYPE_OPMN, (leaf) => new OpmnView(leaf));
@@ -51,4 +49,4 @@ module.exports = class OpmnPlugin extends Plugin {
 
     workspace.revealLeaf(leaf);
   }
-};
+}

@@ -1,0 +1,9 @@
+{
+  "id": "opmn",
+  "name": "OPMN",
+  "version": "0.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Custom metadata / query hub. Migration of a Dataview + CodeScript Toolkit setup into a native Obsidian plugin.",
+  "author": "want2know2",
+  "isDesktopOnly": false
+}

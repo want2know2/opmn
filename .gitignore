@@ -1,0 +1,4 @@
+node_modules/
+
+# esbuild build artifacts that are not part of the installable plugin
+*.js.map

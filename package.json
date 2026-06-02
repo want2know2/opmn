@@ -1,0 +1,20 @@
+{
+  "name": "opmn",
+  "version": "0.1.0",
+  "description": "Custom metadata / query hub for Obsidian (migration from Dataview + CodeScript Toolkit).",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "dataview"
+  ],
+  "author": "want2know2",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "0.21.5"
+  }
+}

@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
-import { OpmnView, VIEW_TYPE_OPMN } from "./view.js";
-import { MetadataEditorModal } from "./metadataEditorModal.js";
+import { OpmnView, VIEW_TYPE_OPMN } from "../adapters/view.js";
+import { MetadataEditorModal } from "../adapters/metadataEditorModal.js";
 
 // Plugin entry point. This is the native-plugin equivalent of the
 // CodeScript Toolkit `startup.js` `invoke(app)` function: it runs once when

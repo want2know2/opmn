@@ -27,7 +27,7 @@ export function getDataviewApi(app) {
 // LINK-RÜCKWÄRTSSUCHE
 
 /** 
- * Die berühmte Link-Rückwärtssuche
+ * Link-Rückwärtssuche
  */
 
 export function dvLinkSuche(

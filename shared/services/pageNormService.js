@@ -70,3 +70,4 @@ export function getActivePageNormObject(dv) {
 
     return getPageNormObject(dv, activeFile.path);
 }
+

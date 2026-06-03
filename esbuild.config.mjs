@@ -22,7 +22,7 @@ const external = [
 ];
 
 const context = await esbuild.context({
-  entryPoints: ["src/main.js"],
+  entryPoints: ["bootstrap/entry.js"],
   bundle: true,
   format: "cjs",
   target: "es2018",

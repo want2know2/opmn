@@ -35,9 +35,12 @@ export function metadataEditor(dv, mountEl) {
     
     metaEditState.activePage = getActivePageNormObject(dv);
 
-    const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
+    const miniContainer = mountEl.createEl("div", { 
+        text: "Seite bearbeiten (+)", 
+        cls: "opmn-mini-container" 
+    });
     miniContainer.style.display = "none";
-    miniContainer.style.cursor = "pointer";
+    //miniContainer.style.cursor = "pointer";
     const container = mountEl.createEl("div");
     
     const renderActiveContainer = () => {
@@ -52,14 +55,12 @@ export function metadataEditor(dv, mountEl) {
 
     // const box = container.createEl("div");
 
-    const table = container.createEl("div");
-    table.style.display = "flex";
+    const headerBox = container.createEl("div");
 
-    const rowA = table.createEl("div");
-    const cellA1 = rowA.createEl("div");
-    cellA1.colSpan = 3;
-    const header = cellA1.createEl("h4", {text: "Seiteneditor (-)"});
-    header.style.cursor = "pointer";
+    const columnsBox = container.createEl("div", { cls: "opmn-columns" });
+    
+    const header = headerBox.createEl("h4", {text: "Seiteneditor (-)", cls: "opmn-header"});
+    
     [miniContainer, header].forEach(el => {
         el.addEventListener("click", () => {
             metaEditState.featureBoxActive = !metaEditState.featureBoxActive;
@@ -67,41 +68,31 @@ export function metadataEditor(dv, mountEl) {
         })
     })
 
-    // Show the active page (target of all writes). Without an active note
-    // nothing can be written -> show a clear warning instead.
-    const targetInfo = cellA1.createEl("div");
-    targetInfo.style.fontSize = "0.85em";
-    targetInfo.style.marginBottom = "6px";
+    const targetInfo = headerBox.createEl("div", {cls: "opmn-target-info"}); 
+    
     if (metaEditState.activePage?.ref?.exists) {
         targetInfo.setText(`Aktive Seite: ${metaEditState.activePage.path}`);
-        targetInfo.style.opacity = "0.8";
     } else {
-        targetInfo.setText("Keine aktive Seite \u2013 \u00f6ffne eine Notiz, um \u00c4nderungen zu speichern.");
-        targetInfo.style.color = "var(--text-error)";
+        targetInfo.setText("Keine aktive Seite. Öffne eine Notiz, um Änderungen zu speichern.");
+        targetInfo.addClass("opmn-target-info-error");
     }
-    const rowB = table.createEl("div");
-    const cellB1 = rowB.createEl("div");
-    const cellB2 = rowB.createEl("div");
-    const cellB3 = rowB.createEl("div");
-    cellB1.style.verticalAlign = "top";
-    cellB2.style.verticalAlign = "top";
-    cellB3.style.verticalAlign = "top";
-    cellB1.style = "width:200px";
-    cellB2.style = "width:350px";
-    cellB3.style = "width:80px";
+    
+    const leftColumn = columnsBox.createEl("div", { cls: "opmn-column-left" });
+    const centerColumn = columnsBox.createEl("div", { cls: "opmn-column-center" });
+    const rightColumn = columnsBox.createEl("div", { cls: "opmn-column-right" });
 
     let renderFeldIst = () => {};           // Platzhalter, um eine CallbackFn
                                             // an `pStatusEditor` zu übergeben,
     pStatusEditor(                          // obwohl `feldIstEditor`, wo die 
         dv,                                 // CallbackFn eigentlich definiert wird, 
-        cellB1,                             // noch nicht  erzeugt wurde (da in der 
+        leftColumn,                             // noch nicht  erzeugt wurde (da in der 
         metaEditState,                      // UI `pStatusEditor` vor `feldIstEditor` 
         () => renderFeldIst()               // kommen soll.
     );                                      
                                             
     renderFeldIst = feldIstEditor(          // gibt seine render-Funktion zurück,
         dv,                                 // also `renderFuzzy` -> das ist dann
-        cellB2,                             // die CallbackFn, die an `pStatusEditor`
+        centerColumn,                             // die CallbackFn, die an `pStatusEditor`
         metaEditState                       // übergeben und dort beim Anklicken 
     )                                       // der Checkbox ausgeführt wird.
 }

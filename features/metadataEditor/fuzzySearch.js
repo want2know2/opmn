@@ -13,7 +13,7 @@ export function fuzzySearch(fuzzyBox, renderResults) {
 
     fuzzyBox.innerHTML = "";
 
-    const input = fuzzyBox.createEl("input");
+    const input = fuzzyBox.createEl("input", {cls: "opmn-search-input"});
     
 
     input.addEventListener("input", (e) => {

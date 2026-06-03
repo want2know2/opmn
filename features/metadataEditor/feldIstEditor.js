@@ -25,8 +25,8 @@ export function feldIstEditor(dv, container, metaEditState) {
     };
 
     const headerText = "ist";
-    const header = container.createEl("h4", { text: headerText });
-    header.style.cursor = "pointer";
+    const header = container.createEl("h4", { text: headerText, cls: "opmn-header" });
+    /*header.style.cursor = "pointer";*/
 
     header.addEventListener("click", () => {
         stateIntern.boxOpen = !stateIntern.boxOpen;
@@ -35,11 +35,11 @@ export function feldIstEditor(dv, container, metaEditState) {
     });
 
     const box = container.createEl("div");
-    const btnBox = box.createEl("div");
+    const btnBox = box.createEl("div", {cls: "opmn-button-group"});
     const fuzzyBox = box.createEl("div");
-    const resultBox = box.createEl("div");
-    resultBox.style.maxHeight = "250px";
-    resultBox.style.overflowY = "auto";
+    const resultBox = box.createEl("div", { cls: "opmn-result-box" });
+    /*resultBox.style.maxHeight = "250px";
+    resultBox.style.overflowY = "auto";*/
 
     const searchableFieldsOfPageExtractor = (p) => {
         return [
@@ -81,13 +81,27 @@ export function feldIstEditor(dv, container, metaEditState) {
             );
             const parentPagesStr = parentPagesFlt.join(" / ");
             
-            const resultRow = resultTable.createEl("div");
-            const checkCell = resultRow.createEl("div");
-            const checkInputBox = checkCell.createEl("input", {type: "checkbox"});
-            const resultCell = resultRow.createEl("div", { text: 
-                (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") +
-                    p.displayName
+            const resultRow = resultTable.createEl("div", { cls: "opmn-result-row" });
+
+            /*resultRow.style.display = "flex";
+            resultRow.style.alignItems = "center";
+            resultRow.style.gap = "8px";
+            resultRow.style.padding = "2px 0";*/
+
+            const checkInputBox = resultRow.createEl("input", {
+                type: "checkbox"
             });
+
+            const resultCell = resultRow.createEl("div", {
+                text:
+                    (parentPagesFlt.length > 0
+                        ? parentPagesStr + " / "
+                        : "") +
+                    p.displayName,
+                cls: "opmn-result-cell"
+            });
+
+            
 
             const target = metaEditState.activePage;
 

@@ -17,8 +17,8 @@ import { fuzzySearch } from "./fuzzySearch.js";
 
   export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
       const headerText = "p-Status";
-      const header = container.createEl("h4", {text: `${headerText}`});
-      header.style.cursor = "pointer";
+      const header = container.createEl("h4", {text: `${headerText}`, cls: "opmn-header"});
+      /*header.style.cursor = "pointer";*/
       const stateIntern = {
           boxOpen: true
       };
@@ -33,9 +33,9 @@ import { fuzzySearch } from "./fuzzySearch.js";
       const box = container.createEl("div");
       const checkBoxInput = box.createEl("input", {type: "checkbox"});
       const fuzzyBox = box.createEl("div");
-      const resultBox = box.createEl("div");
-      resultBox.style.maxHeight = "250px";
-      resultBox.style.overflowY = "auto";
+      const resultBox = box.createEl("div", { cls: "opmn-result-box" });
+      /*resultBox.style.maxHeight = "250px";
+      resultBox.style.overflowY = "auto";*/
 
       const pStatResults = (dvQueryPStatus(dv) ?? [])
           .map(p => getPageNormObject(dv, p));
@@ -142,9 +142,13 @@ import { fuzzySearch } from "./fuzzySearch.js";
               );
               const parentPagesStr = parentPagesFlt.join(" / ");
 
-              const resultRow = resultTable.createEl("div");
-              const resultCheckCell = resultRow.createEl("div");
-              const resultCheckbox = resultCheckCell.createEl("input", { type: "checkbox" });
+              const resultRow = resultTable.createEl("div", { cls: "opmn-result-row" });
+
+              /*resultRow.style.display = "flex";
+              resultRow.style.alignItems = "center";
+              resultRow.style.gap = "8px";
+              resultRow.style.padding = "2px 0";*/
+              const resultCheckbox = resultRow.createEl("input", { type: "checkbox" });
               resultCheckbox.checked = selectedPStatus?.path === p.path;
               if (!target) resultCheckbox.disabled = true;
 
@@ -170,14 +174,18 @@ import { fuzzySearch } from "./fuzzySearch.js";
                   }
               });
 
-              const resultCell = resultRow.createEl("div", {
-                  text:
-                      (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") +
-                      p.displayName
-              });
+                const resultCell = resultRow.createEl("div", {
+                    text:
+                        (parentPagesFlt.length > 0
+                            ? parentPagesStr + " / "
+                            : "") +
+                        p.displayName,
+                    cls: "opmn-result-cell"
+                });
 
-              resultCheckCell.style.padding = "6px";
-              resultCell.style.padding = "6px";
+                
+
+              
           });
       };
 

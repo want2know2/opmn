@@ -1,0 +1,81 @@
+/* ==========================================
+   Metadata Editor Layout
+   ========================================== */
+
+.opmn-mini-container {
+    cursor: pointer;
+}
+
+.opmn-header {
+    cursor: pointer;
+}
+
+.opmn-columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.opmn-column-left {
+    flex: 0 0 220px;
+}
+
+.opmn-column-center {
+    flex: 1 1 400px;
+    min-width: 0;
+}
+
+.opmn-column-right {
+    flex: 0 0 120px;
+}
+
+.opmn-target-info {
+    font-size: 0.85em;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.opmn-target-info-error {
+    color: var(--text-error);
+    opacity: 1;
+}
+
+/* ==========================================
+   Result Lists
+   ========================================== */
+
+.opmn-result-box {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.opmn-result-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0;
+}
+
+.opmn-result-cell {
+    flex: 1;
+}
+
+/* ==========================================
+   Buttons
+   ========================================== */
+
+.opmn-button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+/* ==========================================
+   Search Input
+   ========================================== */
+
+.opmn-search-input {
+    width: 100%;
+    margin-bottom: 8px;
+}

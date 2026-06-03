@@ -1,18 +1,24 @@
 import { Modal } from "obsidian";
-import { getDataviewApi } from "../shared/services/queryService.js";
 import { metadataEditor } from "../features/metadataEditor/metadataEditor.js";
 
 // A modal dialog that hosts the `metadataEditor` feature. `this.contentEl` is
 // the modal body and is handed to the feature as its mount element, together
 // with the Dataview API (used for the queries the feature runs).
 export class MetadataEditorModal extends Modal {
+  // `app` is required by the base Modal class (we pass it to super); `dv` is
+  // the Dataview API injected by the composition root (bootstrap/entry.js).
+  constructor(app, dv) {
+    super(app);
+    this.dv = dv;
+  }
+
   onOpen() {
     this.titleEl.setText("Metadata editor");
 
     const { contentEl } = this;
     contentEl.empty();
 
-    const dv = getDataviewApi(this.app);
+    const dv = this.dv;
     if (!dv) {
       contentEl.createEl("p", {
         text:

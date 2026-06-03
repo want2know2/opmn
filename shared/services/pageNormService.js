@@ -31,12 +31,14 @@ export function getPageNormObject(dv, p) {
 
         // Link text for referring to this page from `sourcePath`, using
         // Obsidian's own resolver (respects vault link settings, shortest
-        // unambiguous form). Falls back to the static wikiLink if either the
-        // TFile or a source path is unavailable.
-        linkFrom(sourcePath) {
+        // unambiguous form). Optional `alias` renders as "[[target|alias]]".
+        // Falls back to the static links if the TFile or source path is
+        // unavailable.
+        linkFrom(sourcePath, alias) {
             const file = this.tFile;
-            if (!file || !sourcePath) return this.wikiLink;
-            return app.fileManager.generateMarkdownLink(file, sourcePath);
+            if (!file || !sourcePath)
+                return alias ? this.displayLink : this.wikiLink;
+            return app.fileManager.generateMarkdownLink(file, sourcePath, "", alias);
         }
     };
 
@@ -56,6 +58,10 @@ export function getPageNormObject(dv, p) {
     return normObject;
 }
 
+
+/**
+ * Norm object for the note currently open in Obsidian, or null if none is open.
+ */
 
 export function getActivePageNormObject(dv) {
     const activeFile = app.workspace.getActiveFile();

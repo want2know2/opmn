@@ -74,7 +74,7 @@ export function metadataEditor(dv, mountEl) {
     targetInfo.style.fontSize = "0.85em";
     targetInfo.style.marginBottom = "6px";
     if (metaEditState.target?.ref?.exists) {
-        targetInfo.setText(`Aktive Seite: ${metaEditState.target.displayName}`);
+        targetInfo.setText(`Aktive Seite: ${metaEditState.target.path}`);
         targetInfo.style.opacity = "0.8";
     } else {
         targetInfo.setText("Keine aktive Seite \u2013 \u00f6ffne eine Notiz, um \u00c4nderungen zu speichern.");

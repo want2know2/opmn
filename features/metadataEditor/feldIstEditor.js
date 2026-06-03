@@ -71,7 +71,7 @@ export function feldIstEditor(dv, container, metaEditState) {
 
         resultBox.innerHTML = "";
 
-        const resultTable = resultBox.createEl("table");
+        const resultTable = resultBox.createEl("div");
 
         ranked.forEach(p => {
 
@@ -81,10 +81,10 @@ export function feldIstEditor(dv, container, metaEditState) {
             );
             const parentPagesStr = parentPagesFlt.join(" / ");
             
-            const resultRow = resultTable.createEl("tr");
-            const checkCell = resultRow.createEl("td");
+            const resultRow = resultTable.createEl("div");
+            const checkCell = resultRow.createEl("div");
             const checkInputBox = checkCell.createEl("input", {type: "checkbox"});
-            const resultCell = resultRow.createEl("td", { text: 
+            const resultCell = resultRow.createEl("div", { text: 
                 (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") +
                     p.displayName
             });

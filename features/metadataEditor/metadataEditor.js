@@ -52,9 +52,11 @@ export function metadataEditor(dv, mountEl) {
 
     // const box = container.createEl("div");
 
-    const table = container.createEl("table");
-    const rowA = table.createEl("tr");
-    const cellA1 = rowA.createEl("td");
+    const table = container.createEl("div");
+    table.style.display = "flex";
+
+    const rowA = table.createEl("div");
+    const cellA1 = rowA.createEl("div");
     cellA1.colSpan = 3;
     const header = cellA1.createEl("h4", {text: "Seiteneditor (-)"});
     header.style.cursor = "pointer";
@@ -77,10 +79,10 @@ export function metadataEditor(dv, mountEl) {
         targetInfo.setText("Keine aktive Seite \u2013 \u00f6ffne eine Notiz, um \u00c4nderungen zu speichern.");
         targetInfo.style.color = "var(--text-error)";
     }
-    const rowB = table.createEl("tr");
-    const cellB1 = rowB.createEl("td");
-    const cellB2 = rowB.createEl("td");
-    const cellB3 = rowB.createEl("td");
+    const rowB = table.createEl("div");
+    const cellB1 = rowB.createEl("div");
+    const cellB2 = rowB.createEl("div");
+    const cellB3 = rowB.createEl("div");
     cellB1.style.verticalAlign = "top";
     cellB2.style.verticalAlign = "top";
     cellB3.style.verticalAlign = "top";

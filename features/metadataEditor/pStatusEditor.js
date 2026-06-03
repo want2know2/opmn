@@ -113,7 +113,7 @@ import { fuzzySearch } from "./fuzzySearch.js";
           ].join(" ");
       };
 
-      const resultTable = resultBox.createEl("table");
+      const resultTable = resultBox.createEl("div");
 
       const renderResults = (userInputString) => {
 
@@ -142,8 +142,8 @@ import { fuzzySearch } from "./fuzzySearch.js";
               );
               const parentPagesStr = parentPagesFlt.join(" / ");
 
-              const resultRow = resultTable.createEl("tr");
-              const resultCheckCell = resultRow.createEl("td");
+              const resultRow = resultTable.createEl("div");
+              const resultCheckCell = resultRow.createEl("div");
               const resultCheckbox = resultCheckCell.createEl("input", { type: "checkbox" });
               resultCheckbox.checked = selectedPStatus?.path === p.path;
               if (!target) resultCheckbox.disabled = true;
@@ -170,7 +170,7 @@ import { fuzzySearch } from "./fuzzySearch.js";
                   }
               });
 
-              const resultCell = resultRow.createEl("td", {
+              const resultCell = resultRow.createEl("div", {
                   text:
                       (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") +
                       p.displayName

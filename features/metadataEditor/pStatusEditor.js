@@ -40,7 +40,7 @@ import { fuzzySearch } from "./fuzzySearch.js";
       const pStatResults = (dvQueryPStatus(dv) ?? [])
           .map(p => getPageNormObject(dv, p));
 
-      const target = metaEditState.target;
+      const target = metaEditState.activePage;
 
       // Standard-p-Status, der gewählt wird, sobald der Master aktiviert
       // wird, die Seite aber noch keinen p-Status hat.

@@ -89,7 +89,7 @@ export function feldIstEditor(dv, container, metaEditState) {
                     p.displayName
             });
 
-            const target = metaEditState.target;
+            const target = metaEditState.activePage;
 
             // Anfangszustand spiegelt das tatsächliche `ist` der aktiven Seite.
             checkInputBox.checked = target

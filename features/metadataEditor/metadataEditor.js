@@ -25,7 +25,8 @@ export function metadataEditor(dv, mountEl) {
             auswahl: []
         },
         ist: {
-            auswahl: []
+            auswahl: [],
+            keineAuswahl: false
         },
         // The "active page": the note currently open in Obsidian.
         // The editors write the `ist` field into this norm object.
@@ -40,7 +41,7 @@ export function metadataEditor(dv, mountEl) {
         cls: "opmn-mini-container" 
     });
     miniContainer.style.display = "none";
-    //miniContainer.style.cursor = "pointer";
+    
     const container = mountEl.createEl("div");
     
     const renderActiveContainer = () => {
@@ -53,14 +54,11 @@ export function metadataEditor(dv, mountEl) {
         }
     }
 
-    // const box = container.createEl("div");
-
     const headerBox = container.createEl("div");
-
-    const columnsBox = container.createEl("div", { cls: "opmn-columns" });
-    
     const header = headerBox.createEl("h4", {text: "Seiteneditor (-)", cls: "opmn-header"});
     
+    const columnsBox = container.createEl("div", { cls: "opmn-columns" });
+
     [miniContainer, header].forEach(el => {
         el.addEventListener("click", () => {
             metaEditState.featureBoxActive = !metaEditState.featureBoxActive;
@@ -68,31 +66,31 @@ export function metadataEditor(dv, mountEl) {
         })
     })
 
-    const targetInfo = headerBox.createEl("div", {cls: "opmn-target-info"}); 
+    const activePageInfo = headerBox.createEl("div", {cls: "opmn-target-info"}); 
     
     if (metaEditState.activePage?.ref?.exists) {
-        targetInfo.setText(`Aktive Seite: ${metaEditState.activePage.path}`);
+        activePageInfo.setText(`Aktive Seite: ${metaEditState.activePage.path}`);
     } else {
-        targetInfo.setText("Keine aktive Seite. Öffne eine Notiz, um Änderungen zu speichern.");
-        targetInfo.addClass("opmn-target-info-error");
+        activePageInfo.setText("Keine aktive Seite. Öffne eine Notiz, um Änderungen zu speichern.");
+        activePageInfo.addClass("opmn-target-info-error");
     }
     
     const leftColumn = columnsBox.createEl("div", { cls: "opmn-column-left" });
     const centerColumn = columnsBox.createEl("div", { cls: "opmn-column-center" });
-    const rightColumn = columnsBox.createEl("div", { cls: "opmn-column-right" });
+    //const rightColumn = columnsBox.createEl("div", { cls: "opmn-column-right" });
 
     let renderFeldIst = () => {};           // Platzhalter, um eine CallbackFn
                                             // an `pStatusEditor` zu übergeben,
     pStatusEditor(                          // obwohl `feldIstEditor`, wo die 
         dv,                                 // CallbackFn eigentlich definiert wird, 
-        leftColumn,                             // noch nicht  erzeugt wurde (da in der 
+        leftColumn,                         // noch nicht  erzeugt wurde (da in der 
         metaEditState,                      // UI `pStatusEditor` vor `feldIstEditor` 
         () => renderFeldIst()               // kommen soll.
     );                                      
-                                            
-    renderFeldIst = feldIstEditor(          // gibt seine render-Funktion zurück,
+                                            // `feldIstEditor` wird hier einerseits gecalled                        
+    renderFeldIst = feldIstEditor(          // UND gibt seine render-Funktion zurück,
         dv,                                 // also `renderFuzzy` -> das ist dann
-        centerColumn,                             // die CallbackFn, die an `pStatusEditor`
+        centerColumn,                       // die CallbackFn, die an `pStatusEditor`
         metaEditState                       // übergeben und dort beim Anklicken 
     )                                       // der Checkbox ausgeführt wird.
 }

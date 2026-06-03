@@ -1,3 +1,9 @@
+
+.opmn-metadata-modal {
+    width: 800px;
+    max-width: 90vw;
+}
+
 /* ==========================================
    Metadata Editor Layout
    ========================================== */
@@ -14,6 +20,7 @@
     display: flex;
     align-items: flex-start;
     gap: 16px;
+    width: 100%;
 }
 
 .opmn-column-left {
@@ -21,7 +28,7 @@
 }
 
 .opmn-column-center {
-    flex: 1 1 400px;
+    flex: 1;
     min-width: 0;
 }
 
@@ -45,7 +52,7 @@
    ========================================== */
 
 .opmn-result-box {
-    max-height: 250px;
+    max-height: 400px;
     overflow-y: auto;
 }
 

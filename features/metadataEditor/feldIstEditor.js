@@ -21,12 +21,12 @@ export function feldIstEditor(dv, container, metaEditState) {
 
     const stateIntern = {
         boxOpen: true,
-        activeEntityType: null
+        activeEntityType: null,
+        candidatePages: []
     };
 
     const headerText = "ist";
     const header = container.createEl("h4", { text: headerText, cls: "opmn-header" });
-    /*header.style.cursor = "pointer";*/
 
     header.addEventListener("click", () => {
         stateIntern.boxOpen = !stateIntern.boxOpen;
@@ -38,8 +38,6 @@ export function feldIstEditor(dv, container, metaEditState) {
     const btnBox = box.createEl("div", {cls: "opmn-button-group"});
     const fuzzyBox = box.createEl("div");
     const resultBox = box.createEl("div", { cls: "opmn-result-box" });
-    /*resultBox.style.maxHeight = "250px";
-    resultBox.style.overflowY = "auto";*/
 
     const searchableFieldsOfPageExtractor = (p) => {
         return [
@@ -49,23 +47,13 @@ export function feldIstEditor(dv, container, metaEditState) {
         ].join(" ");
     };
 
+    
     const renderResults = (userInputString) => {
-
-        const entTypeCandidatePages =
-            stateIntern.activeEntityType
-                .query(dv)
-                .map(p => getPageNormObject(dv, p))
-                .filter(p => {
-                    const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
-                    return metaEditState.pStatus.active
-                        ? istP : !istP;
-                })
-                .filter(Boolean);
 
         const ranked =
             rankFuzzy(
                 userInputString,
-                entTypeCandidatePages,
+                stateIntern.candidatePages,
                 searchableFieldsOfPageExtractor
             );
 
@@ -80,14 +68,7 @@ export function feldIstEditor(dv, container, metaEditState) {
                 i > 0 && i < parentPagesArr.length - 1
             );
             const parentPagesStr = parentPagesFlt.join(" / ");
-            
             const resultRow = resultTable.createEl("div", { cls: "opmn-result-row" });
-
-            /*resultRow.style.display = "flex";
-            resultRow.style.alignItems = "center";
-            resultRow.style.gap = "8px";
-            resultRow.style.padding = "2px 0";*/
-
             const checkInputBox = resultRow.createEl("input", {
                 type: "checkbox"
             });
@@ -98,28 +79,27 @@ export function feldIstEditor(dv, container, metaEditState) {
                         ? parentPagesStr + " / "
                         : "") +
                     p.displayName,
+
                 cls: "opmn-result-cell"
             });
 
-            
-
-            const target = metaEditState.activePage;
+            const activePage = metaEditState.activePage;
 
             // Anfangszustand spiegelt das tatsächliche `ist` der aktiven Seite.
-            checkInputBox.checked = target
-                ? listFieldHasLink(target, "ist", p)
+            checkInputBox.checked = activePage
+                ? listFieldHasLink(activePage, "ist", p)
                 : false;
-            if (!target) checkInputBox.disabled = true;
+            if (!activePage) checkInputBox.disabled = true;
 
             // Mehrfachauswahl: jede Checkbox schaltet ihren Link in `ist` um.
             checkInputBox.addEventListener("change", async () => {
-                if (!target) return;
+                if (!activePage) return;
                 checkInputBox.disabled = true;
                 try {
                     if (checkInputBox.checked)
-                        await addLinkToListField(target, "ist", p);
+                        await addLinkToListField(activePage, "ist", p);
                     else
-                        await removeLinkFromListField(target, "ist", p);
+                        await removeLinkFromListField(activePage, "ist", p);
                 } catch (e) {
                     console.error("[OPMN] ist write failed:", e);
                     checkInputBox.checked = !checkInputBox.checked;  // zurücksetzen
@@ -135,8 +115,53 @@ export function feldIstEditor(dv, container, metaEditState) {
         fuzzySearch(fuzzyBox, renderResults);
     };
 
-    entityButtons(btnBox, (entityType) => {
+    async function toggleEntityType(entityType) {
+
+        const activePage = metaEditState.activePage;
+        if (!activePage) return;
+
+        const entityTypePage = getPageNormObject(dv, entityType.label);
+
+        if (
+            listFieldHasLink(
+                activePage,
+                "ist",
+                entityTypePage
+            )
+        ) {
+            await removeLinkFromListField(
+                activePage,
+                "ist",
+                entityTypePage
+            );
+        } else {
+            await addLinkToListField(
+                activePage,
+                "ist",
+                entityTypePage
+            );
+        }
+    }
+
+    entityButtons(btnBox, async (entityType) => {
         stateIntern.activeEntityType = entityType;
+
+        stateIntern.candidatePages =
+            stateIntern.activeEntityType
+                .query(dv)
+                .map(p => getPageNormObject(dv, p))
+                .filter(p => {
+                    const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
+                    return metaEditState.pStatus.active
+                        ? istP : !istP;
+                })
+                .filter(Boolean);
+        
+        if (stateIntern.candidatePages.length === 0) {
+            await toggleEntityType(entityType);
+            return;
+        }
+
         renderFuzzy();
     });
 

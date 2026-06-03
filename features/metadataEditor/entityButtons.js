@@ -17,8 +17,8 @@ export function entityButtons(btnBox, btnCallbackFn) {
             text: entType.label
         });
 
-        btn.addEventListener("click", () => {
-            btnCallbackFn(entType);
+        btn.addEventListener("click", async () => {
+            await btnCallbackFn(entType);
         });
     });
 }

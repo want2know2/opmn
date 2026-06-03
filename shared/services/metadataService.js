@@ -112,6 +112,170 @@ export async function updateField(tFile, fieldPath, value) {
 
 
 /**
+ * Normalisiert einen Pfad als Vergleichsschlüssel (ohne .md, kleingeschrieben).
+ */
+
+function normalizePathKey(path) {
+    return String(path).replace(/\.md$/, "").toLowerCase();
+}
+
+
+/**
+ * Extrahiert aus einem Link-Wert (Wiki-Link-String "[[Ziel|Alias]]",
+ * Markdown-Link "[Alias](pfad)", roher Pfad-String oder Dataview-Link-Objekt)
+ * den Ziel-Linkpath und löst ihn relativ zu `sourcePath` zu einem
+ * Vergleichsschlüssel auf. So matchen unterschiedliche Schreibweisen
+ * desselben Ziels (Kurzname vs. Pfad) zuverlässig.
+ */
+
+function linkTargetKey(value, sourcePath) {
+    if (value == null) return null;
+
+    let linkpath = null;
+
+    if (typeof value === "object") {
+        // Dataview-Link-Objekt o. Ä.
+        linkpath = value.path ?? null;
+    }
+    else if (typeof value === "string") {
+        const wiki = value.match(/\[\[([^\]|#]+)/);
+        const md = value.match(/\]\(([^)]+)\)/);
+        if (wiki) linkpath = wiki[1].trim();
+        else if (md) linkpath = decodeURIComponent(md[1].trim());
+        else linkpath = value.replace(/^["']|["']$/g, "").trim();
+    }
+
+    if (!linkpath) return null;
+
+    const dest = app.metadataCache.getFirstLinkpathDest(
+        linkpath.replace(/\.md$/, ""),
+        sourcePath ?? ""
+    );
+    return normalizePathKey(dest?.path ?? linkpath);
+}
+
+
+/**
+ * Wandelt ein add/remove-Item (Norm-Objekt oder String) in den zu
+ * schreibenden Link-Text um (relativ zu `sourcePath`).
+ */
+
+function itemToLinkText(item, sourcePath) {
+    if (item == null) return null;
+    if (typeof item === "string") return item;
+    if (typeof item.linkFrom === "function") return item.linkFrom(sourcePath);
+    if (item.wikiLink) return item.wikiLink;
+    return null;
+}
+
+
+/**
+ * Wandelt ein add/remove-Item in seinen Vergleichsschlüssel um.
+ */
+
+function itemToKey(item, sourcePath) {
+    if (item == null) return null;
+    if (typeof item === "string") return linkTargetKey(item, sourcePath);
+    if (item.path) return normalizePathKey(item.path);
+    return linkTargetKey(itemToLinkText(item, sourcePath), sourcePath);
+}
+
+
+/**
+ * Atomares, array-bewusstes Aktualisieren eines Listenfelds (z. B. `ist`)
+ * mit Links. Liest den aktuellen Frontmatter-Wert der Zieldatei, entfernt
+ * die in `remove` genannten Ziele, fügt die in `add` genannten hinzu
+ * (ohne Duplikate) und schreibt das Ergebnis in einem einzigen
+ * processFrontMatter-Durchlauf zurück.
+ *
+ * `targetNorm`  Norm-Objekt der zu bearbeitenden (aktiven) Seite.
+ * `add`/`remove` Arrays aus Norm-Objekten und/oder Link-Strings.
+ *
+ * Der Vergleich erfolgt über aufgelöste Ziel-Pfade, nicht über die rohe
+ * Schreibweise, damit Kurznamen und Pfad-Links als gleich erkannt werden.
+ */
+
+export async function updateListFieldLinks(targetNorm, fieldPath, { add = [], remove = [] } = {}) {
+    const tFile = targetNorm?.tFile;
+    if (!tFile) return;
+
+    const sourcePath = targetNorm.path;
+
+    const removeKeys = new Set(
+        remove.map(i => itemToKey(i, sourcePath)).filter(Boolean)
+    );
+
+    const addItems = add
+        .map(i => ({
+            key: itemToKey(i, sourcePath),
+            text: itemToLinkText(i, sourcePath)
+        }))
+        .filter(i => i.key && i.text);
+
+    await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
+        const keys = fieldPath.split(".");
+        const lastKey = keys.pop();
+
+        const target = keys.reduce((obj, key) => {
+            if (!obj[key]) { obj[key] = {}; }
+            return obj[key];
+        }, frontmatter);
+
+        let list = toArray(target[lastKey]);
+
+        list = list.filter(v => !removeKeys.has(linkTargetKey(v, sourcePath)));
+
+        for (const item of addItems) {
+            const present = list.some(
+                v => linkTargetKey(v, sourcePath) === item.key
+            );
+            if (!present) list.push(item.text);
+        }
+
+        target[lastKey] = list;
+    });
+}
+
+
+/**
+ * Fügt einen einzelnen Link zu einem Listenfeld hinzu (falls nicht vorhanden).
+ */
+
+export async function addLinkToListField(targetNorm, fieldPath, item) {
+    await updateListFieldLinks(targetNorm, fieldPath, { add: [item] });
+}
+
+
+/**
+ * Entfernt einen einzelnen Link aus einem Listenfeld.
+ */
+
+export async function removeLinkFromListField(targetNorm, fieldPath, item) {
+    await updateListFieldLinks(targetNorm, fieldPath, { remove: [item] });
+}
+
+
+/**
+ * Prüft, ob ein Listenfeld der (aktiven) Seite einen bestimmten Ziel-Link
+ * bereits enthält. Liest aus dem Dataview-Page-Objekt des Norm-Objekts.
+ */
+
+export function listFieldHasLink(targetNorm, fieldPath, item) {
+    const dvPage = targetNorm?.dvPage;
+    if (!dvPage) return false;
+
+    const sourcePath = targetNorm.path;
+    const current = einzelnerFeldWert(dvPage, fieldPath);
+    const key = itemToKey(item, sourcePath);
+    if (!key) return false;
+
+    return toArray(current).some(
+        v => linkTargetKey(v, sourcePath) === key
+    );
+}
+
+
+/**
  * Löscht vorhandene Frontmatter-Metadaten vollständig und ersetzt sie
  * durch gegebene neue (Metadaten-Objekt).
  */

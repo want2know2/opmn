@@ -2,3 +2,6 @@ node_modules/
 
 # esbuild build artifacts that are not part of the installable plugin
 *.js.map
+
+# Built plugin bundle (output of `npm run build`); build locally before installing
+/main.js

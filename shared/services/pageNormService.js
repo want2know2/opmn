@@ -19,12 +19,25 @@ export function getPageNormObject(dv, p) {
         get dvPage() {
             return this.ref?.dvPage ?? null;
         },
+        get tFile() {
+            return this.ref?.tFile ?? null;
+        },
 
         name: null,
         path: null,
         displayName: null,
         wikiLink: null,
-        displayLink: null
+        displayLink: null,
+
+        // Link text for referring to this page from `sourcePath`, using
+        // Obsidian's own resolver (respects vault link settings, shortest
+        // unambiguous form). Falls back to the static wikiLink if either the
+        // TFile or a source path is unavailable.
+        linkFrom(sourcePath) {
+            const file = this.tFile;
+            if (!file || !sourcePath) return this.wikiLink;
+            return app.fileManager.generateMarkdownLink(file, sourcePath);
+        }
     };
 
     if (!pageRef.exists) 

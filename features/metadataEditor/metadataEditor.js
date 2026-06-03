@@ -1,10 +1,9 @@
 
 ////
-// IMPORT
-
-import { getActivePageNormObject } from "../../shared/services/pageNormService.js";
-import { feldIstEditor } from "./feldIstEditor.js";
-import { pStatusEditor } from "./pStatusEditor.js";
+// IMPORT                               // FROM
+import { getActivePageNormObject }      from "../../shared/services/pageNormService.js";
+import { feldIstEditor }                from "./feldIstEditor.js";
+import { pStatusEditor }                from "./pStatusEditor.js";
 
 
 /**
@@ -30,11 +29,11 @@ export function metadataEditor(dv, mountEl) {
         },
         // The "active page": the note currently open in Obsidian.
         // The editors write the `ist` field into this norm object.
-        target: null
+        activePage: null
     }
 
     
-    metaEditState.target = getActivePageNormObject(dv);
+    metaEditState.activePage = getActivePageNormObject(dv);
 
     const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
     miniContainer.style.display = "none";
@@ -71,8 +70,8 @@ export function metadataEditor(dv, mountEl) {
     const targetInfo = cellA1.createEl("div");
     targetInfo.style.fontSize = "0.85em";
     targetInfo.style.marginBottom = "6px";
-    if (metaEditState.target?.ref?.exists) {
-        targetInfo.setText(`Aktive Seite: ${metaEditState.target.path}`);
+    if (metaEditState.activePage?.ref?.exists) {
+        targetInfo.setText(`Aktive Seite: ${metaEditState.activePage.path}`);
         targetInfo.style.opacity = "0.8";
     } else {
         targetInfo.setText("Keine aktive Seite \u2013 \u00f6ffne eine Notiz, um \u00c4nderungen zu speichern.");

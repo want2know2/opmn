@@ -1,16 +1,16 @@
 
 ////
-// IMPORT                     // FROM
+// IMPORT                       // FROM
 
-import { rankFuzzy } from "../../shared/services/fuzzyService.js";
+import { rankFuzzy }            from "../../shared/services/fuzzyService.js";
 import { alleFeldWerte,
          addLinkToListField,
          removeLinkFromListField,
-         listFieldHasLink }   from "../../shared/services/metadataService.js";
-import { getPageNormObject }  from "../../shared/services/pageNormService.js";
-import { toStringValue }      from "../../shared/utils/valueUtils.js";
-import { entityButtons }      from "./entityButtons.js";
-import { fuzzySearch }        from "./fuzzySearch.js";
+         listFieldHasLink }     from "../../shared/services/metadataService.js";
+import { getPageNormObject }    from "../../shared/services/pageNormService.js";
+import { toStringValue }        from "../../shared/utils/valueUtils.js";
+import { entityButtons }        from "./entityButtons.js";
+import { fuzzySearch }          from "./fuzzySearch.js";
 
 
 /**

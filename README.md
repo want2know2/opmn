@@ -14,24 +14,26 @@ manifest.json          Obsidian plugin manifest
 versions.json          plugin-version -> minimum Obsidian version
 package.json           npm metadata + build scripts
 esbuild.config.mjs     bundler config (src/main.js -> main.js)
-main.js                BUILD OUTPUT (committed so the plugin can be installed
-                       without building it yourself)
+main.js                BUILD OUTPUT (gitignored; run `npm run build` to (re)generate)
 
 src/                   plugin source (this is the new code)
   main.js                plugin entry point (onload / registers view, ribbon, command)
   view.js                the custom tab/view (ItemView)
   dvApi.js               helper to reach the Dataview API from a plugin
 
-# --- legacy reference code (the old CodeScript Toolkit setup) ---------------
-core/startup.js        old `invoke` startup script
-features/              old feature scripts (metadataEditor, bulkMetaEditor)
-shared/services/       old query / metadata / page-normalization services
-shared/utils/          old shared utilities
+# --- ported feature code (bundled into main.js) ----------------------------
+features/metadataEditor/  the metadata editor feature (loaded by the plugin)
+shared/services/          query / metadata / page-normalization services
+shared/utils/             shared utilities
+
+# --- legacy reference code (not yet loaded) --------------------------------
+core/startup.js           old `invoke` startup script
+features/bulkMetaEditor/  not yet ported
 ```
 
-The `core/`, `features/` and `shared/` folders are the **old** CodeScript
-Toolkit codebase, kept for reference while the feature logic is ported into the
-plugin. They are not loaded by the plugin yet.
+`features/metadataEditor/` and `shared/` are imported by `src/` and bundled into
+`main.js`. `core/` and `features/bulkMetaEditor/` are old CodeScript Toolkit code
+kept for reference and are not loaded yet.
 
 ## Build
 
@@ -48,7 +50,8 @@ root (Obsidian plugins must ship a single `main.js`).
 
 ## Install into a vault
 
-Copy `manifest.json` and `main.js` into:
+Build first (`npm run build`) so `main.js` exists, then copy `manifest.json` and
+`main.js` into:
 
 ```
 <your-vault>/.obsidian/plugins/opmn/

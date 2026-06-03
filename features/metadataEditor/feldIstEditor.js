@@ -3,7 +3,10 @@
 // IMPORT                     // FROM
 
 import { rankFuzzy } from "../../shared/services/fuzzyService.js";
-import { alleFeldWerte }      from "../../shared/services/metadataService.js";
+import { alleFeldWerte,
+         addLinkToListField,
+         removeLinkFromListField,
+         listFieldHasLink }   from "../../shared/services/metadataService.js";
 import { getPageNormObject }  from "../../shared/services/pageNormService.js";
 import { toStringValue }      from "../../shared/utils/valueUtils.js";
 import { entityButtons }      from "./entityButtons.js";
@@ -82,6 +85,31 @@ export function feldIstEditor(dv, container, metaEditState) {
             const resultCell = resultRow.createEl("td", { text: 
                 (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") +
                     p.displayName
+            });
+
+            const target = metaEditState.target;
+
+            // Anfangszustand spiegelt das tatsächliche `ist` der aktiven Seite.
+            checkInputBox.checked = target
+                ? listFieldHasLink(target, "ist", p)
+                : false;
+            if (!target) checkInputBox.disabled = true;
+
+            // Mehrfachauswahl: jede Checkbox schaltet ihren Link in `ist` um.
+            checkInputBox.addEventListener("change", async () => {
+                if (!target) return;
+                checkInputBox.disabled = true;
+                try {
+                    if (checkInputBox.checked)
+                        await addLinkToListField(target, "ist", p);
+                    else
+                        await removeLinkFromListField(target, "ist", p);
+                } catch (e) {
+                    console.error("[OPMN] ist write failed:", e);
+                    checkInputBox.checked = !checkInputBox.checked;  // zurücksetzen
+                } finally {
+                    checkInputBox.disabled = false;
+                }
             });
         });
     };

@@ -34,6 +34,8 @@ import { fuzzySearch } from "./fuzzySearch.js";
       const checkBoxInput = box.createEl("input", {type: "checkbox"});
       const fuzzyBox = box.createEl("div");
       const resultBox = box.createEl("div");
+      resultBox.style.maxHeight = "250px";
+      resultBox.style.overflowY = "auto";
 
       const pStatResults = (dvQueryPStatus(dv) ?? [])
           .map(p => getPageNormObject(dv, p));
@@ -124,7 +126,7 @@ import { fuzzySearch } from "./fuzzySearch.js";
                   searchableFieldsOfPageExtractor
               );
 
-          // Checkboxen dieser Render-Runde, um die Einfachauswahl (Radio)
+          // Checkboxen dieses Render-Durchlaufs, um die Einfachauswahl (Radio)
           // ohne Neu-Rendern aktuell zu halten.
           const rowChecks = [];
           const syncRadioUI = () => {

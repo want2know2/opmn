@@ -82,6 +82,9 @@ export function metadataEditor(dv, mountEl) {
     const cellB1 = rowB.createEl("td");
     const cellB2 = rowB.createEl("td");
     const cellB3 = rowB.createEl("td");
+    cellB1.style.verticalAlign = "top";
+    cellB2.style.verticalAlign = "top";
+    cellB3.style.verticalAlign = "top";
     cellB1.style = "width:200px";
     cellB2.style = "width:350px";
     cellB3.style = "width:80px";

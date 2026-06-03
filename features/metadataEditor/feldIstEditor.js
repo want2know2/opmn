@@ -38,6 +38,8 @@ export function feldIstEditor(dv, container, metaEditState) {
     const btnBox = box.createEl("div");
     const fuzzyBox = box.createEl("div");
     const resultBox = box.createEl("div");
+    resultBox.style.maxHeight = "250px";
+    resultBox.style.overflowY = "auto";
 
     const searchableFieldsOfPageExtractor = (p) => {
         return [

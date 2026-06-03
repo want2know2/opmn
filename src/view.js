@@ -1,5 +1,5 @@
 import { ItemView } from "obsidian";
-import { getDataviewApi } from "./dvApi.js";
+import { getDataviewApi } from "../shared/services/queryService.js";
 
 export const VIEW_TYPE_OPMN = "opmn-view";
 

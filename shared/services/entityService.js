@@ -91,8 +91,8 @@ export function dvQueryKatAlle(dv) {
  */
 
 export function dvQueryThe(dv) {
-    const theSuche = dvLinkSuche(dv, ["Thema", "Datenbankinterne Entität"], ["ist", "istdin"], 0, true);
-    return [...theSuche, "Thema.md"];
+    return dvLinkSuche(dv, ["Thema", "Datenbankinterne Entität"], ["ist", "istdin"], 0, true);
+    // return [...theSuche, "Thema.md"];
 }
 
 

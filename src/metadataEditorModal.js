@@ -1,5 +1,5 @@
 import { Modal } from "obsidian";
-import { getDataviewApi } from "./dvApi.js";
+import { getDataviewApi } from "../shared/services/queryService.js";
 import { metadataEditor } from "../features/metadataEditor/metadataEditor.js";
 
 // A modal dialog that hosts the `metadataEditor` feature. `this.contentEl` is

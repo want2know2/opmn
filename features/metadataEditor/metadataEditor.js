@@ -2,7 +2,7 @@
 ////
 // IMPORT
 
-import { getPageNormObject } from "../../shared/services/pageNormService.js";
+import { getActivePageNormObject } from "../../shared/services/pageNormService.js";
 import { feldIstEditor } from "./feldIstEditor.js";
 import { pStatusEditor } from "./pStatusEditor.js";
 
@@ -28,13 +28,13 @@ export function metadataEditor(dv, mountEl) {
         ist: {
             auswahl: []
         },
-        // Die "aktive Seite": die in Obsidian aktuell geöffnete Notiz.
-        // In dieses Norm-Objekt schreiben die Editoren das Feld `ist`.
+        // The "active page": the note currently open in Obsidian.
+        // The editors write the `ist` field into this norm object.
         target: null
     }
 
     
-    metaEditState.target = getPageNormObject(dv);
+    metaEditState.target = getActivePageNormObject(dv);
 
     const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
     miniContainer.style.display = "none";
@@ -66,8 +66,8 @@ export function metadataEditor(dv, mountEl) {
         })
     })
 
-    // Aktive Seite anzeigen (Ziel der Schreiboperationen). Ohne aktive
-    // Notiz kann nicht geschrieben werden -> deutlicher Hinweis.
+    // Show the active page (target of all writes). Without an active note
+    // nothing can be written -> show a clear warning instead.
     const targetInfo = cellA1.createEl("div");
     targetInfo.style.fontSize = "0.85em";
     targetInfo.style.marginBottom = "6px";

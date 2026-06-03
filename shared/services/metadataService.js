@@ -112,7 +112,7 @@ export async function updateField(tFile, fieldPath, value) {
 
 
 /**
- * Normalisiert einen Pfad als Vergleichsschlüssel (ohne .md, kleingeschrieben).
+ * Normalizes a path into a comparison key (without .md, lower-cased).
  */
 
 function normalizePathKey(path) {
@@ -121,11 +121,11 @@ function normalizePathKey(path) {
 
 
 /**
- * Extrahiert aus einem Link-Wert (Wiki-Link-String "[[Ziel|Alias]]",
- * Markdown-Link "[Alias](pfad)", roher Pfad-String oder Dataview-Link-Objekt)
- * den Ziel-Linkpath und löst ihn relativ zu `sourcePath` zu einem
- * Vergleichsschlüssel auf. So matchen unterschiedliche Schreibweisen
- * desselben Ziels (Kurzname vs. Pfad) zuverlässig.
+ * From a link value (wiki-link string "[[target|alias]]", markdown link
+ * "[alias](path)", a raw path string, or a Dataview link object) extracts the
+ * target linkpath and resolves it relative to `sourcePath` into a comparison
+ * key. This way different spellings of the same target (short name vs. full
+ * path) reliably match.
  */
 
 function linkTargetKey(value, sourcePath) {
@@ -134,7 +134,7 @@ function linkTargetKey(value, sourcePath) {
     let linkpath = null;
 
     if (typeof value === "object") {
-        // Dataview-Link-Objekt o. Ä.
+        // Dataview link object or similar.
         linkpath = value.path ?? null;
     }
     else if (typeof value === "string") {
@@ -156,21 +156,26 @@ function linkTargetKey(value, sourcePath) {
 
 
 /**
- * Wandelt ein add/remove-Item (Norm-Objekt oder String) in den zu
- * schreibenden Link-Text um (relativ zu `sourcePath`).
+ * Turns an add/remove item (norm object or string) into the link text to be
+ * written, relative to `sourcePath`.
+ *
+ * For now every written link gets an alias = the page's displayName (i.e.
+ * "[[target|displayName]]"). This is a temporary testing default; the alias
+ * source is expected to become configurable later.
  */
 
 function itemToLinkText(item, sourcePath) {
     if (item == null) return null;
     if (typeof item === "string") return item;
-    if (typeof item.linkFrom === "function") return item.linkFrom(sourcePath);
+    if (typeof item.linkFrom === "function")
+        return item.linkFrom(sourcePath, item.displayName);
     if (item.wikiLink) return item.wikiLink;
     return null;
 }
 
 
 /**
- * Wandelt ein add/remove-Item in seinen Vergleichsschlüssel um.
+ * Turns an add/remove item into its comparison key.
  */
 
 function itemToKey(item, sourcePath) {
@@ -182,17 +187,16 @@ function itemToKey(item, sourcePath) {
 
 
 /**
- * Atomares, array-bewusstes Aktualisieren eines Listenfelds (z. B. `ist`)
- * mit Links. Liest den aktuellen Frontmatter-Wert der Zieldatei, entfernt
- * die in `remove` genannten Ziele, fügt die in `add` genannten hinzu
- * (ohne Duplikate) und schreibt das Ergebnis in einem einzigen
- * processFrontMatter-Durchlauf zurück.
+ * Atomic, array-aware update of a list field (e.g. `ist`) of links. Reads the
+ * target file's current frontmatter value, removes the targets named in
+ * `remove`, adds those named in `add` (without duplicates) and writes the
+ * result back in a single processFrontMatter pass.
  *
- * `targetNorm`  Norm-Objekt der zu bearbeitenden (aktiven) Seite.
- * `add`/`remove` Arrays aus Norm-Objekten und/oder Link-Strings.
+ * `targetNorm`   norm object of the (active) page being edited.
+ * `add`/`remove` arrays of norm objects and/or link strings.
  *
- * Der Vergleich erfolgt über aufgelöste Ziel-Pfade, nicht über die rohe
- * Schreibweise, damit Kurznamen und Pfad-Links als gleich erkannt werden.
+ * Comparison is done via resolved target paths, not the raw spelling, so that
+ * short names and full-path links are recognized as the same target.
  */
 
 export async function updateListFieldLinks(targetNorm, fieldPath, { add = [], remove = [] } = {}) {
@@ -238,7 +242,7 @@ export async function updateListFieldLinks(targetNorm, fieldPath, { add = [], re
 
 
 /**
- * Fügt einen einzelnen Link zu einem Listenfeld hinzu (falls nicht vorhanden).
+ * Adds a single link to a list field (if not already present).
  */
 
 export async function addLinkToListField(targetNorm, fieldPath, item) {
@@ -247,7 +251,7 @@ export async function addLinkToListField(targetNorm, fieldPath, item) {
 
 
 /**
- * Entfernt einen einzelnen Link aus einem Listenfeld.
+ * Removes a single link from a list field.
  */
 
 export async function removeLinkFromListField(targetNorm, fieldPath, item) {
@@ -256,8 +260,8 @@ export async function removeLinkFromListField(targetNorm, fieldPath, item) {
 
 
 /**
- * Prüft, ob ein Listenfeld der (aktiven) Seite einen bestimmten Ziel-Link
- * bereits enthält. Liest aus dem Dataview-Page-Objekt des Norm-Objekts.
+ * Checks whether a list field of the (active) page already contains a given
+ * target link. Reads from the norm object's Dataview page object.
  */
 
 export function listFieldHasLink(targetNorm, fieldPath, item) {

@@ -33,10 +33,8 @@ export function metadataEditor(dv, mountEl) {
         target: null
     }
 
-    const activeFile = app.workspace.getActiveFile();
-    metaEditState.target = activeFile
-        ? getPageNormObject(dv, activeFile.path)
-        : null;
+    
+    metaEditState.target = getPageNormObject(dv);
 
     const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
     miniContainer.style.display = "none";

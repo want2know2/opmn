@@ -56,3 +56,11 @@ export function getPageNormObject(dv, p) {
     return normObject;
 }
 
+
+export function getActivePageNormObject(dv) {
+    const activeFile = app.workspace.getActiveFile();
+
+    if (!activeFile) return null;
+
+    return getPageNormObject(dv, activeFile.path);
+}

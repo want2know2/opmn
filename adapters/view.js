@@ -1,5 +1,4 @@
 import { ItemView } from "obsidian";
-import { getDataviewApi } from "../shared/services/queryService.js";
 
 export const VIEW_TYPE_OPMN = "opmn-view";
 
@@ -8,6 +7,13 @@ export const VIEW_TYPE_OPMN = "opmn-view";
 // `dv.el(...)`. You build into it with the same `createEl(...)` API you already
 // use throughout the existing feature code.
 export class OpmnView extends ItemView {
+  // `leaf` is required by the base ItemView class (we pass it to super); `dv`
+  // is the Dataview API injected by the composition root (bootstrap/entry.js).
+  constructor(leaf, dv) {
+    super(leaf);
+    this.dv = dv;
+  }
+
   getViewType() {
     return VIEW_TYPE_OPMN;
   }
@@ -35,7 +41,7 @@ export class OpmnView extends ItemView {
     root.createEl("h2", { text: "OPMN" });
 
     // --- Dataview connectivity check ----------------------------------------
-    const dv = getDataviewApi(this.app);
+    const dv = this.dv;
 
     if (!dv) {
       const err = root.createEl("p", {

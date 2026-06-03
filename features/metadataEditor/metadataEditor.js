@@ -2,6 +2,7 @@
 ////
 // IMPORT
 
+import { getPageNormObject } from "../../shared/services/pageNormService.js";
 import { feldIstEditor } from "./feldIstEditor.js";
 import { pStatusEditor } from "./pStatusEditor.js";
 
@@ -26,8 +27,16 @@ export function metadataEditor(dv, mountEl) {
         },
         ist: {
             auswahl: []
-        }
+        },
+        // Die "aktive Seite": die in Obsidian aktuell geöffnete Notiz.
+        // In dieses Norm-Objekt schreiben die Editoren das Feld `ist`.
+        target: null
     }
+
+    const activeFile = app.workspace.getActiveFile();
+    metaEditState.target = activeFile
+        ? getPageNormObject(dv, activeFile.path)
+        : null;
 
     const miniContainer = mountEl.createEl("div", { text: "Seite bearbeiten (+)" });
     miniContainer.style.display = "none";
@@ -58,6 +67,19 @@ export function metadataEditor(dv, mountEl) {
             renderActiveContainer();
         })
     })
+
+    // Aktive Seite anzeigen (Ziel der Schreiboperationen). Ohne aktive
+    // Notiz kann nicht geschrieben werden -> deutlicher Hinweis.
+    const targetInfo = cellA1.createEl("div");
+    targetInfo.style.fontSize = "0.85em";
+    targetInfo.style.marginBottom = "6px";
+    if (metaEditState.target?.ref?.exists) {
+        targetInfo.setText(`Aktive Seite: ${metaEditState.target.displayName}`);
+        targetInfo.style.opacity = "0.8";
+    } else {
+        targetInfo.setText("Keine aktive Seite \u2013 \u00f6ffne eine Notiz, um \u00c4nderungen zu speichern.");
+        targetInfo.style.color = "var(--text-error)";
+    }
     const rowB = table.createEl("tr");
     const cellB1 = rowB.createEl("td");
     const cellB2 = rowB.createEl("td");

@@ -2,14 +2,15 @@
 ////
 // IMPORT                       // FROM
 
-import { rankFuzzy }            from "../../shared/services/fuzzyService.js";
+import { toStringValue }        from "../../shared/utils/valueUtils.js";
+import { getPageNormObject }    from "../../shared/services/pageNormService.js";
 import { alleFeldWerte,
          addLinkToListField,
          removeLinkFromListField,
          listFieldHasLink }     from "../../shared/services/metadataService.js";
-import { getPageNormObject }    from "../../shared/services/pageNormService.js";
-import { toStringValue }        from "../../shared/utils/valueUtils.js";
+
 import { entityButtons }        from "./entityButtons.js";
+import { rankFuzzy }            from "../../shared/services/fuzzyService.js";
 import { fuzzySearch }          from "./fuzzySearch.js";
 
 
@@ -51,11 +52,11 @@ export function feldIstEditor(dv, container, metaEditState) {
         return stateIntern.activeEntityType
                 .query(dv)
                 .map(p => getPageNormObject(dv, p))
-                .filter(p => {
+                /*.filter(p => {
                     const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
                     return metaEditState.pStatus.active
                         ? istP : !istP;
-                })
+                })*/
                 .filter(Boolean);
     }
 

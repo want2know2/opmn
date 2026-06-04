@@ -1,8 +1,9 @@
 
 ////
-// IMPORT
+// IMPORT                           // FROM
 
-import { toArray } from "../utils/valueUtils.js";
+import { toArray }                  from "../utils/valueUtils.js";
+import { resolvePageReference }     from "./pageReferenceService.js";
 
 
 
@@ -61,33 +62,6 @@ export function einzelnerFeldWertVerschachtelt(dv, seite, feld) {
 }
 
 
-/** 
- * Wahrscheinlich überflüssing, weil ich überall dv page-Objekt 
- * verwenden will...
- * Schreibt beliebige Werte in ein Metadatenfeld einer Seite (path)
- * (auch verschachtelte Felder wie med.titel)
- */
-
-export async function updateFieldByPath(fPath, fieldPath, value) {
-    const file = app.vault.getFileByPath(fPath);
-    if (!file) return;
-
-    await updateField(file, fieldPath, value);
-}
-
-
-/**
- * Schreibt beliebige Werte in ein Metadatenfeld einer Seite (dvPage-Objekt)
- * (auch verschachtelte Felder wie med.titel)
- */
-
-export async function updateFieldByDVPage(dvPage, fieldPath, value) {
-    const fPath = dvPage?.file?.path;
-    const file = app.vault.getFileByPath(fPath);
-    if (!file) return;
-
-    await updateField(file, fieldPath, value);
-}
 
 
 /**
@@ -111,130 +85,81 @@ export async function updateField(tFile, fieldPath, value) {
 }
 
 
-/**
- * Normalizes a path into a comparison key (without .md, lower-cased).
- */
+function resolveLinkPath(link) {
 
-function normalizePathKey(path) {
-    return String(path).replace(/\.md$/, "").toLowerCase();
-}
+    if (!link)
+        return null;
 
+    let linkPath = null;
 
-/**
- * From a link value (wiki-link string "[[target|alias]]", markdown link
- * "[alias](path)", a raw path string, or a Dataview link object) extracts the
- * target linkpath and resolves it relative to `sourcePath` into a comparison
- * key. This way different spellings of the same target (short name vs. full
- * path) reliably match.
- */
-
-function linkTargetKey(value, sourcePath) {
-    if (value == null) return null;
-
-    let linkpath = null;
-
-    if (typeof value === "object") {
-        // Dataview link object or similar.
-        linkpath = value.path ?? null;
-    }
-    else if (typeof value === "string") {
-        const wiki = value.match(/\[\[([^\]|#]+)/);
-        const md = value.match(/\]\(([^)]+)\)/);
-        if (wiki) linkpath = wiki[1].trim();
-        else if (md) linkpath = decodeURIComponent(md[1].trim());
-        else linkpath = value.replace(/^["']|["']$/g, "").trim();
+    // Dataview Link object
+    if (typeof link === "object") {
+        linkPath = link.path ?? null;
     }
 
-    if (!linkpath) return null;
+    // String
+    else if (typeof link === "string") {
 
-    const dest = app.metadataCache.getFirstLinkpathDest(
-        linkpath.replace(/\.md$/, ""),
-        sourcePath ?? ""
-    );
-    return normalizePathKey(dest?.path ?? linkpath);
-}
+        // [[Page]]
+        // [[Page|Alias]]
+        const match = link.match(/\[\[([^|\]]+)/);
 
+        linkPath = match
+            ? match[1].trim()
+            : link.trim();
+    }
 
-/**
- * Turns an add/remove item (norm object or string) into the link text to be
- * written, relative to `sourcePath`.
- *
- * For now every written link gets an alias = the page's displayName (i.e.
- * "[[target|displayName]]"). This is a temporary testing default; the alias
- * source is expected to become configurable later.
- */
+    if (!linkPath)
+        return null;
 
-function itemToLinkText(item, sourcePath) {
-    if (item == null) return null;
-    if (typeof item === "string") return item;
-    if (typeof item.linkFrom === "function")
-        return item.linkFrom(sourcePath, item.displayName);
-    if (item.wikiLink) return item.wikiLink;
-    return null;
-}
+    // Canonical vault path already?
+    if (linkPath.includes("/")) {
 
+        const file = app.vault.getFileByPath(
+            linkPath.endsWith(".md")
+                ? linkPath
+                : `${linkPath}.md`
+        );
 
-/**
- * Turns an add/remove item into its comparison key.
- */
+        if (file)
+            return file.path;
+    }
 
-function itemToKey(item, sourcePath) {
-    if (item == null) return null;
-    if (typeof item === "string") return linkTargetKey(item, sourcePath);
-    if (item.path) return normalizePathKey(item.path);
-    return linkTargetKey(itemToLinkText(item, sourcePath), sourcePath);
-}
-
-
-/**
- * Atomic, array-aware update of a list field (e.g. `ist`) of links. Reads the
- * target file's current frontmatter value, removes the targets named in
- * `remove`, adds those named in `add` (without duplicates) and writes the
- * result back in a single processFrontMatter pass.
- *
- * `targetNorm`   norm object of the (active) page being edited.
- * `add`/`remove` arrays of norm objects and/or link strings.
- *
- * Comparison is done via resolved target paths, not the raw spelling, so that
- * short names and full-path links are recognized as the same target.
- */
-
-export async function updateListFieldLinks(targetNorm, fieldPath, { add = [], remove = [] } = {}) {
-    const tFile = targetNorm?.tFile;
-    if (!tFile) return;
-
-    const sourcePath = targetNorm.path;
-
-    const removeKeys = new Set(
-        remove.map(i => itemToKey(i, sourcePath)).filter(Boolean)
+    // Legacy short links ("Page", "[[Page]]", etc.)
+    const file = app.metadataCache.getFirstLinkpathDest(
+        linkPath.replace(/\.md$/, ""),
+        ""
     );
 
-    const addItems = add
-        .map(i => ({
-            key: itemToKey(i, sourcePath),
-            text: itemToLinkText(i, sourcePath)
-        }))
-        .filter(i => i.key && i.text);
+    return file?.path ?? null;
+}
+
+
+
+/**
+ * Adds a single link to a list field (if not already present).
+ */
+
+export async function addLinkToListField(normPage, fieldPath, linkPage) {
+
+    const tFile = normPage?.tFile;
+    if (!tFile || !fieldPath || !linkPage?.wikiLink)
+        return;
 
     await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
+
         const keys = fieldPath.split(".");
         const lastKey = keys.pop();
 
         const target = keys.reduce((obj, key) => {
-            if (!obj[key]) { obj[key] = {}; }
+            if (!obj[key]) obj[key] = {};
             return obj[key];
         }, frontmatter);
 
-        let list = toArray(target[lastKey]);
+        const list = toArray(target[lastKey]);
 
-        list = list.filter(v => !removeKeys.has(linkTargetKey(v, sourcePath)));
-
-        for (const item of addItems) {
-            const present = list.some(
-                v => linkTargetKey(v, sourcePath) === item.key
-            );
-            if (!present) list.push(item.text);
-        }
+        if (!list.includes(linkPage.wikiLink))
+            list.push(linkPage.wikiLink);
 
         target[lastKey] = list;
     });
@@ -242,21 +167,40 @@ export async function updateListFieldLinks(targetNorm, fieldPath, { add = [], re
 
 
 /**
- * Adds a single link to a list field (if not already present).
- */
-
-export async function addLinkToListField(targetNorm, fieldPath, item) {
-    await updateListFieldLinks(targetNorm, fieldPath, { add: [item] });
-}
-
-
-/**
  * Removes a single link from a list field.
  */
 
-export async function removeLinkFromListField(targetNorm, fieldPath, item) {
-    await updateListFieldLinks(targetNorm, fieldPath, { remove: [item] });
+export async function removeLinkFromListField(
+    normPage,
+    fieldPath,
+    linkPage
+) {
+
+    const tFile = normPage?.tFile;
+    if (!tFile)
+        return;
+
+    const targetPath = resolveLinkPath(linkPage.wikiLink);
+
+    await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
+
+        const keys = fieldPath.split(".");
+        const lastKey = keys.pop();
+
+        const target = keys.reduce((obj, key) => {
+            if (!obj[key]) obj[key] = {};
+            return obj[key];
+        }, frontmatter);
+
+        let list = toArray(target[lastKey]);
+
+        list = list.filter(link => resolveLinkPath(link) !== targetPath);
+
+        target[lastKey] = list;
+    });
 }
+
+
 
 
 /**
@@ -264,17 +208,16 @@ export async function removeLinkFromListField(targetNorm, fieldPath, item) {
  * target link. Reads from the norm object's Dataview page object.
  */
 
-export function listFieldHasLink(targetNorm, fieldPath, item) {
-    const dvPage = targetNorm?.dvPage;
-    if (!dvPage) return false;
+export function listFieldHasLink(normPage, fieldPath, linkPage) {
 
-    const sourcePath = targetNorm.path;
-    const current = einzelnerFeldWert(dvPage, fieldPath);
-    const key = itemToKey(item, sourcePath);
-    if (!key) return false;
+    const current = toArray(
+        einzelnerFeldWert(normPage.dvPage, fieldPath)
+    );
 
-    return toArray(current).some(
-        v => linkTargetKey(v, sourcePath) === key
+    const targetPath = linkPage?.path;
+
+    return current.some(link =>
+        resolveLinkPath(link) === targetPath
     );
 }
 

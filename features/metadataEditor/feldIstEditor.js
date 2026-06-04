@@ -110,8 +110,10 @@ export function feldIstEditor(dv, container, metaEditState) {
                 try {
                     if (checkInputBox.checked)
                         await addLinkToListField(activePage, "ist", p);
-                    else
+                    else {
+                        console.log("REMOVE", p.path);
                         await removeLinkFromListField(activePage, "ist", p);
+                    }
                 } catch (e) {
                     console.error("[OPMN] ist write failed:", e);
                     checkInputBox.checked = !checkInputBox.checked;  // zurücksetzen

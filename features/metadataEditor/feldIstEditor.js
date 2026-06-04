@@ -87,11 +87,7 @@ export function feldIstEditor(dv, container, metaEditState) {
 
             const resultCell = resultRow.createEl("div", {
                 text:
-                    (parentPagesFlt.length > 0
-                        ? parentPagesStr + " / "
-                        : "") +
-                    p.displayName,
-
+                    (parentPagesFlt.length > 0 ? parentPagesStr + " / " : "") + p.displayName,
                 cls: "opmn-result-cell"
             });
 
@@ -103,15 +99,14 @@ export function feldIstEditor(dv, container, metaEditState) {
                 : false;
             if (!activePage) checkInputBox.disabled = true;
 
-            // Mehrfachauswahl: jede Checkbox schaltet ihren Link in `ist` um.
-            checkInputBox.addEventListener("change", async () => {
+            async function toggleCheckedState() {
                 if (!activePage) return;
                 checkInputBox.disabled = true;
+
                 try {
-                    if (checkInputBox.checked)
+                    if (checkInputBox.checked) {
                         await addLinkToListField(activePage, "ist", p);
-                    else {
-                        console.log("REMOVE", p.path);
+                    } else {
                         await removeLinkFromListField(activePage, "ist", p);
                     }
                 } catch (e) {
@@ -120,7 +115,16 @@ export function feldIstEditor(dv, container, metaEditState) {
                 } finally {
                     checkInputBox.disabled = false;
                 }
-            });
+            }
+
+            resultCell.addEventListener("click", () => {
+                if (!activePage) return;
+                checkInputBox.checked = !checkInputBox.checked;
+                toggleCheckedState();
+            })
+
+            // Mehrfachauswahl: jede Checkbox schaltet ihren Link in `ist` um.
+            checkInputBox.addEventListener("change", toggleCheckedState);
         });
     };
 

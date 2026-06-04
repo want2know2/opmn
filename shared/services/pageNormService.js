@@ -12,50 +12,61 @@ import { resolvePageReference } from "./pageReferenceService.js";
 
 export function getPageNormObject(dv, p) {
 
-    const pageRef = resolvePageReference(dv, p);
+    const ref = resolvePageReference(dv, p);
 
-    const normObject = {
-        ref: null,
+    return {
+        ref,
+
+        get exists() {
+            return this.ref.exists;
+        },
+        get path() {
+            return this.ref.path;
+        },
+        get name() {
+            return this.ref.name;
+        },
+        get displayName() {
+            return this.exists
+                ? getPageDisplayName(dv, this.ref).displayName
+                : null;
+        },
+        get wikiLink() {
+            return this.exists
+                ? toWikiLink(this.ref)
+                : null;
+        },
+        get displayLink() {
+            return this.exists
+                ? toWikiLinkWithAlias(this.ref, this.displayName)
+                : null;
+        },
+
+        linkFrom(sourcePath, alias) {
+
+            if (!this.exists)
+                return null;
+
+            if (!sourcePath)
+                return alias
+                    ? this.displayLink
+                    : this.wikiLink;
+
+            return app.fileManager.generateMarkdownLink(
+                this.tFile,
+                sourcePath,
+                "",
+                alias
+            );
+        },
+
         get dvPage() {
-            return this.ref?.dvPage ?? null;
+            return this.ref.dvPage;
         },
         get tFile() {
-            return this.ref?.tFile ?? null;
-        },
-
-        name: null,
-        path: null,
-        displayName: null,
-        wikiLink: null,
-        displayLink: null,
-
-        // Link text for referring to this page from `sourcePath`, using
-        // Obsidian's own resolver (respects vault link settings, shortest
-        // unambiguous form). Optional `alias` renders as "[[target|alias]]".
-        // Falls back to the static links if the TFile or source path is
-        // unavailable.
-        linkFrom(sourcePath, alias) {
-            const file = this.tFile;
-            if (!file || !sourcePath)
-                return alias ? this.displayLink : this.wikiLink;
-            return app.fileManager.generateMarkdownLink(file, sourcePath, "", alias);
+            return this.ref.tFile;
         }
     };
-
-    if (!pageRef.exists) 
-        return normObject;
-
-    const name = pageRef.name;
-    const path = pageRef.path;
-    const displayName = getPageDisplayName(dv, pageRef).displayName;
-    normObject.ref = pageRef;
-    normObject.name = name;
-    normObject.path = path;
-    normObject.displayName = displayName;
-    normObject.wikiLink = toWikiLink(pageRef);
-    normObject.displayLink = toWikiLinkWithAlias(pageRef, displayName);
-    
-    return normObject;
 }
 
 

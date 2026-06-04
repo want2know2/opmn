@@ -40,7 +40,7 @@ import { fuzzySearch } from "./fuzzySearch.js";
       const pStatResults = (dvQueryPStatus(dv) ?? [])
           .map(p => getPageNormObject(dv, p));
 
-      const target = metaEditState.activePage;
+      const activePage = metaEditState.activePage;
 
       // Standard-p-Status, der gewählt wird, sobald der Master aktiviert
       // wird, die Seite aber noch keinen p-Status hat.
@@ -50,8 +50,8 @@ import { fuzzySearch } from "./fuzzySearch.js";
           ?? null;
 
       // Bereits in `ist` der aktiven Seite gesetzter p-Status (falls vorhanden).
-      const existingPStatus = target
-          ? (pStatResults.find(p => listFieldHasLink(target, "ist", p)) ?? null)
+      const existingPStatus = activePage
+          ? (pStatResults.find(p => listFieldHasLink(activePage, "ist", p)) ?? null)
           : null;
 
       // Aktuell gewählter p-Status (null = Master aus, kein p-Status gesetzt).
@@ -60,15 +60,15 @@ import { fuzzySearch } from "./fuzzySearch.js";
       // Anfangszustand spiegelt die vorhandenen Metadaten. Es wird hierbei
       // bewusst nichts geschrieben - nur das Vorhandene abgebildet.
       checkBoxInput.checked = !!selectedPStatus;
-      if (!target) checkBoxInput.disabled = true;
+      if (!activePage) checkBoxInput.disabled = true;
       metaEditState.pStatus.active = selectedPStatus ? true : null;
       resultBox.style.display = selectedPStatus ? "" : "none";
 
       // Schreibt den gewählten p-Status atomar in `ist`: entfernt jeden
       // p-Status-Link und fügt (falls vorhanden) den gewählten hinzu.
       const writePStatus = async (chosen) => {
-          if (!target) return;
-          await updateListFieldLinks(target, "ist", {
+          if (!activePage) return;
+          await updateListFieldLinks(activePage, "ist", {
               remove: pStatResults,
               add: chosen ? [chosen] : []
           });
@@ -150,13 +150,13 @@ import { fuzzySearch } from "./fuzzySearch.js";
               resultRow.style.padding = "2px 0";*/
               const resultCheckbox = resultRow.createEl("input", { type: "checkbox" });
               resultCheckbox.checked = selectedPStatus?.path === p.path;
-              if (!target) resultCheckbox.disabled = true;
+              if (!activePage) resultCheckbox.disabled = true;
 
               rowChecks.push({ page: p, el: resultCheckbox });
 
               // Einfachauswahl: genau einer ist (bei aktivem Master) gewählt.
               resultCheckbox.addEventListener("change", async () => {
-                  if (!target) return;
+                  if (!activePage) return;
                   if (!resultCheckbox.checked) {
                       // Abwählen des einzigen Gewählten ist nicht erlaubt.
                       resultCheckbox.checked = true;

@@ -1,12 +1,12 @@
 
 ////
-// IMPORT
+// IMPORT                       // FROM
 
-import { ENTITY_TYPES } from "../../shared/services/entityService.js";
+import { ENTITY_TYPES }         from "../../shared/services/entityService.js";
 
 
 /**
- * 
+ * Creates entity type buttons for the metadata editor.
  */
 
 export function entityButtons(btnBox, btnCallbackFn) {

@@ -47,7 +47,19 @@ export function feldIstEditor(dv, container, metaEditState) {
         ].join(" ");
     };
 
-    
+    const getCandidatePagesForEntityType = () => {
+        return stateIntern.activeEntityType
+                .query(dv)
+                .map(p => getPageNormObject(dv, p))
+                .filter(p => {
+                    const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
+                    return metaEditState.pStatus.active
+                        ? istP : !istP;
+                })
+                .filter(Boolean);
+    }
+
+
     const renderResults = (userInputString) => {
 
         const ranked =
@@ -112,6 +124,7 @@ export function feldIstEditor(dv, container, metaEditState) {
 
     const renderFuzzy = () => {
         if (!stateIntern.activeEntityType) return;
+        stateIntern.candidatePages = getCandidatePagesForEntityType();
         fuzzySearch(fuzzyBox, renderResults);
     };
 
@@ -146,16 +159,7 @@ export function feldIstEditor(dv, container, metaEditState) {
     entityButtons(btnBox, async (entityType) => {
         stateIntern.activeEntityType = entityType;
 
-        stateIntern.candidatePages =
-            stateIntern.activeEntityType
-                .query(dv)
-                .map(p => getPageNormObject(dv, p))
-                .filter(p => {
-                    const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
-                    return metaEditState.pStatus.active
-                        ? istP : !istP;
-                })
-                .filter(Boolean);
+        stateIntern.candidatePages = getCandidatePagesForEntityType();
         
         if (stateIntern.candidatePages.length === 0) {
             await toggleEntityType(entityType);

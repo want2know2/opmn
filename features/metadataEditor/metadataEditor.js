@@ -32,7 +32,6 @@ export function metadataEditor(dv, mountEl) {
         // The editors write the `ist` field into this norm object.
         activePage: null
     }
-
     
     metaEditState.activePage = getActivePageNormObject(dv);
 
@@ -77,7 +76,7 @@ export function metadataEditor(dv, mountEl) {
     
     const leftColumn = columnsBox.createEl("div", { cls: "opmn-column-left" });
     const centerColumn = columnsBox.createEl("div", { cls: "opmn-column-center" });
-    //const rightColumn = columnsBox.createEl("div", { cls: "opmn-column-right" });
+    /*const rightColumn = columnsBox.createEl("div", { cls: "opmn-column-right" });*/
 
     let renderFeldIst = () => {};           // Platzhalter, um eine CallbackFn
                                             // an `pStatusEditor` zu übergeben,

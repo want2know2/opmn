@@ -68,6 +68,24 @@
 }
 
 /* ==========================================
+   Result Lists
+   ========================================== */
+
+.opmn-table-cell-hd {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid var(--divider-color);
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+}
+
+.opmn-table-cell {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--divider-color);
+}
+
+
+/* ==========================================
    Buttons
    ========================================== */
 

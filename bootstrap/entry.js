@@ -1,12 +1,15 @@
 
 ////
-// IMPORT                         // FROM  
+// IMPORT                         	// FROM  
 
-import { Plugin }                 from "obsidian";
+import { Plugin }                 	from "obsidian";
 import { OpmnView, 
-				VIEW_TYPE_OPMN }  from "../adapters/view.js";
-import { MetadataEditorModal }    from "../adapters/metadataEditorModal.js";
-import { getDataviewApi }         from "../shared/services/queryService.js";
+		VIEW_TYPE_OPMN }  			from "../adapters/testview.js";
+import { MetadataEditorModal }    	from "../adapters/metadataEditorModal.js";
+import { getDataviewApi }         	from "../shared/services/queryService.js";
+import {OpmnNewView, 
+		VIEW_TYPE_OPMNnew } 		from "../adapters/newviewtest.js";
+
 
 
 // Plugin entry point. This is the native-plugin equivalent of the
@@ -25,11 +28,16 @@ export default class OpmnPlugin extends Plugin {
 		// 1. Register our custom view type.
 
 		this.registerView(VIEW_TYPE_OPMN, (leaf) => new OpmnView(leaf, dv));
+		this.registerView(VIEW_TYPE_OPMNnew, (leaf) => new OpmnNewView(leaf, dv));
 
 		// 2. Ribbon icon to open the view (left toolbar).
 
 		this.addRibbonIcon("layout-dashboard", "Open OPMN", () => {
-			this.activateView();
+			this.activateView(VIEW_TYPE_OPMN);
+		});
+
+		this.addRibbonIcon("app-window-mac", "Open OPMNnew", () => {
+			this.activateView(VIEW_TYPE_OPMNnew);
 		});
 
 		// 3. Command palette entry (Ctrl/Cmd-P -> "OPMN: Open view").
@@ -37,8 +45,10 @@ export default class OpmnPlugin extends Plugin {
 		this.addCommand({
 			id: "open-opmn-view",
 			name: "Open view",
-			callback: () => this.activateView(),
+			callback: () => this.activateView(VIEW_TYPE_OPMN),
 		});
+
+
 
 		// 4. Second ribbon icon + command: open the Metadata editor modal.
 
@@ -58,14 +68,14 @@ export default class OpmnPlugin extends Plugin {
 	// Open the OPMN view in a new tab, reusing an existing one if it is already
 	// open.
 
-	async activateView() {
+	async activateView(type) {
 		
 		const { workspace } = this.app;
 
-		let leaf = workspace.getLeavesOfType(VIEW_TYPE_OPMN)[0];
+		let leaf = workspace.getLeavesOfType(type)[0];
 		if (!leaf) {
 			leaf = workspace.getLeaf(true); // true = open in a new tab
-			await leaf.setViewState({ type: VIEW_TYPE_OPMN, active: true });
+			await leaf.setViewState({ type: type, active: true });
 		}
 
 		workspace.revealLeaf(leaf);

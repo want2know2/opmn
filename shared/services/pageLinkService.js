@@ -23,3 +23,31 @@ export function toWikiLinkWithAlias(pageRef, alias) {
     return `[[${pageRef.path.replace(/\.md$/, "")}|${alias}]]`;
 }
 
+
+/**
+ * 
+ */
+
+export function createPageLink(conEl, page, view, viewType) {
+    const link = conEl.createEl("a", {
+        text: page.displayName,
+        cls: "internal-link"
+    });
+
+    link.dataset.href = page.path;
+
+    link.addEventListener("mouseover", (event) => {
+        app.workspace.trigger("hover-link", {
+            event,
+            source: viewType,
+            hoverParent: view,
+            targetEl: link,
+            linktext: page.path
+        });
+    });
+    link.addEventListener("click", () => {
+        app.workspace.openLinkText(page.path, "", true);
+    });        
+    return link;
+}
+

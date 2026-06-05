@@ -3,57 +3,46 @@
 // IMPORT                         	// FROM  
 
 import { Plugin }                 	from "obsidian";
-import { OpmnView, 
-		VIEW_TYPE_OPMN }  			from "../adapters/testview.js";
-import { MetadataEditorModal }    	from "../adapters/metadataEditorModal.js";
+
+import { MetadataEditorModal }    	from "../adapters/MetadataEditorModal.js";
 import { getDataviewApi }         	from "../shared/services/queryService.js";
-import {OpmnNewView, 
-		VIEW_TYPE_OPMNnew } 		from "../adapters/newviewtest.js";
+import {BulkEditorTestView, 
+		TYPE_BULK_EDITOR } 		from "../adapters/BulkEditorTestView.js";
 
 
-
-// Plugin entry point. This is the native-plugin equivalent of the
-// CodeScript Toolkit `startup.js` `invoke(app)` function: it runs once when
-// Obsidian loads the plugin and is where we register everything.
+/**
+ * Der Einstiegspunkt des Plugins. Registriert die Views, 
+ * Ribbon-Buttons und Commands.
+ * Quasi die "Komposition" des Plugins.
+ */
 
 export default class OpmnPlugin extends Plugin {
+
 	async onload() {
 
-		// Composition root: acquire the Dataview API once here and inject it into
-		// the adapters below, so it is obtained in a single place. The adapters
-		// still guard against a null `dv` (Dataview not installed/enabled).
-
+		// DV Objekt
 		const dv = getDataviewApi(this.app);
 
-		// 1. Register our custom view type.
+		// VIEWS
 
-		this.registerView(VIEW_TYPE_OPMN, (leaf) => new OpmnView(leaf, dv));
-		this.registerView(VIEW_TYPE_OPMNnew, (leaf) => new OpmnNewView(leaf, dv));
+		this.registerView(TYPE_BULK_EDITOR, (leaf) => new BulkEditorTestView(leaf, dv));
 
-		// 2. Ribbon icon to open the view (left toolbar).
-
-		this.addRibbonIcon("layout-dashboard", "Open OPMN", () => {
-			this.activateView(VIEW_TYPE_OPMN);
-		});
+		// BUTTONS AUF DEM RIBBON
 
 		this.addRibbonIcon("app-window-mac", "Open OPMNnew", () => {
-			this.activateView(VIEW_TYPE_OPMNnew);
+			this.activateView(TYPE_BULK_EDITOR);
 		});
 
-		// 3. Command palette entry (Ctrl/Cmd-P -> "OPMN: Open view").
+		this.addRibbonIcon("table-properties", "OPMN: Open Metadata editor", () => {
+			new MetadataEditorModal(this.app, dv).open();
+		});
+
+		// COMMANDS IN DER COMMAND PALETTE
 
 		this.addCommand({
 			id: "open-opmn-view",
 			name: "Open view",
-			callback: () => this.activateView(VIEW_TYPE_OPMN),
-		});
-
-
-
-		// 4. Second ribbon icon + command: open the Metadata editor modal.
-
-		this.addRibbonIcon("table-properties", "OPMN: Open Metadata editor", () => {
-			new MetadataEditorModal(this.app, dv).open();
+			callback: () => this.activateView(TYPE_BULK_EDITOR),
 		});
 
 		this.addCommand({
@@ -65,13 +54,13 @@ export default class OpmnPlugin extends Plugin {
 
 	onunload() {}
 
-	// Open the OPMN view in a new tab, reusing an existing one if it is already
-	// open.
-
+	// Open in new tab, focusing the existing one if it is already open.
 	async activateView(type) {
 		
 		const { workspace } = this.app;
-
+		// workspace.getLeavesOfType gibt anscheinend Liste aller 
+		// geöffneten Views dieses Typs (type = bspw. der 
+		// String in VIEW_TYPE_OPMN ) zurück.
 		let leaf = workspace.getLeavesOfType(type)[0];
 		if (!leaf) {
 			leaf = workspace.getLeaf(true); // true = open in a new tab

@@ -25,11 +25,15 @@ export function toWikiLinkWithAlias(pageRef, alias) {
 
 
 /**
- * 
+ * Erstellt einen Link mit  Hover-Funktionalität.
+ * @param {object} parentObj z.B. view aus OpmnNewView extends ItemView.
  */
 
-export function createPageLink(conEl, page, view, viewType) {
-    const link = conEl.createEl("a", {
+export function createPageLink(parentObj, container, page) {
+
+    const { app } = parentObj;
+
+    const link = container.createEl("a", {
         text: page.displayName,
         cls: "internal-link"
     });
@@ -39,8 +43,8 @@ export function createPageLink(conEl, page, view, viewType) {
     link.addEventListener("mouseover", (event) => {
         app.workspace.trigger("hover-link", {
             event,
-            source: viewType,
-            hoverParent: view,
+            source: "",
+            hoverParent: parentObj,
             targetEl: link,
             linktext: page.path
         });

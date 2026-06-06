@@ -1,7 +1,8 @@
 
 /**
- * 
- */
+ * Wird gebraucht, um Links in diesem Format in die Metadaten zu 
+ * schreiben.
+ */ 
 
 export function toWikiLink(pageRef) {
     if (!pageRef?.path) return null;
@@ -25,16 +26,19 @@ export function toWikiLinkWithAlias(pageRef, alias) {
 
 
 /**
- * Erstellt einen Link mit  Hover-Funktionalität.
+ * Erstellt einen Link mit  Hover-Funktionalität. Wird gebraucht, um Links
+ * auf Modals, Views usw. darzustellen. 
  * @param {object} parentObj z.B. view aus OpmnNewView extends ItemView.
  */
 
-export function createPageLink(parentObj, container, page) {
+export function placeHoverLinkOnEl(parentObj, container, page, displayAs = null) {
 
     const { app } = parentObj;
 
+    const display = displayAs ?? page.displayName ?? page.name ?? page.path;
+
     const link = container.createEl("a", {
-        text: page.displayName,
+        text: display,
         cls: "internal-link"
     });
 

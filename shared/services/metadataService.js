@@ -35,30 +35,30 @@ export function alleFeldWerte(dv, dvPage, feldListe) {
  */
 
 export function einzelnerFeldWertVerschachtelt(dv, seite, feld) {
-  if (!seite) return [];
-  const keys = feld.split(".");
-  let current = [seite]; // always work with arrays
-  
-  for (const key of keys) {
-    current = current.flatMap(item => {
-      if (!item) return [];
-      // resolve link to page
-      if (item?.path && item?.type === "file") {
-        const p = dv.page(item.path);
-        if (!p) return [];
-        item = p;
-      }
+    if (!seite) return [];
+    const keys = feld.split(".");
+    let current = [seite]; // always work with arrays
+    
+    for (const key of keys) {
+        current = current.flatMap(item => {
+        if (!item) return [];
+        // resolve link to page
+        if (item?.path && item?.type === "file") {
+            const p = dv.page(item.path);
+            if (!p) return [];
+            item = p;
+        }
 
-      const val = item[key];
-      if (!val) return [];
-      if (val?.path && val?.type === "file") {
-        const p = dv.page(val.path); // if val is a link, resolve to page
-        return p ? [p] : [];
-      }
-      return Array.isArray(val) ? val : [val];
-    });
-  }
-  return toArray(current);
+        const val = item[key];
+        if (!val) return [];
+        if (val?.path && val?.type === "file") {
+            const p = dv.page(val.path); // if val is a link, resolve to page
+            return p ? [p] : [];
+        }
+        return Array.isArray(val) ? val : [val];
+        });
+    }
+    return toArray(current);
 }
 
 
@@ -227,8 +227,8 @@ export function listFieldHasLink(normPage, fieldPath, linkPage) {
  * durch gegebene neue (Metadaten-Objekt).
  */
 
-export async function updateEntireFrontmatter(file, newFrontObj = {}) {
-    await app.fileManager.processFrontMatter(file, (frontmatter) => {
+export async function updateEntireFrontmatter(tFile, newFrontObj = {}) {
+    await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
         for (const key of Object.keys(frontmatter)) {
             if (key !== "id") delete frontmatter[key];
         }

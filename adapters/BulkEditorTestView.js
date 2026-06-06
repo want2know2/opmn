@@ -5,7 +5,7 @@
 import { ItemView } 			from "obsidian";
 import { dvQueryInh } 			from "../shared/services/entityService.js";
 import { getPageNormObject } 	from "../shared/services/pageNormService.js";
-import { createPageLink } 		from "../shared/services/pageLinkService.js";
+import { placeHoverLinkOnEl } 		from "../shared/services/pageLinkService.js";
 import { bulkEditorTest } 		from "../features/bulkEditorTest/bulkEditorTest.js";
 
 export const TYPE_BULK_EDITOR = "opmn-newview";

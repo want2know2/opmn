@@ -16,7 +16,7 @@ import { pStatusEditor }                from "./pStatusEditor.js";
 // block there is no such output context, so the caller passes in an element
 // (e.g. a modal's contentEl) and we build into it with `createEl(...)`.
 
-export function metadataEditor(dv, mountEl) {
+export function metadataEditor(app, dv, mountEl) {
 
     const metaEditState = {
         featureBoxActive: true,
@@ -33,7 +33,7 @@ export function metadataEditor(dv, mountEl) {
         activePage: null
     }
     
-    metaEditState.activePage = getActivePageNormObject(dv);
+    metaEditState.activePage = getActivePageNormObject(app, dv);
 
     const miniContainer = mountEl.createEl("div", { 
         text: "Seite bearbeiten (+)", 
@@ -81,14 +81,14 @@ export function metadataEditor(dv, mountEl) {
     let renderFeldIst = () => {};           // Platzhalter, um eine CallbackFn
                                             // an `pStatusEditor` zu übergeben,
     pStatusEditor(                          // obwohl `feldIstEditor`, wo die 
-        dv,                                 // CallbackFn eigentlich definiert wird, 
+        app, dv,                            // CallbackFn eigentlich definiert wird, 
         leftColumn,                         // noch nicht  erzeugt wurde (da in der 
         metaEditState,                      // UI `pStatusEditor` vor `feldIstEditor` 
         () => renderFeldIst()               // kommen soll.
     );                                      
                                             // `feldIstEditor` wird hier einerseits gecalled                        
     renderFeldIst = feldIstEditor(          // UND gibt seine render-Funktion zurück,
-        dv,                                 // also `renderFuzzy` -> das ist dann
+        app, dv,                            // also `renderFuzzy` -> das ist dann
         centerColumn,                       // die CallbackFn, die an `pStatusEditor`
         metaEditState                       // übergeben und dort beim Anklicken 
     )                                       // der Checkbox ausgeführt wird.

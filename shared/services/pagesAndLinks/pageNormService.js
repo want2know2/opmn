@@ -2,6 +2,7 @@
 ////
 // IMPORT
 
+
 import { getPageDisplayName } from "./pageDisplayNameService.js";
 
 
@@ -9,9 +10,9 @@ import { getPageDisplayName } from "./pageDisplayNameService.js";
  * 
  */
 
-export function getPageNormObject(dv, p) {
+export function getPageNormObject(app, dv, p) {
 
-    const ref = resolvePageReference(dv, p);
+    const ref = resolvePageReference(app, dv, p);
 
     return {
         ref,
@@ -73,7 +74,7 @@ export function getPageNormObject(dv, p) {
  *
  */
 
-export function resolvePageReference(dv, p) {
+export function resolvePageReference(app, dv, p) {
 
     let inputPath = null;
 

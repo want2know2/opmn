@@ -3,11 +3,10 @@
 // IMPORT                           // FROM
 
 import { toArray }                  from "../../utils/valueUtils.js";
-import { resolvePageReference } from "./pageNormService.js";
 import { einzelnerFeldWert }        from "../metadata/metaReadService.js";
 
 
-function resolveLinkPath(link) {
+export function resolveLinkPath(app, link) {
 
     if (!link)
         return null;
@@ -55,7 +54,6 @@ function resolveLinkPath(link) {
 
     return file?.path ?? null;
 }
-exports.resolveLinkPath = resolveLinkPath;
 
 
 /**
@@ -63,7 +61,7 @@ exports.resolveLinkPath = resolveLinkPath;
  * target link. Reads from the norm object's Dataview page object.
  */
 
-export function listFieldHasLink(normPage, fieldPath, linkPage) {
+export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
 
     const current = toArray(
         einzelnerFeldWert(normPage.dvPage, fieldPath)
@@ -72,9 +70,7 @@ export function listFieldHasLink(normPage, fieldPath, linkPage) {
     const targetPath = linkPage?.path;
 
     return current.some(link =>
-        resolveLinkPath(link) === targetPath
+        resolveLinkPath(app, link) === targetPath
     );
 }
-
-
 

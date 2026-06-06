@@ -3,13 +3,18 @@
 // IMPORT						// FROM
 
 import { ItemView } 			from "obsidian";
-import { dvQueryInh } 			from "../shared/services/queries/entityService.js";
-import { getPageNormObject } 	from "../shared/services/pagesAndLinks/pageNormService.js";
-import { placeHoverLinkOnEl } 	from "../shared/services/uiServices/uiLinkService.js";
 import { inhaltMigrationFt } 	from "../features/bulkEditorTest/inhaltMigrationFt.js";
+import { obsappTest } 			from "../features/baustelleFt/obsappTest.js";
+
+////
+// VIEW-TYPE
 
 export const TYPE_BULK_EDITOR = "opmn-newview";
 
+
+/**
+ * Inhalts-Migrations-Feature
+ */
 
 export class BulkEditorTestView extends ItemView {
 
@@ -42,7 +47,9 @@ export class BulkEditorTestView extends ItemView {
 		if (!this.dv) return;
 		this.contentEl.empty();
 
-		inhaltMigrationFt(this);
+		//inhaltMigrationFt(this);
+		obsappTest(this);
+		
 	}
 }
 

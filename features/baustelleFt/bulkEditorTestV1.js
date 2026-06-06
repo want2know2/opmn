@@ -7,8 +7,9 @@ import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 import { updateEntireFrontmatter } from "../../shared/services/metadata/metaWriteService.js";
 import { einzelnerFeldWert } from "../../shared/services/metadata/metaReadService.js";
 import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
-import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
+
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";
+import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService.js";
 
 
 /**
@@ -32,7 +33,7 @@ export function bulkEditorTest(view) {
 
         // Suche Inhalt, Status P
         const dbPagesP = dvLinkSuche(dv, ["Inhalt", "Status _ p"], ["ist"], 0, true)
-            .map(p => getPageNormObject(dv, p));
+            .map(p => getPageNormObject(app, dv, p));
 
         menuHeader.textContent = `${dbPagesP?.length} Ergebnisse`;
         
@@ -106,8 +107,8 @@ export function bulkEditorTest(view) {
                 }
             });
 
-            const neuerLinkObj = getPageNormObject(dv, neueSeitePath);
-            const neuerParentObj = getPageNormObject(dv, neuerParentPath);
+            const neuerLinkObj = getPageNormObject(app, dv, neueSeitePath);
+            const neuerParentObj = getPageNormObject(app, dv, neuerParentPath);
 
             // CELL 2: 
             const ersetzenDurchCell = ergTabReihe.createEl("td", { cls: "opmn-table-cell" });
@@ -131,8 +132,8 @@ export function bulkEditorTest(view) {
                     if (neuerParentObj.exists) metaObj.parent = neuerParentObj.wikiLink;
                     neueSeiteBox.empty();
                     neueSeiteBox.textContent = "Neuer Link: ";
-                    const newPageObj = getPageNormObject(dv, neueSeitePath);
-                    updateEntireFrontmatter(newPageObj.tFile, metaObj);
+                    const newPageObj = getPageNormObject(app, dv, neueSeitePath);
+                    updateEntireFrontmatter(app, newPageObj.tFile, metaObj);
                     placeHoverLinkOnEl(view, neueSeiteBox, newPageObj, newPageObj.name);
                 })
             }
@@ -142,7 +143,7 @@ export function bulkEditorTest(view) {
                 ?.replace(" (p)", "")?.replace(".md", ""); 
 
             const isttypLinkStr = `Inhalt _ ${isttypStr}`;
-            const isttypLinkObj = getPageNormObject(dv, isttypLinkStr);
+            const isttypLinkObj = getPageNormObject(app, dv, isttypLinkStr);
             
             // CELL 2: Box 2: ist-Typ
             const isttypBox = ersetzenDurchCell.createEl("div", {
@@ -162,7 +163,7 @@ export function bulkEditorTest(view) {
             const statusPBox = ersetzenDurchCell.createEl("div", {
                 text: "p-Status: "
             });
-            const statPObj = getPageNormObject(dv, "Status _ p.md");
+            const statPObj = getPageNormObject(app, dv, "Status _ p.md");
             placeHoverLinkOnEl(view, statusPBox, statPObj, statPObj.name);
 
             // CELL 3: Link ohne p Link
@@ -221,7 +222,7 @@ export function bulkEditorTest(view) {
 
         // Zielpage: Pages mit pageNorm in `ist`
         const sMitLinkZuSAlt = dvLinkSuche(dv, [sAlt.path], ["ist"], 0, true)
-            .map(p => getPageNormObject(dv, p));
+            .map(p => getPageNormObject(app, dv, p));
 
         sMitLinkZuSAlt.forEach(p => {
             
@@ -234,7 +235,7 @@ export function bulkEditorTest(view) {
             // Zielpage ist-Array: Ausgangsseite-Path alt getauscht gegen neu
             const sMitLinkZuSAltFeldIst = (Array.isArray(p.dvPage.ist) 
                 ? p.dvPage.ist : [p.dvPage.ist])
-                .map(val => getPageNormObject(dv, val.path));
+                .map(val => getPageNormObject(app, dv, val.path));
             
             const sMitLinkZuPAltFeldIstNeu = [...sMitLinkZuSAltFeldIst]
                 .filter(val => val.path !== sAlt.path);

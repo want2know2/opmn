@@ -11,7 +11,7 @@ import { deleteFieldByDVPage } from "../../shared/services/metadata/metaWriteSer
  * 
  */
 
-export function bulkMetaEditor(dv) {
+export function bulkMetaEditor(app, dv) {
     const container = dv.el("div", "");
     const infoBox = container.createEl("div", {text: "`Datenbankinterne Entität` entfernen"}); 
     const btnBox = container.createEl("div");
@@ -30,7 +30,7 @@ export function bulkMetaEditor(dv) {
             if (istdin.length === 1 
                     && istdin.join(" ").includes("Datenbankinterne Entität.md")
                 ) {
-                await deleteFieldByDVPage(page, "istdin");
+                await deleteFieldByDVPage(app, page, "istdin");
             } 
             
             else if (istdin.length >1) {
@@ -71,7 +71,7 @@ export function bulkMetaEditor(dv) {
                 if (istdin.length === 1 
                         && istdin.join(" ").includes("Datenbankinterne Entität.md")
                     ) {
-                    await deleteFieldByDVPage(page, "istdin");
+                    await deleteFieldByDVPage(app, page, "istdin");
                     pageBtnBox.createEl("div", {text: `istdin wurde gelöscht`});
                 } 
                 

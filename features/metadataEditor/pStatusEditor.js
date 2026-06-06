@@ -15,7 +15,7 @@ import { fuzzySearch }              from "./fuzzySearch.js";
  * 
  */
 
-export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
+export function pStatusEditor(app, dv, container, metaEditState, refreshCallback) {
     const headerText = "p-Status";
     const header = container.createEl("h4", {text: `${headerText}`, cls: "opmn-header"});
     /*header.style.cursor = "pointer";*/
@@ -38,7 +38,7 @@ export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
     resultBox.style.overflowY = "auto";*/
 
     const pStatResults = (dvQueryPStatus(dv) ?? [])
-        .map(p => getPageNormObject(dv, p));
+        .map(p => getPageNormObject(app, dv, p));
 
     const activePage = metaEditState.activePage;
 
@@ -51,7 +51,7 @@ export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
 
     // Bereits in `ist` der aktiven Seite gesetzter p-Status (falls vorhanden).
     const existingPStatus = activePage
-        ? (pStatResults.find(p => listFieldHasLink(activePage, "ist", p)) ?? null)
+        ? (pStatResults.find(p => listFieldHasLink(app, activePage, "ist", p)) ?? null)
         : null;
 
     // Aktuell gewählter p-Status (null = Master aus, kein p-Status gesetzt).
@@ -73,6 +73,7 @@ export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
 
         for (const pStatus of pStatResults) {
             await removeLinkFromListField(
+                app,
                 activePage,
                 "ist",
                 pStatus
@@ -81,6 +82,7 @@ export function pStatusEditor(dv, container, metaEditState, refreshCallback) {
 
         if (chosen) {
             await addLinkToListField(
+                app,
                 activePage,
                 "ist",
                 chosen

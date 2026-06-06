@@ -41,7 +41,7 @@ export class MetadataEditorModal extends Modal {
     // instead of failing silently.
 
     try {
-      metadataEditor(dv, contentEl);
+      metadataEditor(this.app, dv, contentEl);
     } 
     
     catch (e) {

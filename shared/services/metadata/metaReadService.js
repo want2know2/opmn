@@ -5,32 +5,54 @@
 import { toArray }          from "../../utils/valueUtils";
 
 
+////
+// Test: FM ohne DV
+// ----
+
+/**
+ * 
+ */
+
+export function fmOhneDv(app, tFile, feld) {
+    const cache = app.metadataCache.getFileCache(tFile);
+    const fm = cache?.frontmatter;
+    return feld.split(".").reduce((o, k) => o?.[k], fm);
+    //fm ?? {};
+    //
+    //
+    //
+}
+
+
+//// 
+// DV-Funktionen
+// ----
+
 /**
  * Einzelnen Feldwert abfragen. Wird verwendet in dvLinkSucheAusfuehren.
  * Weiß nicht, ob das einen Unterschied machen würde, stattdessen
  * einzelnerFeldWertVerschachtelt zu verwenden (um die hier löschen zu können).
  */
 
-
-
-
 export function einzelnerFeldWert(dvPage, feld) {
     return feld.split(".").reduce((o, k) => o?.[k], dvPage);
 }
+
+
 /**
  * Liste von Feldern abfragen => Liste von Werten zurück.
  */
-
 
 export function alleFeldWerte(dv, dvPage, feldListe) {
     if (!Array.isArray(feldListe)) return [];
     return feldListe
         .flatMap(f => toArray(einzelnerFeldWertVerschachtelt(dv, dvPage, f)));
 }
+
+
 /**
  *
  */
-
 
 export function einzelnerFeldWertVerschachtelt(dv, seite, feld) {
     if (!seite) return [];
@@ -58,3 +80,4 @@ export function einzelnerFeldWertVerschachtelt(dv, seite, feld) {
     }
     return toArray(current);
 }
+

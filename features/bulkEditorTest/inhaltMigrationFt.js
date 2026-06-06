@@ -4,15 +4,11 @@
 
 import { dvQueryInh }   			from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
-
-import { listFieldHasLink} 				from "../../shared/services/pagesAndLinks/linkNormService.js";
-import { updateEntireFrontmatter } from "../../shared/services/metadata/metaWriteService.js";
-import { updateField } from "../../shared/services/metadata/metaWriteService.js";
-import { einzelnerFeldWert } from "../../shared/services/metadata/metaReadService.js";
-
-import { placeHoverLinkOnEl }       		from "../../shared/services/uiServices/uiLinkService.js";
-import { toWikiLink } from "../../shared/services/pagesAndLinks/pageNormService.js";
-
+import { listFieldHasLink} 			from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { updateEntireFrontmatter } 	from "../../shared/services/metadata/metaWriteService.js";
+import { updateField } 				from "../../shared/services/metadata/metaWriteService.js";
+import { einzelnerFeldWert } 		from "../../shared/services/metadata/metaReadService.js";
+import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";
 
@@ -56,11 +52,11 @@ function tableMakerReihe(table, cellsNum) {
  * die ein Inhalt ist und Status _ P hat.
  */
 
-function istWertSeitenCheck(dv, seite, pStatusSeite, inhaltSeite) {
+function istWertSeitenCheck(app, dv, seite, pStatusSeite, inhaltSeite) {
 	// Zielseite Feld ist-Werte => normSeiten
 	const feldIst = (Array.isArray(seite.dvPage.ist) 
 		? seite.dvPage.ist : [seite.dvPage.ist])
-		.map(ist => getPageNormObject(dv, ist.path));
+		.map(ist => getPageNormObject(app, dv, ist.path));
 	
 	// prüfe ist-Wert-Seiten: 
 	// existiert, ist Inhalt und Status p
@@ -71,8 +67,8 @@ function istWertSeitenCheck(dv, seite, pStatusSeite, inhaltSeite) {
 			else return true;
 		})
 		.filter(ist => {
-			const statP = listFieldHasLink(ist, "ist", pStatusSeite);
-			const inh = listFieldHasLink(ist, "ist", inhaltSeite);
+			const statP = listFieldHasLink(app, ist, "ist", pStatusSeite);
+			const inh = listFieldHasLink(app, ist, "ist", inhaltSeite);
 			const infostr = [];
 			if (!statP) infostr.push("hat keinen p-Status");
 			if (!inh) infostr.push("ist kein Inhalt");
@@ -94,7 +90,7 @@ function istWertSeitenCheck(dv, seite, pStatusSeite, inhaltSeite) {
  * 
  */
 
-function neueInhIstWerte(dv, seite) {
+function neueInhIstWerte(app, dv, seite) {
 	const pathNP = seite.path.replace(" (p)", "");
 	const cleanPathArr = pathNP.split(" _ ")
 		.filter((str, i) => i !== 1);
@@ -117,9 +113,9 @@ function neueInhIstWerte(dv, seite) {
 	});
 	
 	// Neu-, Typ-, Parent-Seiten
-	const neuSeite = getPageNormObject(dv, neuPath);
-	const typSeite = getPageNormObject(dv, typPath);
-	const parentSeite = getPageNormObject(dv, parentPath);
+	const neuSeite = getPageNormObject(app, dv, neuPath);
+	const typSeite = getPageNormObject(app, dv, typPath);
+	const parentSeite = getPageNormObject(app, dv, parentPath);
 
 	return {
 		neuSeite, typSeite, parentSeite
@@ -132,12 +128,12 @@ function neueInhIstWerte(dv, seite) {
  * 
  */
 
-export function inhaltMigrationFt(view) {
+export function inhaltMigrationFt(obsidianClassObj) {
     
-	const { app, dv, contentEl } = view;
+	const { app, dv, contentEl } = obsidianClassObj;
 	
-	const inhaltSeite  = getPageNormObject(dv, "Inhalt.md");
-	const pStatusSeite = getPageNormObject(dv, "Status _ p.md");
+	const inhaltSeite  = getPageNormObject(app, dv, "Inhalt.md");
+	const pStatusSeite = getPageNormObject(app, dv, "Status _ p.md");
 
 	// Überschriften / Container
 	const featureHeader = contentEl.createEl("h2", { 
@@ -176,7 +172,7 @@ export function inhaltMigrationFt(view) {
 		menuHeader.textContent = "Seiten, die zu DBint Seiten mit integriertem Status _ p linken";
 
 		const zielseiten = dvLinkSuche(dv, dbPagesP, ["ist"], 2, false)
-			.map(p => getPageNormObject(dv, p));
+			.map(p => getPageNormObject(app, dv, p));
 		
 		infoBox.textContent = `${zielseiten.length} Seiten, die zu ${dbPagesP?.length} 
 			DBint-Seiten mit integriertem Status _ p linken`
@@ -187,15 +183,15 @@ export function inhaltMigrationFt(view) {
 			// Cell 1: Zielseite Link
 			const cells = tableMakerReihe(ergTabelle, cellsNr);
 			const linkBox = cells[0].createEl("div");
-			placeHoverLinkOnEl(view, linkBox, p, p.name);
+			placeHoverLinkOnEl(obsidianClassObj, linkBox, p, p.name);
 
-			const istWerte = istWertSeitenCheck(dv, p, pStatusSeite, inhaltSeite);
+			const istWerte = istWertSeitenCheck(app, dv, p, pStatusSeite, inhaltSeite);
 
 			// Cell 2: 
 			// editierbare ist-Wert Links
 			istWerte.editierbar.forEach(ist => {
 				const istBox = cells[1].createEl("div");
-				placeHoverLinkOnEl(view, istBox, ist, ist.name);
+				placeHoverLinkOnEl(obsidianClassObj, istBox, ist, ist.name);
 			});
 			
 			// nicht editierbare ist-Wert Links
@@ -221,7 +217,7 @@ export function inhaltMigrationFt(view) {
 			istWerte.editierbar.forEach(ist => {
 				// Pfad für neuen ist-Wert, Typ und Parent vorbereiten
 
-				const istNeu = neueInhIstWerte(dv, ist);
+				const istNeu = neueInhIstWerte(app, dv, ist);
 				const { neuSeite, typSeite, parentSeite } = istNeu;
 				
 				// -Box
@@ -232,16 +228,16 @@ export function inhaltMigrationFt(view) {
 				
 				// Neu- und Typ-Info und Link
 				const neuInfo = neuBox.createEl("div", {text: "neuer ist-Wert"});
-				placeHoverLinkOnEl(view, neuBox, neuSeite, neuSeite.name);
+				placeHoverLinkOnEl(obsidianClassObj, neuBox, neuSeite, neuSeite.name);
 				const typInfo = typBox.createEl("div", {text: "Typ"});
-				placeHoverLinkOnEl(view, typBox, typSeite, typSeite.name);
+				placeHoverLinkOnEl(obsidianClassObj, typBox, typSeite, typSeite.name);
 				const pStatusInfo = pStatusBox.createEl("div", {text: "p-Status"});
-				placeHoverLinkOnEl(view, pStatusBox, pStatusSeite, pStatusSeite.name)
+				placeHoverLinkOnEl(obsidianClassObj, pStatusBox, pStatusSeite, pStatusSeite.name)
 
 				// Parent Info und Link
 				if (parentSeite.exists) {
 					const parentInfo = parentBox.createEl("div", {text: "Parent"});
-					placeHoverLinkOnEl(view, parentBox, parentSeite, parentSeite.name);
+					placeHoverLinkOnEl(obsidianClassObj, parentBox, parentSeite, parentSeite.name);
 				}
 				
 				istSeiteArr.push(neuSeite.wikiLink);  
@@ -257,10 +253,10 @@ export function inhaltMigrationFt(view) {
 					cells[1].empty(); cells[2].empty();
 					cells[2].createEl("span", {text: `${p.name} wurde editiert` });
 					
-					await updateField(p.tFile, "ist", istSeiteArr);
-					if (parentArr.length>0) { await updateField(p.tFile, "parent", parentArr); }
-					await updateField(p.tFile, "typ", typArr);
-					await updateField(p.tFile, "pstatus", pStatusSeite.wikiLink);
+					await updateField(app, p.tFile, "ist", istSeiteArr);
+					if (parentArr.length>0) { await updateField(app, p.tFile, "parent", parentArr); }
+					await updateField(app, p.tFile, "typ", typArr);
+					await updateField(app, p.tFile, "pstatus", pStatusSeite.wikiLink);
 					
 
 				}) 

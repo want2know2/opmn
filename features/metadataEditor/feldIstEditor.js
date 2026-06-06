@@ -20,7 +20,7 @@ import { fuzzySearch }          from "./fuzzySearch.js";
  * 
  */
 
-export function feldIstEditor(dv, container, metaEditState) {
+export function feldIstEditor(app, dv, container, metaEditState) {
 
     const stateIntern = {
         boxOpen: true,
@@ -53,7 +53,7 @@ export function feldIstEditor(dv, container, metaEditState) {
     const getCandidatePagesForEntityType = () => {
         return stateIntern.activeEntityType
                 .query(dv)
-                .map(p => getPageNormObject(dv, p))
+                .map(p => getPageNormObject(app, dv, p))
                 /*.filter(p => {
                     const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
                     return metaEditState.pStatus.active
@@ -98,7 +98,7 @@ export function feldIstEditor(dv, container, metaEditState) {
 
             // Anfangszustand spiegelt das tatsächliche `ist` der aktiven Seite.
             checkInputBox.checked = activePage
-                ? listFieldHasLink(activePage, "ist", p)
+                ? listFieldHasLink(app, activePage, "ist", p)
                 : false;
             if (!activePage) checkInputBox.disabled = true;
 
@@ -108,9 +108,9 @@ export function feldIstEditor(dv, container, metaEditState) {
 
                 try {
                     if (checkInputBox.checked) {
-                        await addLinkToListField(activePage, "ist", p);
+                        await addLinkToListField(app, activePage, "ist", p);
                     } else {
-                        await removeLinkFromListField(activePage, "ist", p);
+                        await removeLinkFromListField(app, activePage, "ist", p);
                     }
                 } catch (e) {
                     console.error("[OPMN] ist write failed:", e);
@@ -142,22 +142,25 @@ export function feldIstEditor(dv, container, metaEditState) {
         const activePage = metaEditState.activePage;
         if (!activePage) return;
 
-        const entityTypePage = getPageNormObject(dv, entityType.label);
+        const entityTypePage = getPageNormObject(app, dv, entityType.label);
 
         if (
             listFieldHasLink(
+                app, 
                 activePage,
                 "ist",
                 entityTypePage
             )
         ) {
             await removeLinkFromListField(
+                app,
                 activePage,
                 "ist",
                 entityTypePage
             );
         } else {
             await addLinkToListField(
+                app,
                 activePage,
                 "ist",
                 entityTypePage

@@ -5,7 +5,7 @@
 import { Plugin }                 	from "obsidian";
 
 import { MetadataEditorModal }    	from "../adapters/MetadataEditorModal.js";
-import { getDataviewApi }         	from "../shared/services/queryService.js";
+import { getDataviewApi }         	from "../shared/services/queries/queryService.js";
 import {BulkEditorTestView, 
 		TYPE_BULK_EDITOR } 		from "../adapters/BulkEditorTestView.js";
 

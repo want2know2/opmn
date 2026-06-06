@@ -3,10 +3,10 @@
 // IMPORT						// FROM
 
 import { ItemView } 			from "obsidian";
-import { dvQueryInh } 			from "../shared/services/entityService.js";
-import { getPageNormObject } 	from "../shared/services/pageNormService.js";
-import { placeHoverLinkOnEl } 		from "../shared/services/pageLinkService.js";
-import { bulkEditorTest } 		from "../features/bulkEditorTest/bulkEditorTest.js";
+import { dvQueryInh } 			from "../shared/services/queries/entityService.js";
+import { getPageNormObject } 	from "../shared/services/pagesAndLinks/pageNormService.js";
+import { placeHoverLinkOnEl } 	from "../shared/services/uiServices/uiLinkService.js";
+import { inhaltMigrationFt } 	from "../features/bulkEditorTest/inhaltMigrationFt.js";
 
 export const TYPE_BULK_EDITOR = "opmn-newview";
 
@@ -42,7 +42,7 @@ export class BulkEditorTestView extends ItemView {
 		if (!this.dv) return;
 		this.contentEl.empty();
 
-		bulkEditorTest(this);
+		inhaltMigrationFt(this);
 	}
 }
 

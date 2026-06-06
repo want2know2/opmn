@@ -3,14 +3,16 @@
 // IMPORT                       // FROM
 
 import { toStringValue }        from "../../shared/utils/valueUtils.js";
-import { getPageNormObject }    from "../../shared/services/pageNormService.js";
-import { alleFeldWerte,
-         addLinkToListField,
-         removeLinkFromListField,
-         listFieldHasLink }     from "../../shared/services/metadataService.js";
+import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";
+import { listFieldHasLink }     from "../../shared/services/pagesAndLinks/linkNormService.js";
+import {
+    addLinkToListField,
+    removeLinkFromListField
+} from "../../shared/services/metadata/metaWriteService.js";
+import { alleFeldWerte } from "../../shared/services/metadata/metaReadService.js";
 
 import { entityButtons }        from "./entityButtons.js";
-import { rankFuzzy }            from "../../shared/services/fuzzyService.js";
+import { rankFuzzy }            from "../../shared/services/uiServices/fuzzyService.js";
 import { fuzzySearch }          from "./fuzzySearch.js";
 
 

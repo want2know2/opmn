@@ -2,8 +2,9 @@
 ////
 // IMPORT
 
-import { ENTITY_TYPES } from "../../shared/services/entityService.js";
-import { deleteFieldByDVPage, updateFieldByDVPage } from "../../shared/services/metadataService.js";
+import { ENTITY_TYPES } from "../../shared/services/queries/entityService.js";
+import { updateFieldByDVPage } from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { deleteFieldByDVPage } from "../../shared/services/metadata/metaWriteService.js";
 
 
 /**

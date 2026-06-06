@@ -68,7 +68,7 @@
 }
 
 /* ==========================================
-   Result Lists
+   Tabelle
    ========================================== */
 
 .opmn-table-cell-hd {
@@ -80,7 +80,8 @@
 }
 
 .opmn-table-cell {
-    padding: 4px 0;
+    padding: 8px;
+    /*margin: 10px;*/
     border-bottom: 1px solid var(--divider-color);
 }
 

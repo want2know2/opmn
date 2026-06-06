@@ -2,12 +2,11 @@
 //// 
 // IMPORT                           // FROM
 
-import { rankFuzzy }                from "../../shared/services/fuzzyService.js";
-import { addLinkToListField, 
-        listFieldHasLink, 
-        removeLinkFromListField }   from "../../shared/services/metadataService.js";
-import { getPageNormObject }        from "../../shared/services/pageNormService.js";
-import { dvQueryPStatus }           from "../../shared/services/pStatusService.js";
+import { rankFuzzy }                from "../../shared/services/uiServices/fuzzyService.js";
+import { listFieldHasLink }   from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { addLinkToListField, removeLinkFromListField } from "../../shared/services/metadata/metaWriteService.js";
+import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
+import { dvQueryPStatus }           from "../../shared/services/queries/pStatusService.js";
 import { fuzzySearch }              from "./fuzzySearch.js";
 
 

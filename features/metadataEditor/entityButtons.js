@@ -2,7 +2,7 @@
 ////
 // IMPORT                       // FROM
 
-import { ENTITY_TYPES }         from "../../shared/services/entityService.js";
+import { ENTITY_TYPES }         from "../../shared/services/queries/entityService.js";
 
 
 /**

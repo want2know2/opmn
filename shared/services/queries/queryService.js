@@ -3,7 +3,7 @@
 // IMPORT
 
 import { toArray } from "../../utils/valueUtils.js";
-import { einzelnerFeldWert } from "../metadata/metaReadService.js";
+import { einzelnerFeldWertDV } from "../metadata/metaReadService.js";
 
 
 /**
@@ -72,7 +72,7 @@ function dvLinkSucheAusfuehren(
     for (const bp of backlinks) {
     
         const treffer = sfields.some(field => {
-            const value = einzelnerFeldWert(bp, field);
+            const value = einzelnerFeldWertDV(bp, field);
             if (!value) return false;
             return toArray(value).some(v => v?.path === page.file.path);
         });

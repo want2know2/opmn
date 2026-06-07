@@ -47,8 +47,8 @@ export class BulkEditorTestView extends ItemView {
 		if (!this.dv) return;
 		this.contentEl.empty();
 
-		//inhaltMigrationFt(this);
-		obsappTest(this);
+		inhaltMigrationFt(this);
+		// obsappTest(this);
 		
 	}
 }

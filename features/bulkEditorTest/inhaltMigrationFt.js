@@ -7,7 +7,7 @@ import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 import { listFieldHasLink} 			from "../../shared/services/pagesAndLinks/linkNormService.js";
 import { updateEntireFrontmatter } 	from "../../shared/services/metadata/metaWriteService.js";
 import { updateField } 				from "../../shared/services/metadata/metaWriteService.js";
-import { einzelnerFeldWert } 		from "../../shared/services/metadata/metaReadService.js";
+
 import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";

@@ -5,7 +5,7 @@
 import { dvQueryInh }   from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 import { updateEntireFrontmatter } from "../../shared/services/metadata/metaWriteService.js";
-import { einzelnerFeldWert } from "../../shared/services/metadata/metaReadService.js";
+
 import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
 
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";

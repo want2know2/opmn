@@ -3,7 +3,7 @@
 // IMPORT                           // FROM
 
 import { toArray }                  from "../../utils/valueUtils.js";
-import { einzelnerFeldWert }        from "../metadata/metaReadService.js";
+import { einzelnerFeldWert, einzelnerFeldWertDV }        from "../metadata/metaReadService.js";
 
 
 export function resolveLinkPath(app, link) {
@@ -64,7 +64,7 @@ export function resolveLinkPath(app, link) {
 export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
 
     const current = toArray(
-        einzelnerFeldWert(normPage.dvPage, fieldPath)
+        einzelnerFeldWert(app, normPage.tFile, fieldPath)
     );
 
     const targetPath = linkPage?.path;

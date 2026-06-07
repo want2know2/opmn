@@ -13,14 +13,10 @@ import { toArray }          from "../../utils/valueUtils";
  * 
  */
 
-export function fmOhneDv(app, tFile, feld) {
+export function einzelnerFeldWert(app, tFile, feld) {
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     return feld.split(".").reduce((o, k) => o?.[k], fm);
-    //fm ?? {};
-    //
-    //
-    //
 }
 
 
@@ -34,7 +30,7 @@ export function fmOhneDv(app, tFile, feld) {
  * einzelnerFeldWertVerschachtelt zu verwenden (um die hier löschen zu können).
  */
 
-export function einzelnerFeldWert(dvPage, feld) {
+export function einzelnerFeldWertDV(dvPage, feld) {
     return feld.split(".").reduce((o, k) => o?.[k], dvPage);
 }
 

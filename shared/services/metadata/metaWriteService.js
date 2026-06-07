@@ -3,7 +3,7 @@
 // IMPORT                   // FROM
 
 import { toArray }          from "../../utils/valueUtils";
-import { resolveLinkPath }  from "../pagesAndLinks/linkNormService";
+import { resolveLinkPath }  from "../pagesAndLinks/linkService";
 
 
 ////

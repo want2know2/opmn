@@ -10,7 +10,7 @@ import { toArray }          from "../../utils/valueUtils";
 // ----
 
 /**
- * 
+ * Besorgt Wert aus Feld.
  */
 
 export function einzelnerFeldWert(app, tFile, feld) {

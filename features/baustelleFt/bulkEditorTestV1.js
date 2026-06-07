@@ -2,14 +2,14 @@
 //// 
 // IMPORT                           // FROM
 
-import { dvQueryInh }   from "../../shared/services/queries/entityService.js";
+import { dvQueryInh }               from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
-import { updateEntireFrontmatter } from "../../shared/services/metadata/metaWriteService.js";
+import { updateEntireFrontmatter }  from "../../shared/services/metadata/metaWriteService.js";
 
 import { placeHoverLinkOnEl }       from "../../shared/services/ui/uiLinkService.js";
 
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";
-import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService.js";
+import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
 
 
 /**

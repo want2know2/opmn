@@ -3,7 +3,7 @@
 // IMPORT                           // FROM
 
 import { rankFuzzy }                from "../../shared/services/ui/fuzzyService.js";
-import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkService.js";
 import { addLinkToListField, 
          removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";

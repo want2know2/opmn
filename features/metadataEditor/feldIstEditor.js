@@ -4,7 +4,7 @@
 
 import { toStringValue }            from "../../shared/utils/valueUtils.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
-import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkService.js";
 import { addLinkToListField,
          removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
 import { alleFeldWerte }            from "../../shared/services/metadata/metaReadService.js";

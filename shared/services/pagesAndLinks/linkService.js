@@ -2,9 +2,8 @@
 ////
 // IMPORT                           // FROM
 
-import { toArray }                  from "../../utils/valueUtils.js";
-import { einzelnerFeldWert, 
-         einzelnerFeldWertDV }      from "../metadata/metaReadService.js";
+import { toArray } from "../../utils/valueUtils.js";
+import { einzelnerFeldWert, einzelnerFeldWertDV }      from "../metadata/metaReadService.js";
 
 
 export function resolveLinkPath(app, link) {
@@ -58,8 +57,7 @@ export function resolveLinkPath(app, link) {
 
 
 /**
- * Checks whether a list field of the (active) page already contains a given
- * target link. Reads from the norm object's Dataview page object.
+ * Link in Feld vorhanden?
  */
 
 export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
@@ -70,8 +68,7 @@ export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
 
     const targetPath = linkPage?.path;
 
-    return current.some(link =>
-        resolveLinkPath(app, link) === targetPath
+    return current.some(link => resolveLinkPath(app, link) === targetPath
     );
 }
 

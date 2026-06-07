@@ -81,7 +81,7 @@ export function inhaltMigrationFt(obsidianClassObj) {
 			const linkBox = cells[0].createEl("div");
 			placeHoverLinkOnEl(obsidianClassObj, linkBox, p, p.name);
 
-			const istWerte = istWertSeitenCheck(app, dv, p, pStatusSeite, inhaltSeite);
+			const istWerte = istWertSeitenCheck(app, dv, p);
 
 			// Cell 2: 
 			// editierbare ist-Wert Links

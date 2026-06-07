@@ -11,7 +11,11 @@ import { getPageNormObject }    from "./pageNormService";
  * die ein Inhalt ist und Status _ P hat.
  */
 
-export function istWertSeitenCheck(app, dv, seite, pStatusSeite, inhaltSeite) {
+export function istWertSeitenCheck(app, dv, seite) {
+	
+	const inhaltSeite  = getPageNormObject(app, dv, "Inhalt.md");
+	const pStatusSeite = getPageNormObject(app, dv, "Status _ p.md");
+	
 	// Zielseite Feld ist-Werte => normSeiten
 	const feldIst = (Array.isArray(seite.dvPage.ist)
 		? seite.dvPage.ist : [seite.dvPage.ist])
@@ -26,16 +30,15 @@ export function istWertSeitenCheck(app, dv, seite, pStatusSeite, inhaltSeite) {
 			else return true;
 		})
 		.filter(ist => {
-			const statP = listFieldHasLink(app, ist, "ist", pStatusSeite);
 			const inh = listFieldHasLink(app, ist, "ist", inhaltSeite);
+			const statP = listFieldHasLink(app, ist, "ist", pStatusSeite);
 			const infostr = [];
-			if (!statP) infostr.push("hat keinen p-Status");
 			if (!inh) infostr.push("ist kein Inhalt");
-			if (!statP || !inh) {
+			if (!statP) infostr.push("hat keinen p-Status");
+			if (!inh || !statP) {
 				ist.info = infostr.join(", ");
 				istWerteFalsch.push(ist);
-			}
-			else return true;
+			} else return true;
 		});
 
 	return {

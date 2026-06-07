@@ -1,19 +1,16 @@
 
 ////
-// IMPORT                       // FROM
+// IMPORT                           // FROM
 
-import { toStringValue }        from "../../shared/utils/valueUtils.js";
-import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";
-import { listFieldHasLink }     from "../../shared/services/pagesAndLinks/linkNormService.js";
-import {
-    addLinkToListField,
-    removeLinkFromListField
-} from "../../shared/services/metadata/metaWriteService.js";
-import { alleFeldWerte } from "../../shared/services/metadata/metaReadService.js";
-
-import { entityButtons }        from "./entityButtons.js";
-import { rankFuzzy }            from "../../shared/services/uiServices/fuzzyService.js";
-import { fuzzySearch }          from "./fuzzySearch.js";
+import { toStringValue }            from "../../shared/utils/valueUtils.js";
+import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
+import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { addLinkToListField,
+         removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
+import { alleFeldWerte }            from "../../shared/services/metadata/metaReadService.js";
+import { entityButtons }            from "./entityButtons.js";
+import { rankFuzzy }                from "../../shared/services/ui/fuzzyService.js";
+import { fuzzySearch }              from "./fuzzySearch.js";
 
 
 /**
@@ -144,27 +141,10 @@ export function feldIstEditor(app, dv, container, metaEditState) {
 
         const entityTypePage = getPageNormObject(app, dv, entityType.label);
 
-        if (
-            listFieldHasLink(
-                app, 
-                activePage,
-                "ist",
-                entityTypePage
-            )
-        ) {
-            await removeLinkFromListField(
-                app,
-                activePage,
-                "ist",
-                entityTypePage
-            );
+        if (listFieldHasLink(app, activePage, "ist", entityTypePage)) {
+            await removeLinkFromListField(app, activePage, "ist", entityTypePage);
         } else {
-            await addLinkToListField(
-                app,
-                activePage,
-                "ist",
-                entityTypePage
-            );
+            await addLinkToListField(app, activePage, "ist", entityTypePage);
         }
     }
 

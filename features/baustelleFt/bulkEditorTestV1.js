@@ -6,7 +6,7 @@ import { dvQueryInh }   from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 import { updateEntireFrontmatter } from "../../shared/services/metadata/metaWriteService.js";
 
-import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
+import { placeHoverLinkOnEl }       from "../../shared/services/ui/uiLinkService.js";
 
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";
 import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService.js";
@@ -133,7 +133,7 @@ export function bulkEditorTest(view) {
                     neueSeiteBox.empty();
                     neueSeiteBox.textContent = "Neuer Link: ";
                     const newPageObj = getPageNormObject(app, dv, neueSeitePath);
-                    updateEntireFrontmatter(app, newPageObj.tFile, metaObj);
+                    updateEntireFrontmatter(app, newPageObj, metaObj);
                     placeHoverLinkOnEl(view, neueSeiteBox, newPageObj, newPageObj.name);
                 })
             }

@@ -2,13 +2,13 @@
 //// 
 // IMPORT                           // FROM
 
-import { rankFuzzy }                from "../../shared/services/uiServices/fuzzyService.js";
-import { listFieldHasLink }   from "../../shared/services/pagesAndLinks/linkNormService.js";
-import { addLinkToListField, removeLinkFromListField } from "../../shared/services/metadata/metaWriteService.js";
+import { rankFuzzy }                from "../../shared/services/ui/fuzzyService.js";
+import { listFieldHasLink }         from "../../shared/services/pagesAndLinks/linkNormService.js";
+import { addLinkToListField, 
+         removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { dvQueryPStatus }           from "../../shared/services/queries/pStatusService.js";
 import { fuzzySearch }              from "./fuzzySearch.js";
-
 
 
 /**
@@ -18,7 +18,7 @@ import { fuzzySearch }              from "./fuzzySearch.js";
 export function pStatusEditor(app, dv, container, metaEditState, refreshCallback) {
     const headerText = "p-Status";
     const header = container.createEl("h4", {text: `${headerText}`, cls: "opmn-header"});
-    /*header.style.cursor = "pointer";*/
+    
     const stateIntern = {
         boxOpen: true
     };
@@ -34,8 +34,6 @@ export function pStatusEditor(app, dv, container, metaEditState, refreshCallback
     const checkBoxInput = box.createEl("input", {type: "checkbox"});
     const fuzzyBox = box.createEl("div");
     const resultBox = box.createEl("div", { cls: "opmn-result-box" });
-    /*resultBox.style.maxHeight = "250px";
-    resultBox.style.overflowY = "auto";*/
 
     const pStatResults = (dvQueryPStatus(dv) ?? [])
         .map(p => getPageNormObject(app, dv, p));
@@ -160,10 +158,6 @@ export function pStatusEditor(app, dv, container, metaEditState, refreshCallback
 
             const resultRow = resultTable.createEl("div", { cls: "opmn-result-row" });
 
-            /*resultRow.style.display = "flex";
-            resultRow.style.alignItems = "center";
-            resultRow.style.gap = "8px";
-            resultRow.style.padding = "2px 0";*/
             const resultCheckbox = resultRow.createEl("input", { type: "checkbox" });
             resultCheckbox.checked = selectedPStatus?.path === p.path;
             if (!activePage) resultCheckbox.disabled = true;
@@ -199,9 +193,6 @@ export function pStatusEditor(app, dv, container, metaEditState, refreshCallback
                 cls: "opmn-result-cell"
             });
 
-            
-
-            
         });
     };
 
@@ -209,3 +200,4 @@ export function pStatusEditor(app, dv, container, metaEditState, refreshCallback
     if (checkBoxInput.checked) renderFuzzy();
 
 }
+

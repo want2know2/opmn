@@ -2,7 +2,7 @@
 ////
 // IMPORT
 
-import { rankFuzzy } from "../../shared/services/uiServices/fuzzyService.js";
+import { rankFuzzy } from "../../shared/services/ui/fuzzyService.js";
 
 
 /**

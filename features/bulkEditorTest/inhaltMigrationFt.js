@@ -5,46 +5,17 @@
 import { dvQueryInh }   			from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 import { listFieldHasLink} 			from "../../shared/services/pagesAndLinks/linkNormService.js";
-import { updateEntireFrontmatter } 	from "../../shared/services/metadata/metaWriteService.js";
-import { updateField } 				from "../../shared/services/metadata/metaWriteService.js";
 
-import { placeHoverLinkOnEl }       from "../../shared/services/uiServices/uiLinkService.js";
+import { setField, 
+		 updateField,
+		 updateFrontmatter } 		from "../../shared/services/metadata/metaWriteService.js";
+
+import { placeHoverLinkOnEl }       from "../../shared/services/ui/uiLinkService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { dvLinkSuche } 				from "../../shared/services/queries/queryService.js";
 
-
-/**
- * Tabelle Überschriften: Row & Cells
- */
-
-function tableMakerReiheHd(container, header) {
-	const tabelle = container.createEl("table", { cls: "" });
-	const tabReihe = tabelle.createEl("tr", { cls: "" });
-	header.forEach(h => {
-		tabReihe.createEl("th", { 
-			text: h, cls: "opmn-table-cell-hd" 
-		});
-	});
-	return tabelle;
-}
-
-
-/**
- * Tabelle weitere Reihen: Rows & Cells 
- * (cellsNum sollte = Anzahl header in Tabelle Überschriften sein).
- */
-
-function tableMakerReihe(table, cellsNum) {
-	const tabReihe = table.createEl("tr", { cls: "" });
-	let cells = [];
-	for (let i=0; i<cellsNum; i++) {
-		const cell = tabReihe.createEl("td", { 
-			cls: "opmn-table-cell" 
-		});
-		cells.push(cell);
-	}
-	return cells;
-}
+import { tableMakerReiheHd, 
+		 tableMakerReihe } 			from "../../shared/services/ui/uiService.js";
 
 
 /**
@@ -253,12 +224,17 @@ export function inhaltMigrationFt(obsidianClassObj) {
 					cells[1].empty(); cells[2].empty();
 					cells[2].createEl("span", {text: `${p.name} wurde editiert` });
 					
-					await updateField(app, p.tFile, "ist", istSeiteArr);
-					if (parentArr.length>0) { await updateField(app, p.tFile, "parent", parentArr); }
-					await updateField(app, p.tFile, "typ", typArr);
-					await updateField(app, p.tFile, "pstatus", pStatusSeite.wikiLink);
-					
-
+					await updateFrontmatter(app, p, fm => {
+						setField(fm, "ist", istSeiteArr);
+						setField(fm, "typ", typArr);
+						setField(fm, "pstatus", pStatusSeite.wikiLink);
+					})
+					/*
+					await updateField(app, p, "ist", istSeiteArr);
+					if (parentArr.length>0) { await updateField(app, p, "parent", parentArr); }
+					await updateField(app, p, "typ", typArr);
+					await updateField(app, p, "pstatus", pStatusSeite.wikiLink);
+					*/
 				}) 
 			} else cells[3].createEl("span", {text: "Nicht editierbar, s. Seite"});
 

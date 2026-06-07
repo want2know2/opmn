@@ -3,17 +3,70 @@
 // IMPORT                   // FROM
 
 import { toArray }          from "../../utils/valueUtils";
-import { resolveLinkPath } from "../pagesAndLinks/linkNormService";
+import { resolveLinkPath }  from "../pagesAndLinks/linkNormService";
 
+
+////
+// NEU
 
 
 /**
- * Schreibt beliebige Werte in ein Metadatenfeld einer Seite (TFile)
+ * 
+ */
+
+export async function updateFrontmatter(app, normPage, updaterFns) {
+    if (!normPage.exists) return;
+    await app.fileManager.processFrontMatter(normPage.tFile, updaterFns);
+}
+
+
+/**
+ * 
+ */
+
+export function setField(fm, fieldPath, value) {
+
+    const keys = fieldPath.split(".");
+    const lastKey = keys.pop();
+
+    const target = keys.reduce((o, k) => {
+        if (!o[k]) o[k] = {};
+        return o[k];
+    }, fm);
+
+    target[lastKey] = value;
+}
+
+
+/**
+ * 
+ */
+
+export function removeField(fm, fieldPath) {
+
+    const keys = fieldPath.split(".");
+    const lastKey = keys.pop();
+
+    const target = keys.reduce((o, key) => {
+        if (!o[key]) return null;
+        return o[key];
+    }, fm);
+
+    if (target) {
+        delete target[lastKey];
+    }
+}
+
+//////
+
+/**
+ * Schreibt beliebige Werte in ein Metadatenfeld einer Seite 
  * (auch verschachtelte Felder wie med.titel)
  */
 
-export async function updateField(app, tFile, fieldPath, value) {
-    await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
+export async function updateField(app, normPage, fieldPath, value) {
+    if (!normPage.exists) return null;
+    await app.fileManager.processFrontMatter(normPage.tFile, (frontmatter) => {
 
         const keys = fieldPath.split(".");
         const lastKey = keys.pop();
@@ -151,8 +204,9 @@ async function deleteField(app, tFile, fieldPath) {
  */
 
 
-export async function updateEntireFrontmatter(app, tFile, newFrontObj = {}) {
-    await app.fileManager.processFrontMatter(tFile, (frontmatter) => {
+export async function updateEntireFrontmatter(app, normPage, newFrontObj = {}) {
+    if (!normPage.exists) return;
+    await app.fileManager.processFrontMatter(normPage.tFile, (frontmatter) => {
         for (const key of Object.keys(frontmatter)) {
             if (key !== "id") delete frontmatter[key];
         }

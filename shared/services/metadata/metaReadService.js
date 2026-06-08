@@ -3,6 +3,7 @@
 // IMPORT                   // FROM
 
 import { toArray }          from "../../utils/valueUtils";
+import { resolveLinkPath } from "../pagesAndLinks/linkService";
 
 
 ////
@@ -20,14 +21,42 @@ export function einzelnerFeldWert(app, tFile, feld) {
 }
 
 
-//// 
+/**
+ * Link in Feld vorhanden?
+ */
+
+
+export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
+
+    const current = toArray(
+        einzelnerFeldWert(app, normPage.tFile, fieldPath)
+    );
+
+    const targetPath = linkPage?.path;
+
+    return current.some(link => resolveLinkPath(app, link) === targetPath
+    );
+}
+
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+////
 // DV-Funktionen
+// -------------
+// Versuchen, zu ersetzen, wo/wenn möglich
 // ----
+
 
 /**
  * Einzelnen Feldwert abfragen. Wird verwendet in dvLinkSucheAusfuehren.
- * Weiß nicht, ob das einen Unterschied machen würde, stattdessen
- * einzelnerFeldWertVerschachtelt zu verwenden (um die hier löschen zu können).
+ * (Weiß nicht, ob das einen Unterschied machen würde, stattdessen
+ * einzelnerFeldWertVerschachtelt zu verwenden, bzw. noch besser: 
+ * überall wo es möglich ist, `einzelnerFeldWert` verwenden anstatt den 
+ * DV-Funktionen.
  */
 
 export function einzelnerFeldWertDV(dvPage, feld) {

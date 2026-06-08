@@ -8,7 +8,7 @@ import { removeField,
          updateFrontmatter }    from "../../shared/services/metadata/metaWriteService.js";
 
 import { resolveLinkPath }      from "../../shared/services/pagesAndLinks/linkService.js";
-import { listFeldAsNormPages } from "../../shared/services/pagesAndLinks/pageFetchService.js";
+import { fieldValuesAsNormPages } from "../../shared/services/pagesAndLinks/pageFetchService.js";
 import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";
 
 import { tableMakerReihe, 
@@ -45,9 +45,11 @@ export function obsappTest(obsidianClassObj) {
         "ist"     // (3)
     ];
     const tabelle = tableMakerReiheHd(contentEl, tabHeader);
-
+    
     // SUCHE: Alle Seiten
-    const alleSeiten = dv.pages().map(p => getPageNormObject(app, dv, p.file.path));
+    const alleSeiten = app.vault.getMarkdownFiles()   
+        .map(p => getPageNormObject(app, dv, p.path));
+    
     const alleSLng = alleSeiten.length;
 
     // Überschrift-Text
@@ -65,7 +67,7 @@ export function obsappTest(obsidianClassObj) {
         placeHoverLinkOnEl(obsidianClassObj, linkBox, p);
 
         // (3) Feld ist: Feldwert in Seitenobjekt umwandeln
-        const istPgsArr = listFeldAsNormPages(app, dv, p, "ist");
+        const istPgsArr = fieldValuesAsNormPages(app, dv, p, "ist");
         
         // Feld ist: Links anzeigen                                 
         const istPgsBox = cells[2].createEl("div");                 // Das theoretisch auch:

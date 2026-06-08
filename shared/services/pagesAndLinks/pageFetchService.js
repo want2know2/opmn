@@ -24,7 +24,7 @@ export function getActivePageNormObject(app, dv) {
  *
  */
 
-export function listFeldAsNormPages(app, dv, page, feldStr) {
+export function fieldValuesAsNormPages(app, dv, page, feldStr) {
 
     const feld = einzelnerFeldWert(app, page.tFile, feldStr);
     const feldArr = Array.isArray(feld) ? feld : [feld];

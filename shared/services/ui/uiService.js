@@ -5,7 +5,7 @@
  * Gibt TABELLE zurück.
  */
 
-function tableMakerReiheHd(container, headerArr) {
+export function tableMakerReiheHd(container, headerArr) {
 	const tabelle = container.createEl("table", { cls: "" });
 	const tabReihe = tabelle.createEl("tr", { cls: "" });
 	headerArr.forEach(h => {
@@ -15,7 +15,6 @@ function tableMakerReiheHd(container, headerArr) {
 	});
 	return tabelle;
 }
-exports.tableMakerReiheHd = tableMakerReiheHd;
 
 
 /**
@@ -25,7 +24,7 @@ exports.tableMakerReiheHd = tableMakerReiheHd;
  * GIBT CELLS zurück.
  */
 
-function tableMakerReihe(table, cellsNum) {
+export function tableMakerReihe(table, cellsNum) {
 	const tabReihe = table.createEl("tr", { cls: "" });
 	let cells = [];
 	for (let i = 0; i < cellsNum; i++) {
@@ -36,4 +35,4 @@ function tableMakerReihe(table, cellsNum) {
 	}
 	return cells;
 }
-exports.tableMakerReihe = tableMakerReihe;
+

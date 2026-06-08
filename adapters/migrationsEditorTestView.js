@@ -5,6 +5,7 @@
 import { ItemView } 			from "obsidian";
 import { inhaltMigrationFt } 	from "../features/bulkEditorTest/inhaltMigrationFt.js";
 import { obsappTest } 			from "../features/baustelleFt/obsappTest.js";
+import { defaultDefsTest } 		from "../features/baustelleFt/defaultDefsTest.js";
 
 ////
 // VIEW-TYPE
@@ -48,7 +49,8 @@ export class BulkEditorTestView extends ItemView {
 		this.contentEl.empty();
 
 		//inhaltMigrationFt(this);
-		obsappTest(this);
+		//obsappTest(this);
+		defaultDefsTest(this);
 		
 	}
 }

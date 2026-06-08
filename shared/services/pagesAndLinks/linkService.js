@@ -2,8 +2,7 @@
 ////
 // IMPORT                           // FROM
 
-import { toArray } from "../../utils/valueUtils.js";
-import { einzelnerFeldWert, einzelnerFeldWertDV }      from "../metadata/metaReadService.js";
+import { einzelnerFeldWertDV }      from "../metadata/metaReadService.js";
 
 
 export function resolveLinkPath(app, link) {
@@ -55,20 +54,4 @@ export function resolveLinkPath(app, link) {
     return file?.path ?? null;
 }
 
-
-/**
- * Link in Feld vorhanden?
- */
-
-export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
-
-    const current = toArray(
-        einzelnerFeldWert(app, normPage.tFile, fieldPath)
-    );
-
-    const targetPath = linkPage?.path;
-
-    return current.some(link => resolveLinkPath(app, link) === targetPath
-    );
-}
 

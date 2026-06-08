@@ -68,6 +68,17 @@
 }
 
 /* ==========================================
+   Container zum Verschieben
+   ========================================== */
+
+.opmn-move-container {
+    position: fixed;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color:rgb(177, 212, 212);
+}
+
+/* ==========================================
    Tabelle
    ========================================== */
 

@@ -2,7 +2,7 @@
 ////
 // IMPORT                       // FROM
 
-import { listFieldHasLink }     from "./linkService";
+import { listFieldHasLink } from "../metadata/metaReadService";
 import { getPageNormObject }    from "./pageNormService";
 
 

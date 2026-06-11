@@ -3,7 +3,7 @@
 // IMPORT                           // FROM
 
 import { rankFuzzy }                from "../../shared/services/ui/fuzzyService.js";
-import { listFieldHasLink } from "../../shared/services/metadata/metaReadService.js";
+import { checkFieldArrForLink } from "../../shared/services/metadata/metaReadService.js";
 import { addLinkToListField, 
          removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
@@ -49,7 +49,7 @@ export function pStatusEditor(app, dv, container, metaEditState, refreshCallback
 
     // Bereits in `ist` der aktiven Seite gesetzter p-Status (falls vorhanden).
     const existingPStatus = activePage
-        ? (pStatResults.find(p => listFieldHasLink(app, activePage, "ist", p)) ?? null)
+        ? (pStatResults.find(p => checkFieldArrForLink(app, activePage, "ist", p)) ?? null)
         : null;
 
     // Aktuell gewählter p-Status (null = Master aus, kein p-Status gesetzt).

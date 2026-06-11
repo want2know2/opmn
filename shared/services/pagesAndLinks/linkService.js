@@ -2,7 +2,7 @@
 ////
 // IMPORT                           // FROM
 
-import { einzelnerFeldWertDV }      from "../metadata/metaReadService.js";
+
 
 
 export function resolveLinkPath(app, link) {

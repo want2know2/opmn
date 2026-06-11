@@ -26,7 +26,7 @@ export function einzelnerFeldWert(app, tFile, feld) {
  */
 
 
-export function listFieldHasLink(app, normPage, fieldPath, linkPage) {
+export function checkFieldArrForLink(app, normPage, fieldPath, linkPage) {
 
     const current = toArray(
         einzelnerFeldWert(app, normPage.tFile, fieldPath)

@@ -5,7 +5,7 @@
 import { dvQueryInh }   			from "../../shared/services/queries/entityService.js";
 import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
 
-import { setField, 
+import { removeField, setField, 
 		 updateField,
 		 updateFrontmatter } 		from "../../shared/services/metadata/metaWriteService.js";
 
@@ -39,31 +39,43 @@ export function inhaltMigrationFt(obsidianClassObj) {
 	const infoBox = contentEl.createEl("div");
 	const mainBox = contentEl.createEl("div");
 
+	////
 	// RENDER Ergebnisse:
 	// Ergebnisse darstellen
 	const renderErgebnisse = () => {
 
 		mainBox.empty();
-
+		
+		// Tabelle
 		const ergTabHeader = [
             "Link",
             "editierbare ist-Werte",	
             "ersetzen durch",
 			"ersetzen",
-			"test"
         ];
 
 		const ergTabelle = tableMakerReiheHd(mainBox, ergTabHeader);
 		const cellsNr = ergTabHeader.length;
 		const btnCells = tableMakerReihe(ergTabelle, cellsNr);
 
+		////
+		// ALLE EDITIEREN-BTN
 		const alleBtn = btnCells[3].createEl("button", { text: "Alle editieren"});
 		alleBtn.addEventListener("click", () => {
-			// ...
+			zielseitenNeu.forEach(zseite => {
+				// Zielseite auslesen
+				const { cells, zielseite, neuWerte } = zseite;
+				//cells[1].empty(); cells[2].empty();
+				if (neuWerte.editierbar) {
+					cells[2].empty();
+					cells[2].textContent = JSON.stringify(neuWerte, null, 2);
+				}
+
+			})
 		})
 
 		// Suche Inhalt, Status P
-		const dbPagesP = dvLinkSuche(dv, ["Inhalt", "Status _ p"], ["ist"], 0, true)
+		const dbPagesP = dvLinkSuche(dv, ["Inhalt", "Status _ p"], ["ist"], 0, true);
 
 		menuHeader.textContent = "Seiten, die zu DBint Seiten mit integriertem Status _ p linken";
 
@@ -73,7 +85,7 @@ export function inhaltMigrationFt(obsidianClassObj) {
 		infoBox.textContent = `${zielseiten.length} Seiten, die zu ${dbPagesP?.length} 
 			DBint-Seiten mit integriertem Status _ p linken`
 
-		// Seiten, die zu irgendeiner Inhalt _ Typ _ Bla (p)-Seite linken
+		// Seiten, die zu irgendeiner Inhalt _ Typ (_ Subtyp _ ...)-Seite linken
 		const zielseitenNeu = zielseiten.map(p => {
 
 			// Cell 1: Zielseite Link
@@ -81,100 +93,108 @@ export function inhaltMigrationFt(obsidianClassObj) {
 			const linkBox = cells[0].createEl("div");
 			placeHoverLinkOnEl(obsidianClassObj, linkBox, p, p.name);
 
+			// Gibt zwei Arrays zurück: 
+			// editierbar: SitenNormObj für jeden gültigen `ist`-Wert
+			// nicht editierbar: Info-String für jeden nicht gültigen `ist`-Wert
 			const istWerte = istWertSeitenCheck(app, dv, p);
 
-			// Cell 2: 
-			// editierbare ist-Wert Links
-			istWerte.editierbar.forEach(ist => {
-				const istBox = cells[1].createEl("div");
-				placeHoverLinkOnEl(obsidianClassObj, istBox, ist, ist.name);
-			});
-			
-			// nicht editierbare ist-Wert Links
+			// Info-Strings für nicht editierbare `ist`-Werte
 			if (istWerte.nichtEditierbar.length > 0) {
 				linkBox.createEl("div", {
 					text: `Feld ist enthält ${istWerte.nichtEditierbar.length} 
 						nicht editierbare Seiten:`
 				});
 			}
-			istWerte.nichtEditierbar.forEach(ist => {
+			istWerte.nichtEditierbar.forEach(istNEditable => {
 				const istBox = linkBox.createEl("div", {
-					text: `- Seite ${ist.info}`
+					text: `- Seite ${istNEditable.info}`
 				});
 			})
 		
+			// Cell 2: 
+			// gültige `ist`-Wert SeiteNormObjekte
+			istWerte.editierbar.forEach(istEditable => {
+				const istBox = cells[1].createEl("div");
+				placeHoverLinkOnEl(obsidianClassObj, istBox, istEditable, istEditable.name);
+			});
+
 			// Cell 3: neue Werte
 			const cell3Box = cells[2].createEl("div");
 
-			const istSeiteArr = [];
+			// Arrays für neue Werte, die als Wikilinks 
+			// hier reingepusht werden (s.u.)
+			const istSeiteArr = []; 
 			const typArr = [];
 			const parentArr = [];
-			// Aus DBint-Seite mit p-Status neue Werte bilden
-			istWerte.editierbar.forEach(ist => {
-				// Pfad für neuen ist-Wert, Typ und Parent vorbereiten
 
-				const istNeu = neueInhIstWerte(app, dv, ist);
-				const { neuSeite, typSeite, parentSeite } = istNeu;
-				
-				// -Box
-				const neuBox = cell3Box.createEl("div");
-				const parentBox = cell3Box.createEl("div");
-				const typBox = cell3Box.createEl("div");
-				const pStatusBox = cell3Box.createEl("div");
-				
-				// Neu- und Typ-Info und Link
-				const neuInfo = neuBox.createEl("div", {text: "neuer ist-Wert"});
-				placeHoverLinkOnEl(obsidianClassObj, neuBox, neuSeite, neuSeite.name);
-				const typInfo = typBox.createEl("div", {text: "Typ"});
-				placeHoverLinkOnEl(obsidianClassObj, typBox, typSeite, typSeite.name);
-				const pStatusInfo = pStatusBox.createEl("div", {text: "p-Status"});
-				placeHoverLinkOnEl(obsidianClassObj, pStatusBox, pStatusSeite, pStatusSeite.name)
-
-				// Parent Info und Link
-				if (parentSeite.exists) {
-					const parentInfo = parentBox.createEl("div", {text: "Parent"});
-					placeHoverLinkOnEl(obsidianClassObj, parentBox, parentSeite, parentSeite.name);
-				}
-				
-				istSeiteArr.push(neuSeite.wikiLink);  
-				typArr.push(typSeite.wikiLink);
-				if (parentSeite.exists) parentArr.push(parentSeite.wikiLink);
-
-			});
-
-			// Cell 4: Btn
 			if (istWerte.nichtEditierbar.length === 0) {
+
+			// Für gültigtes `ist`-Wert SeitenObj neue Werte bilden
+				istWerte.editierbar.forEach(ist => {
+
+					// Pfad für neuen ist-Wert, Typ und Parent vorbereiten
+					const istNeu = neueInhIstWerte(app, dv, ist);
+					const { artSeite, typSeite, parentSeite } = istNeu;
+					
+					// -Box
+					const neuBox = cell3Box.createEl("div");
+					const parentBox = cell3Box.createEl("div");
+					const typBox = cell3Box.createEl("div");
+					const pStatusBox = cell3Box.createEl("div");
+					
+					// Neu- und Typ-Info und Link
+					const neuInfo = neuBox.createEl("div", {text: "neuer ist-Wert"});
+					placeHoverLinkOnEl(obsidianClassObj, neuBox, artSeite, artSeite.name);
+					const typInfo = typBox.createEl("div", {text: "Typ"});
+					placeHoverLinkOnEl(obsidianClassObj, typBox, typSeite, typSeite.name);
+					const pStatusInfo = pStatusBox.createEl("div", {text: "p-Status"});
+					placeHoverLinkOnEl(obsidianClassObj, pStatusBox, pStatusSeite, pStatusSeite.name)
+
+					// Parent Info und Link
+					if (parentSeite.exists) {
+						const parentInfo = parentBox.createEl("div", {text: "Parent"});
+						placeHoverLinkOnEl(obsidianClassObj, parentBox, parentSeite, parentSeite.name);
+					}
+					// neue Werte als Wikilinks in die Arrays pushen
+					istSeiteArr.push(artSeite.wikiLink);  
+					typArr.push(typSeite.wikiLink);
+					if (parentSeite.exists) parentArr.push(parentSeite.wikiLink);
+
+				});
+
+				// Cell 4: Btn
 				const btn = cells[3].createEl("button", {text: "Editieren"});
 				btn.addEventListener("click", async () => {
 					cells[1].empty(); cells[2].empty();
 					cells[2].createEl("span", {text: `${p.name} wurde editiert` });
 					
+					// NOCHMAL NEU - ANGEPASST AN NEUE STRUKTUR
+					// S. [[Datenbankschema]]
 					await updateFrontmatter(app, p, fm => {
-						setField(fm, "ist", istSeiteArr);
-						setField(fm, "typ", typArr);
-						setField(fm, "pstatus", pStatusSeite.wikiLink);
+						setField(fm, "klass", [inhaltSeite.wikiLink]);
+						setField(fm, "typ", istSeiteArr);
+						setField(fm, "art", typArr);
+						setField(fm, "pstatus", [pStatusSeite.wikiLink]);
+						removeField(fm, "ist");
 					})
-					/*
-					await updateField(app, p, "ist", istSeiteArr);
-					if (parentArr.length>0) { await updateField(app, p, "parent", parentArr); }
-					await updateField(app, p, "typ", typArr);
-					await updateField(app, p, "pstatus", pStatusSeite.wikiLink);
-					*/
+
 				}) 
-			} else cells[3].createEl("span", {text: "Nicht editierbar, s. Seite"});
-
-			return {
-				alt: p,
-				
 			}
-
+			else cells[3].createEl("span", {text: "Nicht editierbar, s. Seite"});
+			
+			return {
+				cells,
+				zielseite: p,
+				neuWerte: {
+					editierbar: istWerte.nichtEditierbar.length === 0,
+					klass: [inhaltSeite.wikiLink],
+					typ: istSeiteArr,
+					art: typArr,
+					pstatus: [pStatusSeite.wikiLink],
+					parent: parentArr
+				}
+			}
 		})
-
-
-
-
-		
-		
 	}
 
 	renderErgebnisse();

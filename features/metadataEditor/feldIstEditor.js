@@ -4,7 +4,7 @@
 
 import { toStringValue }            from "../../shared/utils/valueUtils.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";
-import { listFieldHasLink } from "../../shared/services/metadata/metaReadService.js";
+import { checkFieldArrForLink } from "../../shared/services/metadata/metaReadService.js";
 import { addLinkToListField,
          removeLinkFromListField }  from "../../shared/services/metadata/metaWriteService.js";
 import { alleFeldWerte }            from "../../shared/services/metadata/metaReadService.js";
@@ -95,7 +95,7 @@ export function feldIstEditor(app, dv, container, metaEditState) {
 
             // Anfangszustand spiegelt das tatsächliche `ist` der aktiven Seite.
             checkInputBox.checked = activePage
-                ? listFieldHasLink(app, activePage, "ist", p)
+                ? checkFieldArrForLink(app, activePage, "ist", p)
                 : false;
             if (!activePage) checkInputBox.disabled = true;
 
@@ -141,7 +141,7 @@ export function feldIstEditor(app, dv, container, metaEditState) {
 
         const entityTypePage = getPageNormObject(app, dv, entityType.label);
 
-        if (listFieldHasLink(app, activePage, "ist", entityTypePage)) {
+        if (checkFieldArrForLink(app, activePage, "ist", entityTypePage)) {
             await removeLinkFromListField(app, activePage, "ist", entityTypePage);
         } else {
             await addLinkToListField(app, activePage, "ist", entityTypePage);

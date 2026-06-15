@@ -3,7 +3,7 @@
 // IMPORT
 
 import { buildRegistryDefault } from "../../shared/registry/defaultDefinitionenReg.js";
-import { einzelnerFeldWert } from "../../shared/services/metadata/metaReadService.js";
+import { einzelnesFeldLesen } from "../../shared/services/metadata/metaReadService.js";
 import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { placeHoverLinkOnEl } from "../../shared/services/ui/uiLinkService.js";
 import { tableMakerReihe, tableMakerReiheHd } from "../../shared/services/ui/uiService.js";
@@ -13,10 +13,10 @@ import { tableMakerReihe, tableMakerReiheHd } from "../../shared/services/ui/uiS
  * 
  */
 
-export function defaultDefsTest(obsidianClassObj) {
+export function defaultDefsTest(obsClsObj) {
     
     // Objekte aus View erhalten
-	const { app, dv, contentEl } = obsidianClassObj;
+	const { app, dv, contentEl } = obsClsObj;
 
     // Container, Überschrift
     const container = contentEl.createEl("div");
@@ -76,7 +76,7 @@ export function defaultDefsTest(obsidianClassObj) {
           // Seitenobjekte erstellen + sortieren
             .map(def => {
                 const page = getPageNormObject(app, dv, def);
-                const swert = Number(einzelnerFeldWert(app, page.tFile, "swert"));
+                const swert = Number(einzelnesFeldLesen(app, page.tFile, "swert"));
                 page.swert = swert;
                 return page;
             })
@@ -90,7 +90,7 @@ export function defaultDefsTest(obsidianClassObj) {
             cells[0].textContent = i+1;
             // (2) UrDef-Link
             const urDefCont = cells[1].createEl("div");
-            placeHoverLinkOnEl(obsidianClassObj, urDefCont, def);
+            placeHoverLinkOnEl(obsClsObj, urDefCont, def);
             // (3) Swert
             cells[2].textContent = def.swert;
         });

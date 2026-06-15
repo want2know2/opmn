@@ -1,7 +1,7 @@
 
 
 /**
- * Tabelle Überschriften: Eine Reihe + pro Header eine Cell.
+ * Tabelle Überschriften: Erste Reihe + pro Header eine Cell.
  * Gibt TABELLE zurück.
  */
 
@@ -20,7 +20,8 @@ export function tableMakerReiheHd(container, headerArr) {
 /**
  * Tabelle weitere Reihen: cellsNum sollte = Anzahl header 
  * in Tabelle Überschriften (s.o.) sein. 
- * Eine Reihe + pro Header eine Cell.
+ * Eine Reihe + pro Header (bzw. pro in `cellsNum` 
+ * angegebener Anzahl) eine Cell.
  * GIBT CELLS zurück.
  */
 

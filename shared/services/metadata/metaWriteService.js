@@ -2,8 +2,8 @@
 ////
 // IMPORT                   // FROM
 
-import { toArray }          from "../../utils/valueUtils";
-import { resolveLinkPath }  from "../pagesAndLinks/linkService";
+import { toArray }          from "../../utils/valueUtils.js";
+import { resolveLinkPath }  from "../pagesAndLinks/linkService.js";
 
 
 ////
@@ -21,7 +21,10 @@ export async function updateFrontmatter(app, normPage, updaterFns) {
 
 
 /**
- * 
+ * all modifications happen directly on the fm object. 
+ * After the callback finishes, processFrontMatter sees the 
+ * already-modified object and writes it back to the file. 
+ * No return value is needed.
  */
 
 export function setField(fm, fieldPath, value) {
@@ -39,7 +42,10 @@ export function setField(fm, fieldPath, value) {
 
 
 /**
- * 
+ * all modifications happen directly on the fm object. 
+ * After the callback finishes, processFrontMatter sees the 
+ * already-modified object and writes it back to the file. 
+ * No return value is needed.
  */
 
 export function removeField(fm, fieldPath) {
@@ -57,7 +63,7 @@ export function removeField(fm, fieldPath) {
     }
 }
 
-//////
+//////////////////////
 
 /**
  * Schreibt beliebige Werte in ein Metadatenfeld einer Seite 

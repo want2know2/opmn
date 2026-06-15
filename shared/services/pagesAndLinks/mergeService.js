@@ -2,9 +2,10 @@
 ////
 // IMPORT                       // FROM
 
-import { toArray } from "../../utils/valueUtils";
-import { einzelnerFeldWert, checkFieldArrForLink } from "../metadata/metaReadService";
-import { resolveLinkPath } from "./linkService";
+import { toArray } 				from "../../utils/valueUtils";
+import { einzelnesFeldLesen, 
+		 checkFieldArrForLink } from "../metadata/metaReadService";
+import { resolveLinkPath } 		from "./linkService";
 import { getPageNormObject }    from "./pageNormService";
 
 
@@ -14,13 +15,13 @@ import { getPageNormObject }    from "./pageNormService";
  * die ein Inhalt ist und Status _ P hat.
  */
 
-export function istWertSeitenCheck(app, dv, seite) {
+export function seiteIstWerteCheck(app, dv, seite) {
 	
 	const inhaltSeite  = getPageNormObject(app, dv, "Inhalt.md");
 	const pStatusSeite = getPageNormObject(app, dv, "Status _ p.md");
 	
 	// Zielseite Feld ist-Werte => normSeiten
-	const feldIst = toArray(einzelnerFeldWert(app, seite.tFile, "ist"))
+	const feldIst = toArray(einzelnesFeldLesen(app, seite.tFile, "ist"))
 		.map(ist => resolveLinkPath(app, ist))
 		.map(ist => getPageNormObject(app, dv, ist));
 
@@ -37,8 +38,8 @@ export function istWertSeitenCheck(app, dv, seite) {
 			const statP = checkFieldArrForLink(app, ist, "ist", pStatusSeite);
 			const infostr = [];
 			if (!inh && !statP) infostr.push("ist kein Inhalt und hat keinen p-Status");
-			if (!inh) infostr.push("ist kein Inhalt");
-			if (!statP) infostr.push("hat keinen p-Status");
+			else if (!inh) infostr.push("ist kein Inhalt");
+			else if (!statP) infostr.push("hat keinen p-Status");
 			if (!inh || !statP) {
 				ist.info = infostr.join(", ");
 				istWerteFalsch.push(ist);
@@ -46,10 +47,10 @@ export function istWertSeitenCheck(app, dv, seite) {
 		});
 
 	// Gibt zwei Listen mit `ist`-Werten zurück: 
-	// editierbar: gültiges Norm-Obj für jeden  `ist`-Wert, 
-	// der ein gültiges Norm-Objekt ist, Inhalt und p-Status hat.
-	// nicht editierbar: Info-String für jeden `ist`-Wert, 
-	// bei dem das nicht der Fall ist.
+	// editierbar: gültige NormSeite für jeden  `ist`-Wert, 
+	// der ein gültige NormSeite ist, Inhalt und p-Status hat.
+	// nicht editierbar: NormSeite + .info: Info-String für jeden
+	// `ist`-Wert, bei dem das nicht der Fall ist.
 	return {
 		editierbar: istWerteEditierbar,
 		nichtEditierbar: istWerteFalsch
@@ -58,9 +59,9 @@ export function istWertSeitenCheck(app, dv, seite) {
 
 
 /**
- * Erhält SeiteNormObj für gültigen `ist`-Wert
- * gibt drei SeiteNormObj zurück: 
- * neuSeite: 
+ * Erhält NormSeite für gültigen `ist`-Wert
+ * gibt Objekt mit vier NormSeiten zurück: 
+ * istSeiteAlt, artSeite, typSeite, parentSeite 
  */
 
 export function neueInhIstWerte(app, dv, seite) {
@@ -91,7 +92,7 @@ export function neueInhIstWerte(app, dv, seite) {
 	const parentSeite = getPageNormObject(app, dv, parentPath);
 
 	return {
-		artSeite, typSeite, parentSeite
+		istSeiteAlt: seite, artSeite, typSeite, parentSeite
 	};
 }
 

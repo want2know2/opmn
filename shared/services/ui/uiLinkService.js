@@ -2,12 +2,12 @@
 /**
  * Erstellt einen Link mit  Hover-Funktionalität. Wird gebraucht, um Links
  * auf Modals, Views usw. darzustellen. 
- * @param {object} obsidianClassObj z.B. view aus OpmnNewView extends ItemView.
+ * @param {object} obsClsObj z.B. view aus OpmnNewView extends ItemView.
  */
 
-export function placeHoverLinkOnEl(obsidianClassObj, container, page, displayAs = null) {
+export function placeHoverLinkOnEl(obsClsObj, container, page, displayAs = null) {
 
-    const { app } = obsidianClassObj;
+    const { app } = obsClsObj;
 
     // `display` erfüllt zwei Aufgaben: 
     // --------------------------------
@@ -29,7 +29,7 @@ export function placeHoverLinkOnEl(obsidianClassObj, container, page, displayAs 
         app.workspace.trigger("hover-link", {
             event,
             source: "",
-            hoverParent: obsidianClassObj,
+            hoverParent: obsClsObj,
             targetEl: link,
             linktext: page.path
         });

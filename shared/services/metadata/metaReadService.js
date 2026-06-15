@@ -14,7 +14,7 @@ import { resolveLinkPath } from "../pagesAndLinks/linkService";
  * Besorgt Wert aus Feld.
  */
 
-export function einzelnerFeldWert(app, tFile, feld) {
+export function einzelnesFeldLesen(app, tFile, feld) {
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     return feld.split(".").reduce((o, k) => o?.[k], fm);
@@ -29,7 +29,7 @@ export function einzelnerFeldWert(app, tFile, feld) {
 export function checkFieldArrForLink(app, normPage, fieldPath, linkPage) {
 
     const current = toArray(
-        einzelnerFeldWert(app, normPage.tFile, fieldPath)
+        einzelnesFeldLesen(app, normPage.tFile, fieldPath)
     );
 
     const targetPath = linkPage?.path;

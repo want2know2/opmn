@@ -14,7 +14,9 @@ import { resolveLinkPath } from "../pagesAndLinks/linkService";
  * Besorgt Wert aus Feld.
  */
 
-export function einzelnesFeldLesen(app, tFile, feld) {
+export function einzelnesFeldLesen(app, seiteNormObj, feld) {
+    if (!seiteNormObj.exists) return null;
+    const tFile = seiteNormObj.tFile;
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     return feld.split(".").reduce((o, k) => o?.[k], fm);
@@ -29,13 +31,12 @@ export function einzelnesFeldLesen(app, tFile, feld) {
 export function checkFieldArrForLink(app, normPage, fieldPath, linkPage) {
 
     const current = toArray(
-        einzelnesFeldLesen(app, normPage.tFile, fieldPath)
+        einzelnesFeldLesen(app, normPage, fieldPath)
     );
 
     const targetPath = linkPage?.path;
 
-    return current.some(link => resolveLinkPath(app, link) === targetPath
-    );
+    return current.some(link => resolveLinkPath(app, link) === targetPath);
 }
 
 

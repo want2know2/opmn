@@ -49,15 +49,15 @@ export function feldIstEditor(app, dv, container, metaEditState) {
 
     const getCandidatePagesForEntityType = () => {
         return stateIntern.activeEntityType
-                .query(dv)
-                .map(p => getPageNormObject(app, dv, p))
-                /*.filter(p => {
-                    const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
-                    return metaEditState.pStatus.active
-                        ? istP : !istP;
-                })*/
-                .filter(Boolean);
-    }
+            .query(dv)
+            .map(p => getPageNormObject(app, dv, p))
+            /*.filter(p => {
+                const istP = p.dvPage.ist?.join(" ")?.includes("Status _ p.md");
+                return metaEditState.pStatus.active
+                    ? istP : !istP;
+            })*/
+            .filter(Boolean);
+        }
 
 
     const renderResults = (userInputString) => {

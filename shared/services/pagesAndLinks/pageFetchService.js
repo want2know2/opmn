@@ -26,7 +26,7 @@ export function getActivePageNormObject(app, dv) {
 
 export function fieldValuesAsNormPages(app, dv, page, feldStr) {
 
-    const feld = einzelnesFeldLesen(app, page.tFile, feldStr);
+    const feld = einzelnesFeldLesen(app, page, feldStr);
     const feldArr = Array.isArray(feld) ? feld : [feld];
     const feldPgsArr = feldArr
         .map(iststr => resolveLinkPath(app, iststr))

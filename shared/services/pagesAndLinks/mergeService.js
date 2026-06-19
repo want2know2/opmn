@@ -21,7 +21,7 @@ export function seiteIstWerteCheck(app, dv, seite) {
 	const pStatusSeite = getPageNormObject(app, dv, "Status _ p.md");
 	
 	// Zielseite Feld ist-Werte => normSeiten
-	const feldIst = toArray(einzelnesFeldLesen(app, seite.tFile, "ist"))
+	const feldIst = toArray(einzelnesFeldLesen(app, seite, "ist"))
 		.map(ist => resolveLinkPath(app, ist))
 		.map(ist => getPageNormObject(app, dv, ist));
 

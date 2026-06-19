@@ -2,7 +2,7 @@
 //// 
 // IMPORT                       // FROM
 
-import { einzelnesFeldLesen }    from "../../shared/services/metadata/metaReadService.js";
+
 import { removeField, 
          setField, 
          updateFrontmatter }    from "../../shared/services/metadata/metaWriteService.js";

@@ -222,7 +222,7 @@ function istWertePruefen(app, dv, zielseite) {
 	const pStatusSeite = getPageNormObject(app, dv, "p-Status.md");
 
     // ist-Seiten
-    const feldIstSeitenArr = einzelnesFeldLesen(app, zielseite.tFile, "ist")
+    const feldIstSeitenArr = einzelnesFeldLesen(app, zielseite, "ist")
         .map(istWert => resolveLinkPath(app, istWert))
         .map(istWert => getPageNormObject(app, dv, istWert));
 
@@ -290,12 +290,12 @@ function istWertePruefen(app, dv, zielseite) {
         if (istX2PStatusLength <1) istWertObj.pstatus.nichtp = true;
 
         
+        // Neu-, Typ-, Parent-Path
         const pathNP = istSeite.name.replace(" (p)", "");
         const cleanPathArr = pathNP.split(" _ ")
             .filter((str, i) => i !== 1);
         
 
-        // Neu-, Typ-, Parent-Path
         istWertObj.art.path = "";
         istWertObj.typ.path = `Inhalt _ ${pathNP.split(" _ ")[1]}`;
         istWertObj.parent.path = "";

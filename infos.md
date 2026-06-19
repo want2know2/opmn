@@ -13,7 +13,7 @@ Quasi die "Komposition" des Plugins.
 
 ### `BulkEditorTestView` _extends `ItemView`_ [Script](../opmn/adapters/migrationsEditorTestView.js)
 
-Grundsätzlich wird so ein View an [bootstrap/entry.js](../opmn/bootstrap/entry.js) angehangen.
+Grundsätzlich wird ein View so an [bootstrap/entry.js](../opmn/bootstrap/entry.js) angehangen.
 Hier probeweise schon verschiedene Test-Features ausprobiert:
 
 - inhMigNeuFt

@@ -3,7 +3,9 @@
 // IMPORT						// FROM
 
 import { ItemView } 			from "obsidian";
-import { alleInhalteMigFt } from "../features/bulkEditorTest/alleInhalteMigFt.js";
+import { alleInhalteMigFt }     from "../features/bulkEditorTest/alleInhalteMigFt.js";
+import { alleInhMigFtNeu }      from "../features/bulkEditorTest/alleInhMigFtNeu.js";
+import { alleMigTestFt } from "../features/bulkEditorTest/allMigTestFt.js";
 
 
 ////
@@ -50,7 +52,9 @@ export class InhaltMigView extends ItemView {
     render() {
         if (!this.dv) return;
         this.contentEl.empty();
-        alleInhalteMigFt(this);
+        //alleInhalteMigFt(this);
+        //alleInhMigFtNeu(this);
+        alleMigTestFt(this);
     }
 }
 

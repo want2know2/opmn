@@ -76,7 +76,7 @@ export function defaultDefsTest(obsClsObj) {
           // Seitenobjekte erstellen + sortieren
             .map(def => {
                 const page = getPageNormObject(app, dv, def);
-                const swert = Number(einzelnesFeldLesen(app, page.tFile, "swert"));
+                const swert = Number(einzelnesFeldLesen(app, page, "swert"));
                 page.swert = swert;
                 return page;
             })

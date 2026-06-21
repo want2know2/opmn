@@ -1,5 +1,9 @@
 # OPMN/
 
+# Umschreiben oder löäschen
+# Versuch Infodatei mit Links (geht nicht, werden nicht aktualisiert)
+iwie kann man das wohl in den einstell. aktivieren, aber kein zeit jetzt
+
 # **bootstrap/**
 
 ### `OpmnPlugin` _extends `Plugin`_ [Script](../opmn/bootstrap/entry.js)
@@ -16,6 +20,8 @@ Quasi die "Komposition" des Plugins.
 Grundsätzlich wird ein View so an [bootstrap/entry.js](../opmn/bootstrap/entry.js) angehangen.
 Hier probeweise schon verschiedene Test-Features ausprobiert:
 
+- alleMigTestFt
+- alleInhMigFtNeu
 - inhMigNeuFt
 - inhaltMigrationFt
 - obsappTest

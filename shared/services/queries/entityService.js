@@ -5,6 +5,10 @@
 import { dvLinkSuche } from "./queryService.js";
 
 
+//// VERWENDET IN DIVERSEN Test-Features
+//// Kann weg, wenn die gelöscht werden
+
+
 ////
 // ENTITÄTEN
 

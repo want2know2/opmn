@@ -5,7 +5,7 @@
 
 import { removeField, 
          setField, 
-         updateFrontmatter }    from "../../shared/services/metadata/metaWriteService.js";
+         updateFrontmatter }    from "../../shared/services/dataService/metaWriteService.js";
 
 import { resolveLinkPath }      from "../../shared/services/pagesAndLinks/linkService.js";
 import { fieldValuesAsNormPages } from "../../shared/services/pagesAndLinks/pageFetchService.js";

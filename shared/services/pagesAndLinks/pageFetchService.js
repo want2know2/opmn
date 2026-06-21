@@ -2,7 +2,7 @@
 ////
 // IMPORT                       // FROM
 
-import { einzelnesFeldLesen } from "../metadata/metaReadService";
+import { einzelnesFeldLesen } from "../dataService/metaReadService";
 import { resolveLinkPath } from "./linkService";
 import { getPageNormObject }    from "./pageNormService";
 

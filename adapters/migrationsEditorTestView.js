@@ -3,10 +3,10 @@
 // IMPORT						// FROM
 
 import { ItemView } 			from "obsidian";
-import { inhaltMigrationFt } 	from "../features/bulkEditorTest/inhaltMigrationFt.js";
+import { inhaltMigrationFt } 	from "../features/baustelleFt/inhaltMigrationFt.js";
 import { obsappTest } 			from "../features/baustelleFt/obsappTest.js";
 import { defaultDefsTest } 		from "../features/baustelleFt/defaultDefsTest.js";
-import { inhMigNeuFt } 			from "../features/bulkEditorTest/inhMigNeuFt.js";
+import { inhMigNeuFt } 			from "../features/baustelleFt/inhMigNeuFt.js";
 
 ////
 // VIEW-TYPE

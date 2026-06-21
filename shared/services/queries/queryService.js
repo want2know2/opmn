@@ -3,7 +3,7 @@
 // IMPORT
 
 import { toArray } from "../../utils/valueUtils.js";
-import { einzelnerFeldWertDV } from "../metadata/metaReadService.js";
+import { einzelnerFeldWertDV } from "../dataService/metaReadService.js";
 
 
 /**

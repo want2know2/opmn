@@ -6,6 +6,10 @@ import { getPageNormObject }    from "../services/pagesAndLinks/pageNormService.
 import { dvLinkSuche }          from "../services/queries/queryService.js";
 
 
+/// KP, ob das iwo genutzt wird
+// kann wahrscheinlich weg
+
+
 ////
 // REGISTRY
 

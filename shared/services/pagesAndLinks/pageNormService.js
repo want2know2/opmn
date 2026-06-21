@@ -2,7 +2,6 @@
 ////
 // IMPORT
 
-
 import { getPageDisplayName } from "./pageDisplayNameService.js";
 
 
@@ -84,6 +83,9 @@ export function resolvePageReference(app, dv, p) {
     else if (p?.path && p?.type === "file") { // DV link
         inputPath = p.path;
     }
+    else if (p?.path && p?.basename) { // TFile
+        inputPath = p.path;
+    }   
     else if (typeof p === "string" && p.endsWith(".md")) { // path string
         inputPath = p;
     } else if (typeof p === "string") { // page name string 

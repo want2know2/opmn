@@ -1,11 +1,15 @@
 
 ////
-// IMPORT						// FROM
+// IMPORT						    // FROM
 
-import { ItemView } 			from "obsidian";
-import { alleInhalteMigFt }     from "../features/bulkEditorTest/alleInhalteMigFt.js";
-import { alleInhMigFtNeu }      from "../features/bulkEditorTest/alleInhMigFtNeu.js";
-import { alleMigTestFt } from "../features/bulkEditorTest/allMigTestFt.js";
+import { ItemView } 			    from "obsidian";
+import { alleInhalteMigFt }         from "../features/baustelleFt/alleInhalteMigFt.js";
+import { alleInhMigFtNeu }          from "../features/baustelleFt/alleInhMigFtNeu.js";
+import { alleMigTestFt }            from "../features/baustelleFt/allMigTestFt.js";
+import { alleMigKatTestFt }         from "../features/baustelleFt/alleMigKatTestFt.js";
+import { distinctIstValues,
+         iwasServiceTestDingens }   from "../features/baustelleFt/dingensTest.js";
+import { migManager }               from "../features/_migrations/v1ToV2/migFeatures/migManager.js";
 
 
 ////
@@ -54,7 +58,11 @@ export class InhaltMigView extends ItemView {
         this.contentEl.empty();
         //alleInhalteMigFt(this);
         //alleInhMigFtNeu(this);
-        alleMigTestFt(this);
+        //alleMigTestFt(this);
+        //alleMigKatTestFt(this);
+        //iwasServiceTestDingens(this);
+        //distinctIstValues(this);
+        migManager(this);
     }
 }
 

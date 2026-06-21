@@ -3,8 +3,8 @@
 // IMPORT                           // FROM
 
 import { dvQueryInh }               from "../../shared/services/queries/entityService.js";
-import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
-import { updateEntireFrontmatter }  from "../../shared/services/metadata/metaWriteService.js";
+import { generateIDAlt } from "../_migrations/v1ToV2/migUtils/dateTimeAndIdUtils.js";
+import { updateEntireFrontmatter }  from "../../shared/services/dataService/metaWriteService.js";
 
 import { placeHoverLinkOnEl }       from "../../shared/services/ui/uiLinkService.js";
 
@@ -124,7 +124,7 @@ export function bulkEditorTest(view) {
                 btn.addEventListener("click", async () => {
                     await app.vault.create(neueSeitePath, "");
                     const metaObj = {
-                        id: getDateTimeID(),
+                        id: generateIDAlt(),
                         istdin: [`[[Datenbankinterne Entität]]`],
                         ist: [`[[Inhalt]]`],
                         typ: [isttypLinkObj.wikiLink]

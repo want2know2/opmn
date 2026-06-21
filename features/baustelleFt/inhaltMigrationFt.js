@@ -3,10 +3,10 @@
 // IMPORT                           // FROM
 
 import { dvQueryInh }   			from "../../shared/services/queries/entityService.js";
-import { getDateTimeID } 			from "../../shared/utils/dateTimeUtils.js";
+import { generateIDAlt } from "../_migrations/v1ToV2/migUtils/dateTimeAndIdUtils.js";
 
 import { removeField, setField, 
-		 updateFrontmatter } 		from "../../shared/services/metadata/metaWriteService.js";
+		 updateFrontmatter } 		from "../../shared/services/dataService/metaWriteService.js";
 
 import { placeHoverLinkOnEl }       from "../../shared/services/ui/uiLinkService.js";
 import { getPageNormObject }        from "../../shared/services/pagesAndLinks/pageNormService.js";

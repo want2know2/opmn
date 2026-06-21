@@ -4,7 +4,7 @@
 
 import { ENTITY_TYPES } from "../../shared/services/queries/entityService.js";
 import { updateFieldByDVPage } from "../../shared/services/pagesAndLinks/linkService.js";
-import { deleteFieldByDVPage } from "../../shared/services/metadata/metaWriteService.js";
+import { deleteFieldByDVPage } from "../../shared/services/dataService/metaWriteService.js";
 
 
 /**

@@ -4,28 +4,55 @@
 
 import { toArray }          from "../../utils/valueUtils.js";
 import { resolveLinkPath }  from "../pagesAndLinks/linkService.js";
+import { getPageNormObject } from "../pagesAndLinks/pageNormService.js";
 
 
 ////
 // NEU
 
+////
+// neue seite erstellen
 
-/**
- * 
- */
+// erstellt neue seite
+// error, wenn schon vorhanden
+
+export async function createPage(app, dv, path, content = "") {
+    const existing = app.vault.getFileByPath(path);
+    if (existing) throw new Error(`Page already exists: ${path}`);
+
+    const tFile = await app.vault.create(path, content);
+    return getPageNormObject(app, dv, tFile);
+}
+
+// prüft, ob seite vorhanden, wenn ja, gibt diese zurück
+// wenn nein, erstellt neue seite
+
+export async function getOrCreatePage(app, dv, path, content = "") {
+    const existing = app.vault.getFileByPath(path);
+    if (existing) return getPageNormObject(app, dv, existing);
+
+    const tFile = await app.vault.create(path, content);
+    return getPageNormObject(app, dv, tFile);
+}
+
+////
+// updateFrontmatter und Helfer
 
 export async function updateFrontmatter(app, normPage, updaterFns) {
     if (!normPage.exists) return;
     await app.fileManager.processFrontMatter(normPage.tFile, updaterFns);
 }
 
+// helfer:
 
 /**
  * all modifications happen directly on the fm object. 
- * After the callback finishes, processFrontMatter sees the 
+ * After the callback finishes, updateFrontmatter sees the 
  * already-modified object and writes it back to the file. 
  * No return value is needed.
  */
+
+// set field
 
 export function setField(fm, fieldPath, value) {
 
@@ -40,13 +67,7 @@ export function setField(fm, fieldPath, value) {
     target[lastKey] = value;
 }
 
-
-/**
- * all modifications happen directly on the fm object. 
- * After the callback finishes, processFrontMatter sees the 
- * already-modified object and writes it back to the file. 
- * No return value is needed.
- */
+// remove field
 
 export function removeField(fm, fieldPath) {
 

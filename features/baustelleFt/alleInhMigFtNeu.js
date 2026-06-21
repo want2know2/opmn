@@ -3,7 +3,7 @@
 // IMPORT                       // FROM
 
 import { checkFieldArrForLink, 
-         einzelnesFeldLesen }   from "../../shared/services/metadata/metaReadService.js";
+         einzelnesFeldLesen }   from "../../shared/services/dataService/metaReadService.js";
 import { resolveLinkPath }      from "../../shared/services/pagesAndLinks/linkService.js";
 import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { dvQueryInh,
@@ -30,7 +30,7 @@ export function alleInhMigFtNeu(obsClsObj) {
     
     // Instanzen: Seiten, die zu Inhalt-Defs linken
     const zielseiten = (dvLinkSuche(dv, sucheInh, ["ist"], 0, false) ?? [])
-        .map(zielseiteStr => getPageNormObject(app, dv, zielseiteStr));
+        .map(zielseitePath => getPageNormObject(app, dv, zielseitePath));
 
     const zielseitenObj = zielseiten.map(zs => zielseiteIstCheck(app, dv, zs));
 
@@ -287,10 +287,15 @@ function zielseiteIstCheck(app, dv, zielseite) {
         istObj.parent = "";
 
         cleanPathArr.forEach((str, i) => {
+            // alle bis auf den letzten str einfach hintereinandersetzen:
+            // str _ str _ ...
             if (i < cleanPathArr.length - 1) {
                 istObj.art += `${str} _ `;
+                // wenn der istSeite-Pfad länger als 2 ist
+                // alle bis auf den vorletzten (weil parent) hintereinander:
                 if (cleanPathArr.length > 2 && i < cleanPathArr.length - 2)
                     istObj.parent += `${str} _ `;
+                // wenn istSeite-Pfad länger als 2 den vorletzten anhängen
                 else if (cleanPathArr.length > 2) istObj.parent += `${str}`;
             }
             else {

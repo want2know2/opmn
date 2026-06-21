@@ -3,8 +3,6 @@
 // IMPORT                           // FROM
 
 
-
-
 export function resolveLinkPath(app, link) {
 
     if (!link)
@@ -34,6 +32,8 @@ export function resolveLinkPath(app, link) {
 
     // Canonical vault path already?
     if (linkPath.includes("/")) {
+    // criticism: linkPath.includes("/") is not 
+    // a guaranteed indicator of a canonical vault path.
 
         const file = app.vault.getFileByPath(
             linkPath.endsWith(".md")
@@ -53,5 +53,4 @@ export function resolveLinkPath(app, link) {
 
     return file?.path ?? null;
 }
-
 

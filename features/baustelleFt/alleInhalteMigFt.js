@@ -3,7 +3,7 @@
 // IMPORT                       // FROM
 
 import { einzelnesFeldLesen,
-         checkFieldArrForLink } from "../../shared/services/metadata/metaReadService.js";
+         checkFieldArrForLink } from "../../shared/services/dataService/metaReadService.js";
 
 import { resolveLinkPath }      from "../../shared/services/pagesAndLinks/linkService.js";
 import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";

@@ -3,7 +3,7 @@
 // IMPORT
 
 import { buildRegistryDefault } from "../../shared/registry/defaultDefinitionenReg.js";
-import { einzelnesFeldLesen } from "../../shared/services/metadata/metaReadService.js";
+import { einzelnesFeldLesen } from "../../shared/services/dataService/metaReadService.js";
 import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService.js";
 import { placeHoverLinkOnEl } from "../../shared/services/ui/uiLinkService.js";
 import { tableMakerReihe, tableMakerReiheHd } from "../../shared/services/ui/uiService.js";

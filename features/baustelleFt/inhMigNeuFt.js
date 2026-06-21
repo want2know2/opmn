@@ -3,7 +3,7 @@
 // IMPORT                       // FROM
 
 import { removeField, setField, 
-		 updateFrontmatter } 	from "../../shared/services/metadata/metaWriteService.js";
+		 updateFrontmatter } 	from "../../shared/services/dataService/metaWriteService.js";
 
 import { placeHoverLinkOnEl }   from "../../shared/services/ui/uiLinkService.js";
 import { getPageNormObject }    from "../../shared/services/pagesAndLinks/pageNormService.js";

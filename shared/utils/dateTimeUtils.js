@@ -1,23 +1,24 @@
 
 
 /**
- * erzeugt ID im bisherigen Format
+ * Erzeugt ID im neuen Format
+ * noch mal neu: lesbare ID
  */
 
-export function getDateTimeID() {
+export function generateUniqueIdNeu() {
     const now = new Date();
 
-    const date = [
-        now.getFullYear(),
-        String(now.getMonth() + 1).padStart(2, "0"),
-        String(now.getDate()).padStart(2, "0")
-    ].join("-");
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
 
-    const time = [
-        String(now.getHours()).padStart(2, "0"),
-        String(now.getMinutes()).padStart(2, "0"),
-        String(now.getSeconds()).padStart(2, "0")
-    ].join("-");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const min = String(now.getMinutes()).padStart(2, "0");
+    const ss = String(now.getSeconds()).padStart(2, "0");
+    const ms = String(now.getMilliseconds()).padStart(3, "0");
 
-    return `${date} _ ${time}`;
+    const random = Math.random().toString(36).slice(2, 8);
+
+    return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}.${ms}Z _ ${random}`;
 }
+

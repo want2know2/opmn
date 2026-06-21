@@ -4,10 +4,13 @@
 
 import { toArray } 				from "../../utils/valueUtils";
 import { einzelnesFeldLesen, 
-		 checkFieldArrForLink } from "../metadata/metaReadService";
+		 checkFieldArrForLink } from "../dataService/metaReadService";
 import { resolveLinkPath } 		from "./linkService";
 import { getPageNormObject }    from "./pageNormService";
 
+
+/// GEHÖRT ZU DEN TestFeatures
+/// Kann dann auch weg, wenn die gelöscht werden
 
 /**
  * Erhält die Zielseite: Liest Feld `ist`: 

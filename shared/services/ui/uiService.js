@@ -37,3 +37,39 @@ export function tableMakerReihe(table, cellsNum) {
 	return cells;
 }
 
+
+/**
+ * Benutzung:
+ * uiMaker(contentEl, {
+ * 		// key = wie das El heißen soll, z.B. mainCon
+ * 		// [0] = parent (leer = contentEl) 
+ * 			// parent muss ein key dieses Objekts sein, der vor diesem key kommt
+ * 		// [1] = HTML-Typ (leer = "div")
+ * 		// [2] = Text (leer = "")
+ *      mainCon: ["", "", ""],
+ *      infoCon: ["mainCon", "span", "Willkommen beim Migrations-Manager"],
+ *		usw: ["","br"]
+ * })
+ */
+
+export function uiMaker(conEl, elArrsObj = {}) {
+	const elObj = {};
+	Object.keys(elArrsObj).forEach(key => {
+		
+		const parent = !elArrsObj[key]?.[0] || elArrsObj[key]?.[0] === "" 
+			? conEl 
+			: elObj[elArrsObj[key][0]];
+		
+		const htmlTyp = !elArrsObj[key]?.[1] || elArrsObj[key]?.[1] === "" 
+			? "div" 
+			: elArrsObj[key][1];
+		
+		const text = !elArrsObj[key]?.[2] || elArrsObj[key]?.[2] === "" 
+			? "" 
+			: elArrsObj[key][2];
+
+		elObj[key] = parent.createEl(htmlTyp, {text: text});
+	})
+	return elObj;
+}
+

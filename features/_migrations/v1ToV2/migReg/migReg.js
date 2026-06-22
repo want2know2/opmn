@@ -2,46 +2,46 @@
 
 /// Keine Ahnung, ob das überhaupt was bringt in der Form..
 
-
-const ontRootKlassen = {
+export const ONT_ROOTKL = {
     "Inhalt.md": {
         fields: ["klasse", "typ", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     },
     "Kategorie.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: false
+        instances: false,
+        instByRoot: true
     },
     "Thema.md": {
         fields: ["klasse"],
-        nestedDefs: false,
-        instances: true
+        instances: true,
+        instByRoot: true
     },
     "Ereignis.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     },
     "Person.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     },
     "Organisation.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     },
     "Gegenstand.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     },
     "Geo.md": {
         fields: ["klasse", "art"],
-        nestedDefs: true,
-        instances: true
+        instances: true,
+        instByRoot: false
     }
 };
+

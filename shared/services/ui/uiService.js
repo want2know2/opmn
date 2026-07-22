@@ -40,15 +40,20 @@ export function tableMakerReihe(table, cellsNum) {
 
 /**
  * Benutzung:
- * uiMaker(contentEl, {
- * 		// key = wie das El heißen soll, z.B. mainCon
- * 		// [0] = parent (leer = contentEl) 
- * 			// parent muss ein key dieses Objekts sein, der vor diesem key kommt
- * 		// [1] = HTML-Typ (leer = "div")
- * 		// [2] = Text (leer = "")
- *      mainCon: ["", "", ""],
+ * 1. Argument: HTML/DOM-Parent-Element, 
+ * 2. Argument: Objekt: Key = wie das El heißen soll, z.B. mainCon
+ * 		jeder Key speichert eine Tabelle, die optional drei Einträge enthalten kann:
+ * 		[0] = parent (leer = das im 1. Argument angegebene Parent-Element) 
+ * 			wenn ein Parent angegeben wird, das Teil dieses Objekts ist,
+ * 			muss das Parent-Element im Objekt vor dem Child-Element kommen.
+ * 		[1] = HTML-Typ (leer = "div")
+ * 		[2] = Text (leer = "")
+ * 
+ * 		z.B.:
+ *      mainCon: [],
  *      infoCon: ["mainCon", "span", "Willkommen beim Migrations-Manager"],
  *		usw: ["","br"]
+ *		usf: ["mainCon","br"]
  * })
  */
 
@@ -58,7 +63,7 @@ export function uiMaker(conEl, elArrsObj = {}) {
 		
 		const parent = !elArrsObj[key]?.[0] || elArrsObj[key]?.[0] === "" 
 			? conEl 
-			: elObj[elArrsObj[key][0]];
+			: elObj[elArrsObj[key][0]]; // greift auf el zu, das bereits vorher zu elObj hinzugefügt wurde
 		
 		const htmlTyp = !elArrsObj[key]?.[1] || elArrsObj[key]?.[1] === "" 
 			? "div" 

@@ -10,6 +10,8 @@ import { alleMigKatTestFt }         from "../features/baustelleFt/alleMigKatTest
 import { distinctIstValues,
          iwasServiceTestDingens }   from "../features/baustelleFt/dingensTest.js";
 import { migManager }               from "../features/_migrations/v1ToV2/migFeatures/migManager.js";
+import { migManagerTest2 }          from "../features/_migrations/v1ToV2/migFeatures/migManagerTest2.js";
+import { migManagerTest4 } from "../features/_migrations/v1ToV2/migFeatures/migManagerTest4.js";
 
 
 ////
@@ -62,7 +64,10 @@ export class InhaltMigView extends ItemView {
         //alleMigKatTestFt(this);
         //iwasServiceTestDingens(this);
         //distinctIstValues(this);
-        migManager(this);
+        //migManager(this);
+        //migManagerTest2(this);
+        //migManagerTest3(this);
+        migManagerTest4(this);
     }
 }
 

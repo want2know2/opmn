@@ -16,6 +16,8 @@ import { resolveLinkPath } from "../pagesAndLinks/linkService";
 
 export function einzelnesFeldLesen(app, seiteNormObj, feld) {
     
+    //console.log("exists: " + seiteNormObj.exists + ", tFile" + seiteNormObj.tFile)
+
     if (!seiteNormObj.exists) 
         return null;
     
@@ -23,12 +25,17 @@ export function einzelnesFeldLesen(app, seiteNormObj, feld) {
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     
-    return feld.split(".").reduce((o, k) => o?.[k], fm);
+    const test514 = feld.split(".").reduce((o, k) => o?.[k], fm);
+    //console.log("test514: "  + test514)
+    return test514;
 }
 
 
 /**
+ * Übung diesdas
  * Seite hat Feld?
+ * Noch nirgendwo verwendet
+ * Vielleicht Quatsch.. 
  */
 
 export function checkObSeiteHatFeld(app, seiteNormObj, feld) {

@@ -39,6 +39,20 @@ export function tableMakerReihe(table, cellsNum) {
 
 
 /**
+ * 
+ */
+
+export function listMaker(container, listeArr) {
+
+	const liste = container.createEl("ul");
+
+	listeArr.forEach(el => liste.createEl("li", {text: el}));
+
+	return liste;
+}
+
+
+/**
  * Benutzung:
  * 1. Argument: HTML/DOM-Parent-Element, 
  * 2. Argument: Objekt: Key = wie das El heißen soll, z.B. mainCon
@@ -54,24 +68,26 @@ export function tableMakerReihe(table, cellsNum) {
  *      infoCon: ["mainCon", "span", "Willkommen beim Migrations-Manager"],
  *		usw: ["","br"]
  *		usf: ["mainCon","br"]
+		etc: [,,"Text diesdas bla"]
  * })
  */
 
 export function uiMaker(conEl, elArrsObj = {}) {
 	const elObj = {};
-	Object.keys(elArrsObj).forEach(key => {
-		
-		const parent = !elArrsObj[key]?.[0] || elArrsObj[key]?.[0] === "" 
+	Object.entries(elArrsObj).forEach(([key, entry]) => {
+
+				
+		const parent = !entry?.[0] || entry?.[0] === "" 
 			? conEl 
-			: elObj[elArrsObj[key][0]]; // greift auf el zu, das bereits vorher zu elObj hinzugefügt wurde
+			: elObj[entry[0]]; // greift auf el zu, das bereits vorher zu elObj hinzugefügt wurde
 		
-		const htmlTyp = !elArrsObj[key]?.[1] || elArrsObj[key]?.[1] === "" 
+		const htmlTyp = !entry?.[1] || entry?.[1] === "" 
 			? "div" 
-			: elArrsObj[key][1];
+			: entry[1];
 		
-		const text = !elArrsObj[key]?.[2] || elArrsObj[key]?.[2] === "" 
+		const text = !entry?.[2] || entry?.[2] === "" 
 			? "" 
-			: elArrsObj[key][2];
+			: entry[2];
 
 		elObj[key] = parent.createEl(htmlTyp, {text: text});
 	})

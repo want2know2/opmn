@@ -77,7 +77,7 @@ export function GET_MIG_REGELN() {
 		}
 	};
 	
-	["Ereignis", "Person", "Organisation", "Gegenstand", "Geo"].forEach(migRootKl => {
+	["Ereignis", "Person", "Organisation", "Gegenstand", "Geo", "Testklasse"].forEach(migRootKl => {
 		obj[migRootKl] = {
 			migInst: {
 				ziel: "inst",

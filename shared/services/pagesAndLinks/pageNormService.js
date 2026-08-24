@@ -9,6 +9,15 @@ import { getPageDisplayName } from "./pageDisplayNameService.js";
  * 
  */
 
+// wenn mit `getPageNormObject ein norm-Objekt erzeugt wird, wird jedesmal, 
+// wenn von diesem norm-Objekt bspw. norm.exists, norm.name, norm.tFile
+// usw. abgefragt wird, die dafür notwendige Aktion erneut ausgeführt.
+// Das hatte ich ursprünglich bewusst so eingerichtet, damit z.B. beim
+// Editieren von Seiten der Vorher-, Nachher-Zustand entsprechend 
+// angezeigt werden kann, aber oft ist das unnötig und schlecht für die 
+// Performance. In den meisten Fällen wäre es besser, die Sachen (exists,
+// path, name, etc.) einmal abzufragen und als Werte zu speichern.
+
 export function getPageNormObject(app, dv, p) {
 
     const ref = resolvePageReference(app, dv, p);

@@ -11,7 +11,6 @@ import { queryMigInstsODefs}    from "./v1QueryService.js";
 
 
 
-
 /** feld `ist` Migration Discovery:
 
  ** für REGELN, mig-Root-Klasse und "Instanzen oder Definitionen"
@@ -49,7 +48,7 @@ export function istMigDiscovery1(app, dv, MIG_REGELN, migRootKl, instODef) {
     const rootPStatNorm  = getPageNormObject(app, dv, "p-Status.md");
     const nichtPNorm  = getPageNormObject(app, dv, "nicht-p-Eintrag.md");
     
-    const RGLuINF = {
+    const REGELN = {
         migRootKl,
         instODef,
         EIGENE_REGELN,
@@ -59,48 +58,176 @@ export function istMigDiscovery1(app, dv, MIG_REGELN, migRootKl, instODef) {
         nichtPNorm
     }
 
-    const checkSeitenSet = getCheckSeiten(app, dv, RGLuINF, instODef);
+    const deps = { 
+        app, 
+        dv, 
+        REGELN, 
+        INSToDEF_KEY: instODef
+    };
 
+    // (1) AUSGÄNGLICHE SUCHSEITEN
+    const checkSeitenSet = getCheckSeiten(deps);
     
     if (checkSeitenSet.size < 1)
         return
 
+
+    // (2) EINZELNE-SEITEN-ANALYSE
     const analysierteSeiten = [...checkSeitenSet].map(checkSeite => {
-        const as = einzelneSeiteAnalysieren(app, dv, RGLuINF, instODef, checkSeite);
-        
+        const analysierteSeite = einzelneSeiteAnalysieren(deps, checkSeite);
         /*/CONSOLE
         as.meldungen.forEach(asMeldung => console.log(`MELDUNG für die Seite ${as.name}: ${asMeldung.ursprung} / ${asMeldung.info}`))
         //*/
-
-        return as;
+        return analysierteSeite;
     });
 
-    const sammelObjektUndMeldungen = sammelObjAusASeitenErstellen(app, dv, RGLuINF, instODef, analysierteSeiten);
+    
+    // (3) SAMMEL-OBJEKT: NEUE-SEITEN + neue Werte in "alten Feldern" also Regel-Keys
+    const sammelObjektUndMeldungen = sammelObjAusASeitenErstellen(deps, analysierteSeiten);
     const { sammelObjekt, meldungen } = sammelObjektUndMeldungen;
 
     delete sammelObjekt[migRootKl];
 
-    erwarteteTypenChecken(app, dv, RGLuINF, instODef, sammelObjekt, meldungen);
+    erwarteteTypenChecken(deps, sammelObjekt, meldungen);
 
-    /*/CONSOLE
-    meldungen.forEach(mel => {
-        const { ursprung, info } = mel;
-        console.log("MELDUNG: " + ursprung + " / " + info);
-    })
-    //*/
-
-    erlaubterTypZuRootParentsSchieben(app, dv, RGLuINF, instODef, sammelObjekt);
-
-    //CONSOLE
+    erlaubterTypZuRootParentsSchieben(deps, sammelObjekt);
+    
+    /*/CONSOLE: sammelObjekt
     Object.entries(sammelObjekt).forEach(([key, entry]) => {
         console.log(key);
         Object.entries(entry).forEach(([key, entry]) => {
             console.log(key)
-        })
+        });
+    });
+    //*/
+
+    
+    // (4) NEUE-SEITEN-FINAL-OBJEKT
+    const final = getFinalMitNeuenWertenUFeldern(deps, sammelObjekt);
+
+    neueFelderUWerteInFinalChecken(deps, final);
+
+    /*/CON: final
+    Object.entries(final).forEach(([seiteKey, seiteEntry]) => {
+        console.log("==SEITE==:" + seiteKey);
+        
+        const neueFelderUndWerte = seiteEntry.neueFelderUndWerte;
+
+        Object.entries(neueFelderUndWerte).forEach(([nfuwKey, nfuwEntry]) => {
+            console.log(nfuwKey + ": " + nfuwEntry);
+        });
+        
+        const felderCheck = seiteEntry.felderCheck;
+
+        console.log(">>>>>>> felderCheck <<<<<<<<");
+        Object.entries(felderCheck).forEach(([fcKey, fcEntry]) => {
+            console.log("Neues Feld-Key: " + fcKey);
+            
+            console.log("Einzelnes Feld-Check: ");
+
+            Object.entries(fcEntry).forEach(([checkKey, checkEntry]) => {
+                console.log(checkKey + ": " + checkEntry);
+            })
+        });
+        
+    });
+    //*/
+
+    const seitenLoeschen = {};
+
+    analysierteSeiten.forEach(aSeite => {
+        
+        console.log("aSeite: " + aSeite.name)
+        
+        const aSeiteInFinal = final.hasOwnProperty(aSeite.name);
+
+        aSeite.meldungen.forEach(mel => {
+            /*/CON
+            console.log("SEITE: " + aSeite.name + ", MELDUNG: " + 
+                "Seitenangabe in Meldung: " + mel.seite +
+                ". Ursprung: " + mel.ursprung +
+                ". Info: " + mel.info
+            )
+            //*/
+
+            if (aSeiteInFinal) {
+                final[aSeite.name].auswertung.meldungen.push(mel);
+                
+                /*/CON
+                console.log(`Eine Meldung aus der Seite ${mel.seite} wird in das finale Objekt (Seitenauswertung) geschoben: '${mel.ursprung}. ${mel.info}'`);
+                //*/
+
+            } else {
+                meldungen.push(mel);
+
+                /*/CON
+                console.log(`Eine Meldung aus der Seite ${mel.seite} wird in den separaten Array geschoben: '${mel.ursprung}. ${mel.info}'`);
+                //*/
+
+            }
+        });
+
+        
+        /*/CON: seite nicht im final
+        console.log(`Die Seite ${aSeite.name} ist ${aSeiteInFinal ? "" : "nicht "}im Final-Objekt enthalten.`);
+        //*/
+        if (!aSeiteInFinal) {
+            seitenLoeschen[aSeite.name] = { 
+                norm: aSeite.norm,  
+                auswertung: { 
+                    vorgeseheneAktion: "löschen"
+                } 
+            };
+        }
+        
+    });
+
+    /*/CON: meldungen
+    meldungen.forEach(mel => {
+        const { seite, ursprung, info } = mel;
+        console.log("MELDUNG für die Seite " + seite + ". Ursprung der Meldung: " + ursprung + ". Meldung: " + info);
     })
     //*/
 
+    /*/CON
+    Object.keys(seitenLoeschen).forEach(key => console.log("LÖSCHEN-KEY: " + key));
 
+    Object.entries(final).forEach(([seiteKey, seiteEntry]) => {
+        
+        console.log("SEITE " + seiteKey)
+        
+        const exists = seiteEntry.exists;
+        const felderCheck = seiteEntry.felderCheck;
+        const auswertung = seiteEntry.auswertung;
+
+        Object.entries(auswertung).forEach(([key, entry]) => {
+
+            console.log(key + ": " + entry)
+
+        })
+
+        let felderUWerteBereitsNeuAnz = 0;
+        let neueFelderUWerteNochNichtDaAnz = 0;
+
+        Object.entries(felderCheck).forEach(([fcKey, fcEntry]) => {
+            console.log("FELD " + fcKey);
+            const wertInFeldBereitsNeu = fcEntry.wertInFeldBereitsNeu;
+            //console.log("wertInFeldBereitsNeu: " + wertInFeldBereitsNeu);
+
+            if (wertInFeldBereitsNeu)
+                felderUWerteBereitsNeuAnz += 1;
+            else neueFelderUWerteNochNichtDaAnz += 1;
+
+            //Object.entries(fcEntry).forEach(([checkKey, checkEntry], i) => {
+            //    console.log("CHECK"+(i+1) +": " + checkKey + ": " + checkEntry)
+            //})
+        
+        });
+
+        console.log("feldWerteNeu: " + felderUWerteBereitsNeuAnz + ". feldWerte alt: " + neueFelderUWerteNochNichtDaAnz)
+        
+    });
+    //*/
 }
 
 
@@ -108,9 +235,167 @@ export function istMigDiscovery1(app, dv, MIG_REGELN, migRootKl, instODef) {
  * 
  */
 
-function erlaubterTypZuRootParentsSchieben(app, dv, RGLuINF, RGL_KEY, sammelObjekt) {
+function neueFelderUWerteInFinalChecken(deps, finalObjekt) {
 
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    Object.entries(finalObjekt).forEach(([seiteKey, seiteEntry]) => {
+        
+        const exists = !!seiteEntry.exists;
+        const normSeite = seiteEntry.norm;
+        const neueFelderUndWerte = seiteEntry.neueFelderUndWerte;
+                
+        const felderCheck = {};
+
+        Object.entries(neueFelderUndWerte).forEach(([nFWKey, nFWEntry]) => {
+
+            felderCheck[nFWKey] = { 
+                neuerWert: nFWEntry, 
+                feldVorhanden: null,
+                wertInFeld: [], 
+                wertInFeldBereitsNeu: null 
+            };
+
+            if (exists) {
+
+                const feldLesen = einzelnesFeldLesen(app, normSeite, nFWKey) ?? [];
+                felderCheck[nFWKey].wertInFeld = feldLesen;
+                felderCheck[nFWKey].feldVorhanden = feldLesen.length > 0 && !!feldLesen[0];
+                
+                if (felderCheck[nFWKey].feldVorhanden) {
+
+                    const werteAusFeldNorm = [...felderCheck[nFWKey].wertInFeld].map(val => {
+                        const nFWPfad = resolveLinkPath(app, val);
+                        const nFWNorm = getPageNormObject(app, dv, nFWPfad);
+                        return nFWNorm.name;
+                    });
+                    
+                    felderCheck[nFWKey].wertInFeldBereitsNeu = 
+                        werteAusFeldNorm.length === nFWEntry.length && 
+                        werteAusFeldNorm.every((val, index) => val === nFWEntry[index]);
+                }
+
+            }
+
+        });
+
+        finalObjekt[seiteKey].auswertung.anzahlNeuSchonVorhanden = 0;
+        finalObjekt[seiteKey].auswertung.anzahlNeuFehlenNoch = 0;
+        
+        Object.entries(felderCheck).forEach(([key, entry]) => {
+            //console.log(">>>>>>>>>>>>>> SEITE: " + seiteKey + " >>>>>>>> felderCHeck - key: " + key + " >>>>>>>> ENTRY: " + entry);
+            if (!!entry.wertInFeldBereitsNeu) {
+                // console.log("anzahlFelderNeu: " + anzahlFelderNeu);
+                finalObjekt[seiteKey].auswertung.anzahlNeuSchonVorhanden += 1;
+            }
+            else 
+                finalObjekt[seiteKey].auswertung.anzahlNeuFehlenNoch += 1;
+        });
+
+        finalObjekt[seiteKey].auswertung.vorgeseheneAktion = 
+            exists && finalObjekt[seiteKey].auswertung.anzahlNeuFehlenNoch === 0 
+            ? "abgeschlossen"
+            : exists && finalObjekt[seiteKey].auswertung.anzahlNeuFehlenNoch !== 0
+                ? "updaten"
+                : !exists 
+                    ? "erstellen" 
+                    : "keine Angabe";
+        
+        /*/CON
+        console.log("Für " + seiteKey + " fehlen noch " + finalObjekt[seiteKey].auswertung.anzahlNeuFehlenNoch + " Felder.");
+        console.log("Für " + seiteKey + " ist die vorgesehene Aktion / der aktuelle Status " 
+            + finalObjekt[seiteKey].auswertung.vorgeseheneAktion +".");
+        //*/
+
+        finalObjekt[seiteKey].felderCheck = felderCheck;
+        
+        
+        /*/CON
+        Object.entries(finalObjekt[seiteKey].felderCheck).forEach(([key, entry]) => {
+            console.log("==SEITE==: " + seiteKey + " (key: "+ key +")");
+
+            Object.entries(entry).forEach(([nFWKey, nFWEntry]) => {
+                console.log(nFWKey + ": " + nFWEntry);
+            });
+        })
+        //*/
+
+
+    });
+}
+
+
+// ab hier Final-Objekt
+/**
+ * 
+ */
+
+function getFinalMitNeuenWertenUFeldern(deps, sammelObjekt) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
+    const REGELN_felderUndWerte = EIGENE_REGELN.felderUndWerte;
+
+    const finalObjekt = {};
+
+    Object.entries(sammelObjekt).forEach(([seiteKey, seiteEntry]) => {
+        /*/CONSOLE
+        console.log("SEITE: " + key);
+        //*/
+
+        const norm = getPageNormObject(app, dv, seiteKey);
+        const exists = norm.exists;
+
+        finalObjekt[seiteKey] = {
+            norm: exists ? norm : null,
+            exists,
+            neueFelderUndWerte: {},
+            felderCheck: {},
+            auswertung: { meldungen: [] }
+        };
+
+
+        const neueWerteAlteFelder = seiteEntry.neueWerteAlteFelder;
+
+        /*/CONSOLE
+        console.log("==SEITE==: " + seiteKey)
+        //*/
+
+        Object.entries(neueWerteAlteFelder).forEach(([nWaFKey, nWaFEntry]) => {
+
+            const finalFeld = REGELN_felderUndWerte[nWaFKey];
+
+            /*/CONSOLE
+            console.log("nwafKey: " + nwafKey + ", nwafEntry: " + [...nwafEntry] + ". feldAusRegel: "+ feldAusRegel);
+            //*/
+
+            const feldUWertVorhandenCheck = nWaFEntry.size > 0 && !![...nWaFEntry][0];
+            
+            /*/CONSOLE
+            console.log("neueWerteAlteFelder: " + key + ": " + [...entry] + " / vorhanden: " + eintragVorhanden);
+            //*/
+
+            if (feldUWertVorhandenCheck)
+                finalObjekt[seiteKey].neueFelderUndWerte[finalFeld] = [...nWaFEntry];
+
+        });
+
+    });
+
+    return finalObjekt;
+}
+
+// bis hier Sammel-Objekt
+/**
+ * 
+ */
+
+function erlaubterTypZuRootParentsSchieben(deps, sammelObjekt) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
     const felderUndWerte = EIGENE_REGELN.felderUndWerte;
     const feldErlaubterTypVorhanden = felderUndWerte.erster === "erlaubterTyp";
 
@@ -122,8 +407,8 @@ function erlaubterTypZuRootParentsSchieben(app, dv, RGLuINF, RGL_KEY, sammelObje
 
     // rootParents und children sammeln
     Object.entries(sammelObjekt).forEach(([key, entry]) => {
-        const neueFelderAlteWerte = entry.neueFelderAlteWerte;
-        const parentArr = [...neueFelderAlteWerte.vorletzter];
+        const neueWerteAlteFelder = entry.neueWerteAlteFelder;
+        const parentArr = [...neueWerteAlteFelder.vorletzter];
         const hatParent = !!parentArr[0];
 
         if (!hatParent) {
@@ -139,17 +424,17 @@ function erlaubterTypZuRootParentsSchieben(app, dv, RGLuINF, RGL_KEY, sammelObje
         const childrenKeys = Object.keys(children).filter(key => key.startsWith(rootKey));
         // console.log("Root-Parent: " + rootKey + " / children: " + childrenKeys);
 
-        childrenKeys.forEach(ck => {
-            const erlaubterTypChild = sammelObjekt[ck].neueFelderAlteWerte.erster;
+        childrenKeys.forEach(childKey => {
+            const erlaubterTypChild = sammelObjekt[childKey].neueWerteAlteFelder.erster;
             erlaubterTypChild.forEach(typ => {
                 // console.log("verschobener typ:"  + typ + " / von " + ck + " zu " + rootKey);
-                sammelObjekt[rootKey].neueFelderAlteWerte.erster.add(typ);
+                sammelObjekt[rootKey].neueWerteAlteFelder.erster.add(typ);
             });
-            delete sammelObjekt[ck].neueFelderAlteWerte.erster;
+            delete sammelObjekt[childKey].neueWerteAlteFelder.erster;
         });
     });
 
-    return sammelObjekt;
+    return sammelObjekt;    
 }
 
 
@@ -157,11 +442,13 @@ function erlaubterTypZuRootParentsSchieben(app, dv, RGLuINF, RGL_KEY, sammelObje
  * 
  */
 
-function erwarteteTypenChecken(app, dv, RGLuINF, RGL_KEY, sammelObjekt, meldungen) {
+function erwarteteTypenChecken(deps, sammelObjekt, meldungen) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
     
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
     const felderUndWerte = EIGENE_REGELN.felderUndWerte;
-    const erwarteteTypen = RGLuINF.erwarteteTypen;
+    const erwarteteTypen = REGELN.erwarteteTypen;
 
     if (!felderUndWerte.erster) 
         return;
@@ -170,8 +457,8 @@ function erwarteteTypenChecken(app, dv, RGLuINF, RGL_KEY, sammelObjekt, meldunge
 
         //console.log("ERW_TYPEN_CHECKEN: sammelObjekt.key: " + key);
 
-        const neueFelderAlteWerte = entry.neueFelderAlteWerte;
-        const erster = neueFelderAlteWerte.erster;
+        const neueWerteAlteFelder = entry.neueWerteAlteFelder;
+        const erster = neueWerteAlteFelder.erster;
         erster.forEach(typVal => {
             
             const typKorrekt = erwarteteTypen.includes(typVal);
@@ -182,31 +469,36 @@ function erwarteteTypenChecken(app, dv, RGLuINF, RGL_KEY, sammelObjekt, meldunge
                 //console.log(`ERW_TYPEN_CHECKEN >>> TYP NICHT KORREKT: Die Seite ${key} enthät den nicht erwarteten typ ${typVal}`)
 
                 const meldung = { 
+                    seite: entry.name,
                     ursprung: "erwartete Typen Checken", 
-                    info: `Die Seite ${key} enthät den nicht erwarteten typ ${typVal}` 
+                    info: `Die Seite ${key} enthät nicht erwarteten typ (${typVal}).`
                 };
 
                 meldungen.push(meldung);
             }
-
-            
-            
         });
     })
 }
 
-
+// ab hier Sammel-Objekt (neue Seiten: neue Werte in Regel-Feldern)
 /**
  * 
  */
 
-function sammelObjAusASeitenErstellen(app, dv, RGLuINF, RGL_KEY, analysierteSeiten) {
+function sammelObjAusASeitenErstellen(deps, analysierteSeiten) {
 
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
+    
+    /*/CON
+    console.log(EIGENE_REGELN);
+    //*/
+
     const felderUndWerte = EIGENE_REGELN.felderUndWerte;
     const neueSeiteAusWerten = felderUndWerte.letzter === "seite";
     const feldErlaubterTypVorhanden = felderUndWerte.erster === "erlaubterTyp";
-    const erwarteteTypen = RGLuINF.erwarteteTypen;
+    const erwarteteTypen = REGELN.erwarteteTypen;
     
     const sammelObjekt = {};
     const meldungen = [];
@@ -214,65 +506,82 @@ function sammelObjAusASeitenErstellen(app, dv, RGLuINF, RGL_KEY, analysierteSeit
     //console.log("neueSeiteAusWerten: " + neueSeiteAusWerten);
 
     if (neueSeiteAusWerten) {
-        analysierteSeiten.forEach(as => {
-            /*/CONSOLE
+        analysierteSeiten.forEach(aSeite => {
+            /*/CON
             console.log("SEITE: " + as.name);
             Object.entries(as.seitenWerteNeu).forEach(([key, entry]) => {
                 console.log(key + ": " + [...entry]);
             })
             //*/
             
-            const neueSeiteSet = as.seitenWerteNeu.letzter;
+            const neueSeiteSet = aSeite.seitenWerteNeu.letzter;
             // console.log("ANALYSIERTE SEITE: " + as.name + " / nSSet: " + [...as.seitenWerteNeu.letzter]);
 
             if (neueSeiteSet.size > 1) {
                 const meldung = { 
+                    seite: aSeite.name,
                     ursprung: "Sammel-Objekt aus analysierten Seiten erstellen", 
-                    info: `Aus ${as.name} soll die neue Seite aus Neu-Wert 'letzter' erstellt werden, aber mehr als eine Seite in Neu-Wert 'letzter'` 
+                    info: `Aus ${aSeite.name} soll die neue Seite aus Neu-Wert 'letzter' erstellt werden, `+
+                    `aber es befinden sich mehr als eine Seite in Neu-Wert 'letzter'.`
                 };
                 meldungen.push(meldung);
             }
             else {
                 // console.log("neueSeite-Set: " + [...neueSeiteSet][0])
                 const neueSeite = [...neueSeiteSet][0];
-                
                 let keineTypenOderWieErwartet = true;
+
                 if (feldErlaubterTypVorhanden) {
-                    as.seitenWerteNeu.erster.forEach(typ => {
+
+                    aSeite.seitenWerteNeu.erster.forEach(typ => {
+
                         const typKorrekt = erwarteteTypen.includes(typ);
+
                         if (!typKorrekt) {
                             keineTypenOderWieErwartet = null;
                             const meldung = {
-                                ursprung: "Sammel-Objekt aus analysierten Seiten erstellen > erwarteter Typ?",
-                                info: `Die Seite ${as.name} enthät den nicht erwarteten typ ${typ}`
+                                seite: aSeite.name,
+                                ursprung: "Sammel-Objekt aus analysierten Seiten erstellen > erwarteterTyp",
+                                info: `Die Seite ${aSeite.name} enthält nicht erwarteten Typ (${typ}).`
                             };
                             meldungen.push(meldung);
                         }
                     })
                 }
 
-                if (keineTypenOderWieErwartet) {
-                    sammelObjekt[neueSeite] = {neueFelderAlteWerte: {}};
-                    const neueFelderAlteWerteObj = sammelObjekt[neueSeite].neueFelderAlteWerte;
-                    
-                    Object.entries(as.seitenWerteNeu).forEach(([key, entry]) => {
-                        if (key !== "letzter")
-                            neueFelderAlteWerteObj[key] = entry;
-                    });
+                if (!!neueSeite) {
+                    if (keineTypenOderWieErwartet) {
+                        sammelObjekt[neueSeite] = { neueWerteAlteFelder: {} };
+                        const neueWerteAlteFelderObj = sammelObjekt[neueSeite].neueWerteAlteFelder;
+                        
+                        Object.entries(aSeite.seitenWerteNeu).forEach(([key, entry]) => {
+                            if (key !== "letzter")
+                                neueWerteAlteFelderObj[key] = entry;
+                        });
+                    }
+                } else {
+                    const meldung = {
+                        seite: aSeite.name,
+                        ursprung: "Sammel-Objekt aus analysierten Seiten erstellen",
+                        info: `Die für ${aSeite.name} zu erstellende Seite ist fehlerhaft.`
+                    };
+                    meldungen.push(meldung);
                 }
+
+                
             }
         });
     }
 
     else {
-        analysierteSeiten.forEach(as => {
+        analysierteSeiten.forEach(aSeite => {
             
-            const neueSeite = as.name;
-            sammelObjekt[neueSeite] = {neueFelderAlteWerte: {}};
-            const neueFelderAlteWerteObj = sammelObjekt[neueSeite].neueFelderAlteWerte;
+            const neueSeite = aSeite.name;
+            sammelObjekt[neueSeite] = {neueWerteAlteFelder: {}};
+            const neueWerteAlteFelderObj = sammelObjekt[neueSeite].neueWerteAlteFelder;
             
-            Object.entries(as.seitenWerteNeu).forEach(([key, entry]) => {
-                neueFelderAlteWerteObj[key] = entry;
+            Object.entries(aSeite.seitenWerteNeu).forEach(([key, entry]) => {
+                neueWerteAlteFelderObj[key] = entry;
             });
         });
     }
@@ -280,44 +589,62 @@ function sammelObjAusASeitenErstellen(app, dv, RGLuINF, RGL_KEY, analysierteSeit
     /*/CONSOLE
     Object.entries(sammelObjekt).forEach(([seiteKey, seiteEntry]) => {
         console.log("==SEITE:== " + seiteKey);
-        Object.entries(seiteEntry.neueFelderAlteWerte).forEach(([mKey, mEntry]) => {
+        Object.entries(seiteEntry.neueWerteAlteFelder).forEach(([mKey, mEntry]) => {
             console.log(mKey + ": " + mEntry);
         });
     });
     //*/
     
-    unregistrierteParentsHinzufuegen(app, dv, RGLuINF, RGL_KEY, sammelObjekt);
+    unregistrierteParentsHinzufuegen(deps, sammelObjekt, meldungen);
 
     return { sammelObjekt, meldungen };
 }
 
 
-    /**
+/**
  * 
  */
 
-function unregistrierteParentsHinzufuegen(app, dv, RGLuINF, RGL_KEY, sammelObjekt) {
+function unregistrierteParentsHinzufuegen(deps, sammelObjekt, meldungen) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
 
     const unregistrierteParentsObj = {};
 
     Object.entries(sammelObjekt).forEach(([key, entry]) => {
-        
-        const parentArr = !!entry.neueFelderAlteWerte.vorletzter
-            ? [...entry.neueFelderAlteWerte.vorletzter]
+
+        /*/CLOG
+        console.log("UNREGPAR: SEITE: " + key);
+        //*/
+
+        const parentArr = !!entry.neueWerteAlteFelder.vorletzter
+            ? [...entry.neueWerteAlteFelder.vorletzter]
             : [];
 
         if (parentArr.length > 1) {
-            const meldung = { ursprung: "unregistrierte Parents Hinzufuegen", info: "mehr als ein Parent" };
+            const meldung = { 
+                seite: key, 
+                ursprung: "unregistrierte Parents Hinzufuegen", 
+                info: "mehr als ein Parent" 
+            };
+            meldungen.push(meldung);
         }
 
         else if (parentArr.length > 0 && !!parentArr[0]) {
+
+            /*/CLOG
+            console.log("+++++++PARENT: " + parentArr[0] + " ++++++++");
+            //*/
+
             const parent = parentArr[0];
             const parentRegistriert = sammelObjekt.hasOwnProperty(parent);
-            const parentErfasstAlsUnregistriert = unregistrierteParentsObj.hasOwnProperty(parent);
+            const parentErfasstAlsUnregistriert = 
+                unregistrierteParentsObj.hasOwnProperty(parent);
             
             if (!parentRegistriert && !parentErfasstAlsUnregistriert) {
-                unregistrierteParentsObj[parent] = {neueFelderAlteWerte: {}};
-                const neueFelderAlteWerteObj = unregistrierteParentsObj[parent].neueFelderAlteWerte;
+                unregistrierteParentsObj[parent] = {neueWerteAlteFelder: {}};
+                const neueWerteAlteFelderObj = 
+                    unregistrierteParentsObj[parent].neueWerteAlteFelder;
 
                 const grandParentSet = new Set();
                 const grandParent = getGrandParent(parent);
@@ -326,11 +653,11 @@ function unregistrierteParentsHinzufuegen(app, dv, RGLuINF, RGL_KEY, sammelObjek
                 
                 //console.log("grandPAr" + grandParent);
                 
-                Object.entries(entry.neueFelderAlteWerte).forEach(([neuKey, neuEntry]) => {
+                Object.entries(entry.neueWerteAlteFelder).forEach(([neuKey, neuEntry]) => {
                     if (neuKey === "vorletzter")
-                        neueFelderAlteWerteObj[neuKey] = grandParentSet;
+                        neueWerteAlteFelderObj[neuKey] = grandParentSet;
                     else 
-                        neueFelderAlteWerteObj[neuKey] = neuEntry;
+                        neueWerteAlteFelderObj[neuKey] = neuEntry;
                 })
 
             }
@@ -346,7 +673,7 @@ function unregistrierteParentsHinzufuegen(app, dv, RGLuINF, RGL_KEY, sammelObjek
             sammelObjekt[key] = entry;
         });
 
-        unregistrierteParentsHinzufuegen(app, dv, RGLuINF, RGL_KEY, sammelObjekt);
+        unregistrierteParentsHinzufuegen(deps, sammelObjekt, meldungen);
     }
     else {
         // console.log("return unregPar");
@@ -379,7 +706,7 @@ function getGrandParent(parent) {
 }
 
 
-
+// hier Seitenanalyse-Objekt
 /** einzelne Suchergebnis-Seite
 
  *  analyse-Objekt erzeugen mit
@@ -401,21 +728,22 @@ function getGrandParent(parent) {
    
  */
 
-function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
+function einzelneSeiteAnalysieren(deps, seitePath) {
 
     /*/CONSOLE
     console.log("einzelne Seite analysieren: Seite: " + seitePath);
     //*/
 
-    // Aus den REGELN
-    const migRootKl = RGLuINF.migRootKl;
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
-    const RGL_felderUWerte = EIGENE_REGELN.felderUndWerte;
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
     
+    // Aus den REGELN
+    const migRootKl = REGELN.migRootKl;
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
+    const RGL_felderUWerte = EIGENE_REGELN.felderUndWerte;
+
 
     /** analyse-Objekt
      */
-
     const analyse = {
         pfad: seitePath,
         name: null,
@@ -429,7 +757,7 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
     };
 
     // seitePath => seiteCWerteErkannt: Obj{ sPath,  sNorm, feldIst, checkWerte }
-    const erkannteSeiteundCWerte = einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, seitePath);
+    const erkannteSeiteundCWerte = einzelneSeiteUndCWerkennen(deps, seitePath);
     
     // normSeite existiert nicht => return
     if (!erkannteSeiteundCWerte.norm)
@@ -445,9 +773,6 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
     console.log("analyse.name: "+ analyse.name)
     analyse.checkWerteErkannt.forEach(cw => console.log(cw.wert + ", erkannt als " + cw.erkanntAls));
     //*/
-
-    // *** Neue-Felder und Werte-Objekt *** //
-    const seitenWerteNeu = {};
 
     /*  Objekte / Arrays insgesamt:
         - analyse               //  enthält alles => RETURN-Objekt
@@ -479,7 +804,7 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
         .filter(cw => cw.erkanntAls === 2);
 
     const neueWerteArr = cw2erNeueWerteKandidaten
-        .map(cw2er => getNeueWerte(app, dv, RGLuINF, RGL_KEY, cw2er.norm.name));
+        .map(cw2er => getNeueWerte(deps, cw2er.norm.name));
 
     analyse.checkWerteNeuArr = neueWerteArr;
 
@@ -490,6 +815,9 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
     // ** neueWerteSets bearbeiten:
     //  * => erhält Keys gemäß Regeln = new Set()
     //  * => erhält Standard-Werte: migRootKl, inFeld/artPath, pstatus gemäß Regeln
+
+    // *** Neue-Felder und Werte-Objekt *** //
+    const seitenWerteNeu = {};
 
     RGL_Keys.forEach(key => { // [migRootKl, artPath, erster, letzter, vorletzter, pstatus]
         
@@ -515,20 +843,41 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
             }
             else if (key === "letzter") {
                 neueWerteArr.forEach(nw => {
-                    const nichtMigRoot = nw.letzter !== migRootKl;
+                    const istSelbstMigRoot = nw.letzter === migRootKl;
+                    const beginntMitRootKl = nw.letzter.startsWith(migRootKl);
+
                     // console.log("letzter Wert: " + nw.letzter + " / migRootKl: " + migRootKl + " / nichtMigRoot: " + nichtMigRoot)
-                        if (nichtMigRoot) 
-                            seitenWerteNeu[regelKey].add(nw.letzter);
+                    if (!istSelbstMigRoot && beginntMitRootKl) 
+                        seitenWerteNeu[regelKey].add(nw.letzter);
+                    
+                    else if (istSelbstMigRoot) {
+                        const meldung = { 
+                            seite: analyse.name,
+                            ursprung: "einzelne Seite analysieren > letzter", 
+                            info: `${nw.letzter} ist selbst die rootKl-Seite (${migRootKl}).`
+                        };
+                        analyse.meldungen.push(meldung);
+                    }
+                    else if (!beginntMitRootKl) {
+                        const meldung = { 
+                            seite: analyse.name,
+                            ursprung: "einzelne Seite analysieren > letzter", 
+                            info: `${nw.letzter} beginnt nicht mit migRootKl (${migRootKl}).`
+                        };
+                        analyse.meldungen.push(meldung);
+                    }
+
                 });
             }
             else if (key === "vorletzter") {
                 neueWerteArr.forEach(nw => seitenWerteNeu[regelKey].add(nw.vorletzter));
             }
             else if (key === "pstatus") {
-                const uniquePSet = getAlleUniquePStatus(app, dv, RGLuINF, RGL_KEY, erkannteSeiteundCWerte.checkWerte);
+                const uniquePSet = getAlleUniquePStatus(deps, erkannteSeiteundCWerte.checkWerte);
                 const mehrAlsEinP = uniquePSet.size >1;
                 if (mehrAlsEinP) {
                     const meldung = { 
+                        seite: analyse.name,
                         ursprung: "einzelne Seite analysieren > unique p-Status", 
                         info: `${[...uniquePSet]} hat mehr als einen (${uniquePSet.size}) p-Status`
                     };
@@ -557,9 +906,11 @@ function einzelneSeiteAnalysieren(app, dv, RGLuINF, RGL_KEY, seitePath) {
     
  */
 
-function getNeueWerte(app, dv, RGLuINF, RGL_KEY, checkWertName) {
+function getNeueWerte(deps, checkWertName) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
     
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
     const ersterSeparat = EIGENE_REGELN.ersterSeparat;
 
     const splitPathOhneP = checkWertName
@@ -626,9 +977,11 @@ function getNeueWerte(app, dv, RGLuINF, RGL_KEY, checkWertName) {
     return Set
  */
 
-function getAlleUniquePStatus(app, dv, RGLuINF, RGL_KEY, checkWerte) {
+function getAlleUniquePStatus(deps, checkWerte) {
 
-    const nichtP = RGLuINF.nichtPNorm.name;
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    const nichtP = REGELN.nichtPNorm.name;
 
     const uniquePSet = new Set();
 
@@ -639,7 +992,7 @@ function getAlleUniquePStatus(app, dv, RGLuINF, RGL_KEY, checkWerte) {
         
         else if (cwert.erkanntAls === 2 || cwert.erkanntAls === 5) {
             
-            const erkannteSeiteUndCWerte = einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, cwert.norm.path);
+            const erkannteSeiteUndCWerte = einzelneSeiteUndCWerkennen(deps, cwert.norm.path);
             
             erkannteSeiteUndCWerte.checkWerte.forEach(cwrt => {
 
@@ -703,7 +1056,9 @@ function einzelnerCWpStatCheck(app, dv, RGLuINF, RGL_KEY, norm) {
     - einzelnenCheckWertErkennen
  */
 
-function einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, seitePath) {
+function einzelneSeiteUndCWerkennen(deps, seitePath) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
 
     /*/CONSOLE
     console.log("einzelneSeiteUndCWerkennen: Seite: "  + seitePath)
@@ -714,7 +1069,7 @@ function einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, seitePath) {
 
     const cwerteErkanntObj = {
         pfad: seitePath,
-        norm: exists ? einzelneSeiteNorm : null,
+        norm: null,
         feldIst: [],
         checkWerte: []
     };
@@ -722,14 +1077,16 @@ function einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, seitePath) {
     if (!exists) 
         return cwerteErkanntObj;
 
+    cwerteErkanntObj.norm = einzelneSeiteNorm;
+
     //console.log("checkWerteErkennen: Seite: " + einzelneSeiteNorm.name);
         
-    const checkWerteArr = getCheckWerteArr(app, RGLuINF, RGL_KEY, einzelneSeiteNorm);
+    const checkWerteArr = getCheckWerteArr(deps, einzelneSeiteNorm);
 
     cwerteErkanntObj.feldIst = checkWerteArr.feldIst;
 
     checkWerteArr.checkWerte.forEach(checkWert => {
-        const cwertErkannt = einzelnenCheckWertErkennen(app, dv, RGLuINF, RGL_KEY, checkWert);
+        const cwertErkannt = einzelnenCheckWertErkennen(deps, checkWert);
         cwerteErkanntObj.checkWerte.push(cwertErkannt);
     });
     
@@ -753,7 +1110,9 @@ function einzelneSeiteUndCWerkennen(app, dv, RGLuINF, RGL_KEY, seitePath) {
     Kategorie _ Wissenschaft _ Philosophie)
  */
 
-function getCheckWerteArr(app, RGLuINF, RGL_KEY, einzelneSeiteNorm) {
+function getCheckWerteArr(deps, einzelneSeiteNorm) {
+
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
 
     const feldIst = einzelnesFeldLesen(app, einzelneSeiteNorm, "ist") ?? [];
     
@@ -762,7 +1121,7 @@ function getCheckWerteArr(app, RGLuINF, RGL_KEY, einzelneSeiteNorm) {
     console.log("getCheckWerteArr: checkInklSeite: " + RGLuINF.EIGENE_REGELN.checkInklSeite);
     */
     
-    const checkWerte = RGLuINF.EIGENE_REGELN.checkInklSeite
+    const checkWerte = REGELN.EIGENE_REGELN.checkInklSeite
         ? [einzelneSeiteNorm.path, ...feldIst]
         : feldIst;
     
@@ -774,13 +1133,15 @@ function getCheckWerteArr(app, RGLuINF, RGL_KEY, einzelneSeiteNorm) {
 
 
 
-/** einzelnen checkWert erkennen:
+/** einzelnen checkWert erkennen: 
     { norm, erkanntAls: 0,1,2,3,4,5 }
  */
 
-function einzelnenCheckWertErkennen(app, dv, RGLuINF, RGL_KEY, checkWertRaw) {
+function einzelnenCheckWertErkennen(deps, checkWertRaw) {
 
-    const {migRootKlNorm, rootPStatNorm, nichtPNorm} = RGLuINF;
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    const {migRootKlNorm, rootPStatNorm, nichtPNorm} = REGELN;
 
     const checkWertPath = resolveLinkPath(app, checkWertRaw);
     const checkWertNorm = getPageNormObject(app, dv, checkWertPath);
@@ -870,9 +1231,19 @@ function einzelnenCheckWertErkennen(app, dv, RGLuINF, RGL_KEY, checkWertRaw) {
     - einzelneSeiteCWerkennen
  */
 
-function getCheckSeiten(app, dv, RGLuINF, RGL_KEY) {
+function getCheckSeiten(deps) {
 
-    const EIGENE_REGELN = RGLuINF.EIGENE_REGELN;
+    // oben:
+    const { app, dv, REGELN, INSToDEF_KEY } = deps;
+
+    /*/CONSOLE: INSToDEF_KEY
+    console.log(">>>>>>>>>>> INSToDEF_KEY <<<<<<<<<<<<<: " + INSToDEF_KEY);
+    //*/
+
+    // hier:
+    // app, dv, RGLuINF, RGL_KEY
+    // console.log("EIGENE_REGELN: "+ REGELN.EIGENE_REGELN)
+    const EIGENE_REGELN = REGELN.EIGENE_REGELN;
 
     //console.log("EIGENE_REGELN: ziel: " + EIGENE_REGELN.ziel);
 
@@ -881,18 +1252,18 @@ function getCheckSeiten(app, dv, RGLuINF, RGL_KEY) {
     if (!EIGENE_REGELN.ziel)
         return checkSeitenSet;
 
-    queryMigInstsODefs(dv, RGLuINF.migRootKl, EIGENE_REGELN.ziel)
+    queryMigInstsODefs(dv, REGELN.migRootKl, EIGENE_REGELN.ziel)
         .forEach(path => checkSeitenSet.add(path));
 
     
     if (EIGENE_REGELN.ziel === "ontDef") {
         
         
-        queryMigInstsODefs(dv, RGLuINF.migRootKl, "inst")
+        queryMigInstsODefs(dv, REGELN.migRootKl, "inst")
             .forEach(einzelSPath => {
                 //console.log("zusätzlich gefundene inst: " + einzelSPath);
 
-                const sCWerkannt = einzelneSeiteUndCWerkennen(app, dv, RGLuINF, "migInst", einzelSPath);
+                const sCWerkannt = einzelneSeiteUndCWerkennen({app, dv, REGELN, INSToDEF_KEY: "migInst"}, einzelSPath);
 
                 sCWerkannt.checkWerte.forEach(cwert => {
                     //console.log("zusätzliche inst checkWerte => .erkanntAls " + cwert.erkanntAls)
@@ -911,3 +1282,4 @@ function getCheckSeiten(app, dv, RGLuINF, RGL_KEY) {
     
     return checkSeitenSet;
 }
+

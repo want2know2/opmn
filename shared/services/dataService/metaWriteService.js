@@ -49,7 +49,6 @@ export async function updateFrontmatter(app, normPage, updaterFns) {
  * all modifications happen directly on the fm object. 
  * After the callback finishes, updateFrontmatter sees the 
  * already-modified object and writes it back to the file. 
- * No return value is needed.
  */
 
 // set field

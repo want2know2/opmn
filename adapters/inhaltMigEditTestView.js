@@ -12,6 +12,8 @@ import { distinctIstValues,
 import { migManager }               from "../features/_migrations/v1ToV2/migFeatures/migManager.js";
 import { migManagerTest2 }          from "../features/_migrations/v1ToV2/migFeatures/migManagerTest2.js";
 import { migManagerTest4 } from "../features/_migrations/v1ToV2/migFeatures/migManagerTest4.js";
+import { migManagerTest5SAVE } from "../features/_migrations/v1ToV2/migFeatures/migManagerTest5SAVE.js";
+import { migManagerTest5 } from "../features/_migrations/v1ToV2/migFeatures/migManagerTest5.js";
 
 
 ////
@@ -67,7 +69,9 @@ export class InhaltMigView extends ItemView {
         //migManager(this);
         //migManagerTest2(this);
         //migManagerTest3(this);
-        migManagerTest4(this);
+        //migManagerTest4(this);
+        //migManagerTest5SAVE(this);
+        migManagerTest5(this);
     }
 }
 

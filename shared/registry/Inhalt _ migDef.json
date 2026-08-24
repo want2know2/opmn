@@ -1,0 +1,1794 @@
+{
+  "Inhalt _ Foto": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ 3D-Video-Stadtrundgang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Artikelreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Fachartikel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rezension": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Aufnahme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bericht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Diskussion": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kommentar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Monolog": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Musik": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Podcast _ Podcastfolge": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Podcast": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Radiobeitrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Radiosendung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rede": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sammlung _ Playlist": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sammlung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Grafik _ Gutschein": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Grafik": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Landkarte _ Stadtkarte _ Spaziergang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Landkarte _ Stadtkarte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Landkarte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Satire": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Screenshot": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Social Media": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Beispiel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Metadaten": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vorlage _ Script zum Testen und Debuggen": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vorlage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Analyse": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Angebot": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Anschreiben": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Antrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Artikel _ Fachartikel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Artikel _ Rezension": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Artikel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Aushang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Ausschnitt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Beschreibung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bestellung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Blogeintrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Brief": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Bilderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Buchbesprechung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Buchreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Gedichtband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Kapitel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Kinderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Lexikon": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Monographie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Nachdruck": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Roman": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Sachbuch, Fachliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Sammelband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch _ Sekundärliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Chat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dialog": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokument _ Mitgliedsbescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokument": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokumentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dossier": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Einladung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Entwurf": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Erklärung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Essay": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Foreneintrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Formular": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Frage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gerichtsurteil _ Anerkenntnisurteil": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gerichtsurteil": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gesetzestext": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gliederung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Glossar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Hausarbeit": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Idee": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Info": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Information": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Inhaltsverzeichnis": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ KI-Antwort": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kochrezept": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kontoauszug": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Korrektur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kundeninformation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kündigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Ladung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Magazin _ Magazinreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Magazin": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mail": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Masterarbeit": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Messenger-Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mietbescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Präsentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Presseerklärung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Primärquelle": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Produktbewertung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Promt _ Promtvorlage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Promt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Protokoll": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Bußgeldbescheid": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Mahnung _ Festsetzungsbescheid": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Mahnung _ Pfändung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Mahnung _ Vollstreckungsankündigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Mahnung _ Zahlungsaufforderung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Mahnung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Referat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ SMS": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Songtext": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Steuerbescheid _ Festsetzung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Steuerbescheid": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Studie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Tabelle": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Theaterstück _ Theaterstückreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Theaterstück": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Ticket _ Bahnticket": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Tutorial": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Übersicht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Überweisung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vertrag _ Mietvertrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vertrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vortrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Werbung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Zettel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Zitat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ 3D-Video _ Stadtrundgang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ 3D-Video": {
+    "userAuswahl": 1,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Amateuraufnahme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokumentarfilm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Erklärvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Film _ Filmreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Film _ Kurzfilm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Film": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gespräch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ KI-Video": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kurzvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Livevideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Meinungsvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Meme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Musikvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Pressekonferenz": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Reactionvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Serie _ Serienstaffel _ Serienfolge": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Serie _ Serienstaffel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Serie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Show _ Comedy": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Show _ Talkshow": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Social Media _ Social Media (Kurzvideo)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Standup Comedy": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vorlesungsreihe _ Vorlesung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vorlesungsreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Zusammenschnitt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Ticket": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Show": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Album": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bilderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buchbesprechung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Buchreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gedichtband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kapitel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kinderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Lexikon": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Monographie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Nachdruck": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Roman": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sachbuch, Fachliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sammelband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sekundärliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Comic": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Deep Fake": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mitgliederbescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mitgliedsbescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Renteninformation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Filmreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Kurzfilm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Anerkenntnisurteil": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Diagramm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Gutschein": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Stadtkarte _ Spaziergang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Stadtkarte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Magazinreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Live": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Podcastfolge": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Presseschau": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Promtvorlage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bußgeldbescheid": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mahnung _ Festsetzungsbescheid": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mahnung _ Pfändung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mahnung _ Vollstreckungsankündigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mahnung _ Zahlungsaufforderung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mahnung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Ratenzahlungsvereinbarung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Playlist": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Sammlung (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Serienstaffel _ Serienfolge": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Serienstaffel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Comedy-Show": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Show - Talkshow": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Social Media (Kurzvideo)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Standup-Comedy": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Statistik": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Festsetzung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Rechnung _ Ratenzahlungsvereinbarung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Theaterstückreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bahnticket": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Mietvertrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Script zum Testen und Debuggen": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Vorlesung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Zusammenfassung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Arbeitsschritte und -Inhalte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Audiovisuelle Medieninhalte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Finanzen, Geschäftliches": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Formelles": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ KI": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Kommunikation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Medien": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Medientyp- übergreifende Inhalte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Sammeln und Ordnen": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt-Grp _ Schrift-, Printmedien": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ 3D-Video _ 3D-Video-Stadtrundgang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Artikel _ Artikelreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Anruf (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Anruf": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Aufnahme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Bericht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Diskussion": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Kommentar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Monolog": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Musik (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Musik": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Podcast _ Podcastfolge (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Podcast": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Radiobeitrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Radiosendung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Rede": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Sammlung _ Playlist": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Audio _ Sammlung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Foto (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Foto": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Grafik _ Gutschein (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Grafik": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Landkarte _ Stadtkarte _ Spaziergang (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Landkarte _ Stadtkarte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Landkarte": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Satire": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Screenshot (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Screenshot": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Bild _ Social Media": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code _ Beispiel (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code _ Beispiel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code _ Metadaten (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code _ Vorlage _ Script zum Testen und Debuggen (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Code _ Vorlage (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokument _ Mitgliederbescheinigung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Dokument _ Renteninformation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Grafik _ Diagramm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Musik _ Live": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Musik _ Musikvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Show _ Comedy-Show": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Analyse": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Angebot (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Angebot": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Anschreiben (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Anschreiben (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Anschreiben": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Antrag (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Artikel _ Fachartikel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Artikel _ Rezension": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Artikel (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Artikel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Aushang (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Ausschnitt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Beispiel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Bericht (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Bericht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Bescheinigung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Beschreibung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Bestellung (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Bestellung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Blogeintrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Brief": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Bilderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Buchbesprechung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Buchreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Gedichtband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Kapitel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Kinderbuch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Lexikon": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Monographie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Nachdruck": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Roman": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Sachbuch, Fachliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Sammelband": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch _ Sekundärliteratur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Buch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Chat (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Chat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dialog": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Diskussion (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dokument _ Mitgliedsbescheinigung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dokument (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dokument": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dokumentation (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dokumentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Dossier": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Einladung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Entwurf (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Entwurf (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Entwurf": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Erklärung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Essay": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Foreneintrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Formular (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Formular": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Frage (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Frage (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Gerichtsurteil _ Anerkenntnisurteil (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Gerichtsurteil": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Gesetzestext": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Gliederung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Glossar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Hausarbeit": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Idee (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Idee": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Info": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Information (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Information": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Inhaltsverzeichnis (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Inhaltsverzeichnis": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ KI-Antwort (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kochrezept": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kommentar (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kommentar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kontoauszug (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Korrektur (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kundeninformation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Kündigung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Ladung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Magazin _ Magazinreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Magazin": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Mail (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Mail (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Mail": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Masterarbeit": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Messenger-Nachricht (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Messenger-Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Mietbescheinigung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Präsentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Presseerklärung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Primärquelle": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Produktbewertung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Promt _ Promtvorlage (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Promt (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Protokoll": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Bußgeldbescheid (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Mahnung _ Festsetzungsbescheid (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Mahnung _ Pfändung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Mahnung _ Vollstreckungsankündigung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Mahnung _ Zahlungsaufforderung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Mahnung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung _ Ratenzahlungsvereinbarung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rechnung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Rede": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Referat (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Referat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Sammlung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Satire": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ SMS (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Social Media": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Songtext (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Songtext": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Steuerbescheid _ Festsetzung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Steuerbescheid (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Studie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Tabelle": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Theaterstück _ Theaterstückreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Theaterstück": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Ticket _ Bahnticket (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Ticket _ Bahnticket": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Tutorial (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Tutorial (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Tutorial": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Übersicht (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Überweisung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vertrag _ Mietvertrag (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vertrag _ Mietvertrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vertrag (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vertrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vorlage (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vorlage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Vortrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Werbung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Zettel (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Text _ Zitat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ 3D-Video _ Stadtrundgang": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ 3D-Video": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Amateuraufnahme (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Amateuraufnahme (pp)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Amateuraufnahme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Analyse": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Ausschnitt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Bericht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Diskussion": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Dokumentarfilm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Dokumentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Erklärvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Film _ Filmreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Film _ Kurzfilm": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Film": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Gespräch": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ KI-Video": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Kommentar": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Kurzvideo (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Kurzvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Livevideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Meinungsvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Meme": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Monolog": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Musikvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Nachricht": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Podcast": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Präsentation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Pressekonferenz": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Reactionvideo": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Rede": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Satire": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Serie _ Serienstaffel _ Serienfolge": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Serie _ Serienstaffel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Serie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Show _ Comedy": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Show _ Talkshow": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Social Media _ Social Media (Kurzvideo)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Social Media": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Standup Comedy": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Tutorial": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Vorlesungsreihe _ Vorlesung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Vorlesungsreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Vortrag": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Werbung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Video _ Zusammenschnitt": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Inhalt _ Anruf": {
+    "userAuswahl": 1,
+    "inAnalyseObjekt": true
+  }
+}

@@ -10,10 +10,17 @@ import { normalizePath }        from "obsidian";
  */
 
 export async function readRegJSON(app, jsonName) {  
+
     const fullPath = normalizePath(
         `${app.vault.configDir}/plugins/opmn/shared/registry/${jsonName}.json`
     );
+    
+    if (!(await app.vault.adapter.exists(fullPath))) {
+        return null;
+    }
+
     const raw = await app.vault.adapter.read(fullPath);  
+
     return JSON.parse(raw);  
 }
 
@@ -23,9 +30,11 @@ export async function readRegJSON(app, jsonName) {
  */
 
 export async function writeRegJSON(app, jsonName, newData = {}) {
+    
     const fullPath = normalizePath(
         `${app.vault.configDir}/plugins/opmn/shared/registry/${jsonName}.json`
     );
+
     await app.vault.adapter.write(fullPath, JSON.stringify(newData, null, 2));
 }
 

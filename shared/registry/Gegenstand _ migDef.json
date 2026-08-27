@@ -1,0 +1,326 @@
+{
+  "Gegenstand _ Account": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Auto": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Grundstück": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Friedhof": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Grab": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage _ Wohnung _ Raum": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage _ Wohnung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Infrastruktur _ Energieinfrastruktur _ Pipeline": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Infrastruktur _ Energieinfrastruktur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Infrastruktur _ Handelsroute": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Infrastruktur": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Kleidung _ Kopfbedeckung _ Mütze": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Kleidung _ Kopfbedeckung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Kleidung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Lebensmittel _ Fertigessen": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Lebensmittel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Aktenvernichter": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ E-Book-Reader _ Hülle für E-Book-Reader": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ E-Book-Reader": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ Scanner": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ Server": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Musikinstrument _ Bass": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Musikinstrument _ Hi Hat": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Musikinstrument _ Kick": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Musikinstrument _ Snare": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Musikinstrument": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ 3D-Design": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ DAW": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Digitales Instrument": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Distortion": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Equalizer": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Exciter": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Expander": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Kompressor": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Limiter": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Reverb": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Sampleinstrument _ Streicher": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Sampleinstrument": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Saturation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ Synthesizer": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung _ VU-Meter": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Audiobearbeitung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Betriebssystem": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Betriebssystemreihe": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Bildbearbeitung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Browser": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Computerspiel": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Crypto-Token": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Datenbank": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Kommunikation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Künstliche Intelligenz _ LLM": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Künstliche Intelligenz": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Marketingtool": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Marktanalysetool": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Obsidian-Plugin": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Programmiersprache": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Tabellenkalkulation": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Textverarbeitung _ Markdown": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Textverarbeitung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Videobearbeitung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Virtuelle Umgebung": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Account (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Auto (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Grundstück (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Grab (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage _ Wohnung _ Raum (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage _ Wohnung (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus _ Etage (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie _ Haus (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Immobilie (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ E-Book-Reader _ Hülle für E-Book-Reader (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Hardware _ E-Book-Reader (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug _ Software _ Crypto-Token (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  },
+  "Gegenstand _ Werkzeug (p)": {
+    "userAuswahl": null,
+    "inAnalyseObjekt": true
+  }
+}

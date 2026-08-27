@@ -33,21 +33,32 @@ export async function migManagerTest5(obsClsObj) {
 
     // Mig-MANAGER STATUS / User-Auswahl / REGELN
     const migManager = {
+        
         obsClsObj,      
         app, dv,        
+
         migRootKl:      null,
-        instODef:       "migDef",
+        instODef:       "migInst",
+
        ergAnzahlGesamt: 0,
         ergAnzeigeVon:  0,
         ergAnzeigeBis:  100,
+
+        ergAuswahl:     [],
+        ergInArbeit:    [],
+
         fltKeinFlt:     true,
         fltExistsKey:   "",
         fltFelderKey:   "",
         fltAktuellKey:  "",
         fltAktionKey:   "",
+
         sortBy:         "name",
+
         MIG_REGELN,     
+
         ui: {           
+                        
             els: {},    // < userUI
             contentEl,  
             hidden:     true,
@@ -74,12 +85,19 @@ async function getUI(migManager) {
         mainHeader:             ["topUIBox",            "h4",       "Migrations-Manager"    ],
         infoHeader:             ["topUIBox",            "h5",       "Auswahl treffen"       ],
         migKlBtnBox:            ["topUIBox"                                                 ],
-        instODefBtn:            ["topUIBox",            "button",   "Definitionen"          ],
+        br_sLK66s:              ["topUIBox",            "br"                                ],
+        instODefBtn:            ["topUIBox",            "button",   "Instanzen"             ],
+        br_93sD7d:              ["topUIBox",            "br"                                ],
         ergHeader:              ["topUIBox",            "h5"                                ],
-        uiTabBox:               ["topUIBox"                                                 ],
+      fltAktAendAktAusfBtnsBox: ["topUIBox"                                                 ],
+
+        bearbeitenBox:          ["topUIBox"                                                 ],
+
         sortHeader:             ["topUIBox",            "h6",       "Sortieren nach"        ],
         uiSortBox:              ["topUIBox"                                                 ],
-        infoBox:                ["topUIBox"                                                 ],
+        br_XkS64d:              ["topUIBox",            "br"                                ],
+        br_sd2flk:              ["topUIBox",            "br"                                ],
+        
         navBtnBoxTop:           ["topUIBox"                                                 ],
         navInfoBoxTop:          ["navBtnBoxTop",        "span"                              ],
         navZurueckBtnTop:       ["navBtnBoxTop",        "button",   "zurück"                ],
@@ -99,23 +117,25 @@ async function getUI(migManager) {
     const { els } = ui;
 
     // CSS
-    els.infoBox.style.height = "85px";
+    els.bearbeitenBox.style.height = "85px";
 
 
-
-    els.hiddenEls = [
-        //els.infoHeader,
-        //els.ergHeader,
-        els.uiTabBox,
+    /*els.hiddenEls = [
+       
+        els.fltAktAendAktAusfBtnsBox,
+        els.bearbeitenBox,
+        
         els.sortHeader,
         els.uiSortBox,
-        els.infoBox,
+
         els.navBtnBoxTop,
         els.ergBox,
         els.belowUIBox
-    ];
+    ];*/
+
+
     
-    renderHiddenEls(migManager, null);
+    // renderHiddenAndVisibleUI(migManager, null);
 
     // Tabellenüberschriften
     els.uiTabHeaderArr = [ 
@@ -132,7 +152,6 @@ async function getUI(migManager) {
     ];
 
 
-    
 
     // migRootKl-Buttons
     Object.keys(migManager.MIG_REGELN).forEach(key => {
@@ -146,7 +165,8 @@ async function getUI(migManager) {
             
             migManager.migRootKl = key;
 
-            resetErgAnzUndFlt(migManager);
+            setMigMngrStatus(migManager);
+            //resetMigMngrErgAnzUndFlt(migManager);
         
             await getGesamtauswertungUndRenderUI(migManager);
             /*
@@ -160,13 +180,37 @@ async function getUI(migManager) {
     // InstODef-Button
     els.instODefBtn.addEventListener("click", async () => {
 
-        migManager.instODef = migManager.instODef === "migDef" 
-            ? "migInst" : "migDef";
-        
-        resetErgAnzUndFlt(migManager);
+        if (migManager.instODef === "migInst") { // wenn jetzt inst, wird auf def umgeschaltet
 
-        await getGesamtauswertungUndRenderUI(migManager);
+            /**
+             * Bevor Definitionen bearbeitet werden, muss muss geprüft werden, ob alle 
+             * Instanzen bereits bearbeitet wurden. Ich werde einbauen, dass eine 
+             * migRootKlasse, die komplett abgeschlossen ist, eine JSON datei hinterlässt. 
+             * Hier kann dann geprüft werden, ob diese vorhanden (bzw. die entsprechende 
+             * Eigenschaft true) ist.
+             */ 
+
+            await instODefBtnFn(migManager);
+        }
+
+        else {
+
+            await instODefBtnFn(migManager);
+        }
+
+        async function instODefBtnFn(migManager) {
+
+            migManager.instODef = migManager.instODef === "migDef" 
+                ? "migInst" : "migDef";
+            
+            setMigMngrStatus(migManager);
+            //resetMigMngrErgAnzUndFlt(migManager);
+
+            await getGesamtauswertungUndRenderUI(migManager);
+        }
     });
+
+    renderUI(migManager);
     
 }
 
@@ -175,14 +219,42 @@ async function getUI(migManager) {
 /** Angezeigte Tabelle wieder auf 0, Filter auf gesamt
  *  verwendet von migRootKl- und instODef-Btns
  */
-
-function resetErgAnzUndFlt(migManager) {
+/*
+function resetMigMngrErgAnzUndFlt(migManager) {
 
     migManager.ergAnzeigeVon = 0;
 
     migManager.fltKeinFlt = true;
-    migManager.fltAktionKey = "";
+
     migManager.fltExistsKey = "";
+    migManager.fltFelderKey = "";
+    migManager.fltAktuellKey = "";
+    migManager.fltAktionKey = "";
+}
+*/
+
+
+/** Angezeigte Erg und Filter setzen
+ * 
+ */
+
+function setMigMngrStatus(
+    migManager,
+    anzahlGesamt = 0,
+    anzeigeVon = 0,
+    keinFlt = true,
+    existsKey = "", felderKey = "", aktuellKey = "", aktionKey = ""
+) {
+
+    migManager.ergAnzahlGesamt = anzahlGesamt;
+    migManager.ergAnzeigeVon = anzeigeVon;
+
+    migManager.fltKeinFlt = keinFlt;
+
+    migManager.fltExistsKey = existsKey;
+    migManager.fltFelderKey = felderKey;
+    migManager.fltAktuellKey = aktuellKey;
+    migManager.fltAktionKey = aktionKey;
 }
 
 
@@ -195,28 +267,93 @@ async function getGesamtauswertungUndRenderUI(migManager) {
 
     const gesamtauswertung = await istMigDiscovery4(migManager);
 
-    checkGesamtauswertungAndSetMigManagerStatus(migManager, gesamtauswertung);
+    if (!gesamtauswertung || gesamtauswertung.finalAnzahl.gesamt === 0) {
+        
+        migManager.ergAnzahlGesamt = 0;
+    } 
+    
+    else {
+
+        migManager.ergAuswahl = getAktuellAngezeigteErg(migManager, gesamtauswertung);
+
+        migManager.ergAnzahlGesamt = gesamtauswertung.finalAnzahl.gesamt;
+    }
 
     renderUI(migManager, gesamtauswertung);
 }
 
 
 
-/** gesamtauswertung checken, wenn nicht vorhanden, erg-Anzahl = 0 und hiddenEls hidden
- *  verwendet von get Gesamtauswertung Und RenderUI
+/** RETURN: Filtern, Sortieren, Paginieren
+ * 
  */
 
-function checkGesamtauswertungAndSetMigManagerStatus(migManager, gesamtauswertung) {
-    
-    if (!gesamtauswertung || gesamtauswertung.finalAnzahl.gesamt === 0) {
-        
-        migManager.ergAnzahlGesamt = 0;
-        migManager.ui.hidden = true;
-    } else {
+function getAktuellAngezeigteErg(migManager, gesamtauswertung) {
 
-        migManager.ergAnzahlGesamt = gesamtauswertung.finalAnzahl.gesamt;
-        migManager.ui.hidden = null;
-    }
+    return Object.entries(gesamtauswertung.analyseObjekt)
+    
+    // Filtern
+    .filter(([key, entry]) => {
+
+        // Filter-Einstellungen
+        const fltKeinFlt = 
+            migManager.fltKeinFlt;
+        
+        const fltExistsKey =
+            migManager.fltExistsKey 
+                === (entry.normInfos.exists ? "e" : "ne");
+        
+                const fltFelderKey =
+            migManager.fltFelderKey 
+                === (entry.auswertung.neueFelderErstellt > 0 ? "f" : "nf");
+        
+        const fltAktuellKey =
+            migManager.fltAktuellKey 
+                === (entry.auswertung.alleFelderAktuell ? "a" : "na");
+        
+        const fltAktionKey = 
+            migManager.fltAktionKey 
+                === entry.auswertung.aktiveAktion;
+        
+        return fltKeinFlt || 
+            (fltExistsKey && fltFelderKey && fltAktuellKey && fltAktionKey);
+    })
+
+    // Sortieren
+    .sort(([aKey, aEntry], [bKey, bEntry]) => {
+
+        switch(migManager.sortBy) {
+
+            case "name":
+                return aKey.localeCompare(bKey);
+                break;
+
+            case "aktuell":
+                return (aEntry.auswertung.alleFelderAktuell ? 1 : 0) - 
+                    (bEntry.auswertung.alleFelderAktuell ? 1 : 0);
+                break;
+
+            case "aktiveAkt":
+                return aEntry.auswertung.aktiveAktion - 
+                    bEntry.auswertung.aktiveAktion;
+                break;
+
+            case "userAkt":
+                return aEntry.auswertung.userAuswahlAktion - 
+                    bEntry.auswertung.userAuswahlAktion;
+                break;
+        }
+    })
+
+    // Paginieren
+    .filter(([key, entries], i) => {
+
+        // von/bis-Anzeige
+        const iGrVon = i >= migManager.ergAnzeigeVon;
+        const iKlBis = i < (migManager.ergAnzeigeVon + migManager.ergAnzeigeBis);
+
+        return iGrVon && iKlBis;
+    })
 }
 
 
@@ -227,58 +364,92 @@ function checkGesamtauswertungAndSetMigManagerStatus(migManager, gesamtauswertun
 
 function renderUI(migManager, gesamtauswertung) {
 
-    if (migManager.ergAnzahlGesamt === 0) {
+    const { els } = migManager.ui;
 
-        renderAlwaysVisibleElements(migManager, gesamtauswertung, null);
+    // sichtbar gemäß Ergebnisse vorhanden
+    const ergVorhandenCheck = migManager.ergAnzahlGesamt > 0;
+
+    [   
+        els.fltAktAendAktAusfBtnsBox,
+        els.bearbeitenBox,
+        
+        els.sortHeader,
+        els.uiSortBox,
+
+        els.navBtnBoxTop,
+        els.ergBox,
+        els.belowUIBox
+    ]
+    .forEach(el => 
+        el.style.visibility = ergVorhandenCheck
+            ? "visible" : "hidden"
+    );
+
+    // keine Ergebnisse vorhanden
+    if (!ergVorhandenCheck) {
+
+        renderInfoHeader(migManager, gesamtauswertung);
+        renderInstODefBtn(migManager);
+        renderErgHeader(migManager, gesamtauswertung);
 
         return;
-    }
-    
-    
-    const { els } = migManager.ui;
+    } 
 
-    renderAlwaysVisibleElements(migManager, gesamtauswertung);
+    // sichtbar gemäß Ergebnisse in Arbeit
+    const ergInArbeitCheck = migManager.ergInArbeit.length > 0;
 
-    renderUIBox(migManager, gesamtauswertung);
+    [
+        els.fltAktAendAktAusfBtnsBox,
 
-    renderUiSortBox(migManager, gesamtauswertung);
+        els.sortHeader,
+        els.uiSortBox,
+        
+        els.navBtnBoxTop,
+        els.belowUIBox
+    ]
+    .forEach(el => 
+        el.style.visibility = ergInArbeitCheck
+            ? "hidden" 
+            : "visible"
+    );
 
-    renderNavBoxes(migManager, gesamtauswertung);
-    
-    renderErgBox(migManager, gesamtauswertung);
-}
+    // Bearbeiten-Box
+    [
+        els.bearbeitenBox
+    ]
+    .forEach(el => 
+        el.style.visibility = ergInArbeitCheck
+            ? "visible" : "hidden"
+    );
 
 
-
-/** hidden Els, info-Header, instODef-Button, ergebnis-Header
- *  verwendet von renderUI
- *  Logik: wenn gesamtauswertungvorhanden => sichtbar/rendern, sonst nicht
- */
-
-function renderAlwaysVisibleElements(migManager, gesamtauswertung, ergVorhanden = true) {
-
-    renderHiddenEls(migManager, ergVorhanden);
-
+    // Immer rendern
     renderInfoHeader(migManager, gesamtauswertung);
     renderInstODefBtn(migManager);
-    renderErgHeader(migManager, gesamtauswertung, ergVorhanden);
+    renderErgHeader(migManager, gesamtauswertung);
+    
+    // Rendern wenn sichtbar
+    if (els.fltAktAendAktAusfBtnsBox.style.visibility === "visible")
+        renderBtnsTopBox(migManager, gesamtauswertung);    
+
+    if (els.uiSortBox.style.visibility === "visible")
+        renderUiSortBox(migManager, gesamtauswertung);
+    
+    if (els.navBtnBoxTop.style.visibility === "visible")
+        renderNavBoxes(migManager, gesamtauswertung);
+
+    if (els.ergBox.style.visibility === "visible")
+        renderErgBox(migManager, gesamtauswertung);
+
+    if (els.bearbeitenBox.style.visibility === "visible")
+        renderBearbeitenBox(migManager, gesamtauswertung);
+
 }
 
 
 
-/** hidden-Els
- * 
- */
 
-function renderHiddenEls(migManager, ergVorhanden = true) {
 
-    const { els } = migManager.ui;
-
-    els.hiddenEls.forEach(el => 
-        el.style.visibility = !ergVorhanden
-            ? "hidden" : "visible"
-    );
-}
 
 
 
@@ -297,7 +468,7 @@ function renderInfoHeader(migManager, gesamtauswertung) {
 
     for (let i = 0; i < textArr.length; i++) {
 
-        setTimeout(() => { els.infoHeader.textContent += textArr[i] }, i * (15 + (i * 1,25)));
+        setTimeout(() => { els.infoHeader.textContent += textArr[i] }, i * 5);
     }
 }
 
@@ -311,9 +482,11 @@ function renderInstODefBtn(migManager) {
 
     const { els } = migManager.ui;
 
-    els.instODefBtn.textContent = 
+    els.instODefBtn.textContent = "zu ";
+
+    els.instODefBtn.textContent += 
         migManager.instODef === "migDef" 
-            ? "Definitionen" : "Instanzen";
+            ? "Instanzen" : "Definitionen";
 }
 
 
@@ -322,45 +495,61 @@ function renderInstODefBtn(migManager) {
  * 
  */
 
-function renderErgHeader(migManager, gesamtauswertung, ergVorhanden = true) {
+function renderErgHeader(migManager, gesamtauswertung) {
 
     const { els } = migManager.ui;
 
-    let textArr = [];
+    const ergVorhanden = migManager.ergAnzahlGesamt > 0;
+    const ergInArbeitCheck = migManager.ergInArbeit.length > 0;
+
+    let textStrToArr = "";
 
     if (!ergVorhanden) {
 
-        textArr = "Keine Ergebnisse".split("");
+        textStrToArr = "Keine Ergebnisse";
+    }
+
+    else if (ergInArbeitCheck) {
+
+        textStrToArr = "Ergebnisse in Arbeit";
     }
 
     else {
 
         const { 
             ergAnzahlGesamt,
-            fltKeinFlt, fltExistsKey, fltFelderKey, fltAktuellKey, fltAktionKey 
+            fltKeinFlt, fltExistsKey, fltFelderKey, fltAktuellKey, fltAktionKey,
+            buttonAktion
         } = migManager;
 
         const { suchseiten, gesamt, status } = gesamtauswertung.finalAnzahl;
 
         if (fltKeinFlt) {
 
-            textArr = 
-                `${gesamt} Ergebnisse aus ${suchseiten} analysierten Seiten`.split("");
+            textStrToArr = 
+                `${gesamt} Ergebnisse aus ${suchseiten} analysierten Seiten`;
         }
 
         else {
 
-            textArr = 
-                `${status[fltExistsKey][fltFelderKey][fltAktuellKey][fltAktionKey]} Seiten (aus ${gesamt} Ergebnissen aus ${suchseiten} analysierten Seiten)`.split("");
+            textStrToArr = 
+                `${status
+                    [fltExistsKey][fltFelderKey][fltAktuellKey][fltAktionKey]
+                } Seiten (aus ${
+                    gesamt
+                } Ergebnissen aus ${
+                    suchseiten
+                } analysierten Seiten)`;
         }
         
     }
 
     els.ergHeader.textContent = " ";
+    textStrToArr = textStrToArr.split("");
 
-    for (let i = 0; i < textArr.length; i++) {
+    for (let i = 0; i < textStrToArr.length; i++) {
 
-        setTimeout(() => { els.ergHeader.textContent += textArr[i] }, i * ((5) + (i * 1,25)));
+        setTimeout(() => { els.ergHeader.textContent += textStrToArr[i] }, i * 7);
     }
 
     
@@ -369,111 +558,179 @@ function renderErgHeader(migManager, gesamtauswertung, ergVorhanden = true) {
 
 
 
-/** ui-Box: Filter-Buttons 
+/** UI-BOX: FILTER- / AKTION ÄNDERN- / AKTION AUSFÜHREN-BUTTONS 
  * 
  */
 
-function renderUIBox(migManager, gesamtauswertung) {
+function renderBtnsTopBox(migManager, gesamtauswertung) {
 
     const { els } = migManager.ui;
 
     const {aktionenAuswahl, aktionenTexte} = getAktionsInfos();
 
-    /*const fltBtnInfos = {
-        e: {
-            a: {
-                "0": "keine Aktion",
-                "3": "löschen"
-            },
-            na: {
-                "0": "keine Aktion",
-                "1": "updaten",
-                "3": "löschen"
-            }
-        },
-        ne: {
-            na: {
-            "0": "keine Aktion",
-            "2": "erstellen"
-            }
-        }
-    };*/
-
-    // BOX LEEREN
-    els.uiTabBox.empty();
-
-    // TABELLE
-    const tabelle = tableMakerReiheHd(els.uiTabBox, els.uiTabHeaderArr);
     
-    // GESAMT-BTN
+    // UI-BOX LEEREN
+    els.fltAktAendAktAusfBtnsBox.empty();
+
+    // UI-TABELLE ERSTELLEN
+    const tabelle = tableMakerReiheHd(els.fltAktAendAktAusfBtnsBox, els.uiTabHeaderArr);
+    
+    // UI-TABELLE: CELLS für FILTER-BUTTON Gesamt ERSTELLEN
     const cells = tableMakerReihe(tabelle, els.uiTabHeaderArr.length);
 
+    // CELL 0: exists, felder, aktuell, aktiveAktion-Info ERSTELLEN
     cells[0].textContent = `insgesamt: ${gesamtauswertung.finalAnzahl.gesamt} Seiten`;
-    const btn = cells[1].createEl("button", {text: "anzeigen"});
     
-    btn.addEventListener("click", () => {
+    // CELL 1: FILTER-BUTTON Gesamt ERSTELLEN
+    const fltGesamtBtn = cells[1].createEl("button", {text: "anzeigen"});
+    
+    // FILTER-BUTTON Gesamt EVL
+    fltGesamtBtn.addEventListener("click", () => 
 
-        migManager.ergAnzahlGesamt = gesamtauswertung.finalAnzahl.gesamt;
-        migManager.ergAnzeigeVon = 0;
+        fltGesBtnTopFn(migManager, gesamtauswertung)
+    );
 
-        migManager.fltKeinFlt = true;
-        migManager.fltExistsKey = "";
-        migManager.fltFelderKey = "";
-        migManager.fltAktionKey = "";
-        migManager.fltAktuellKey = "";
 
-        renderErgHeader(migManager, gesamtauswertung);
-        renderUIBox(migManager, gesamtauswertung);
-        renderNavInfo(migManager);
-        renderErgBox(migManager, gesamtauswertung);
-    });
+    // FILTER-/ AKTION-ÄNDERN- / AKTION-AUSFÜHREN-
+    // nach Keys-BUTTONS ERSTELLEN
 
-    // FILTER-BUTTONS                                          // e/ne: {{{...}}}
-    Object.entries(gesamtauswertung.finalAnzahl.status).forEach(([existsKey, existsEntry]) => {
+    Object.entries(gesamtauswertung.finalAnzahl.status)
+                // e/ne: {{{...}}}
+    .forEach(([existsKey, existsEntry]) => {
 
-                                                    // f/nf: {{...}}
-        Object.entries(existsEntry).forEach(([felderKey, felderEntry]) => {
 
-                                                // a/na: {...}
-            Object.entries(felderEntry).forEach(([aktuellKey, aktuellEntry]) => {
+        Object.entries(existsEntry)
+                        // f/nf: {{...}}
+        .forEach(([felderKey, felderEntry]) => {
 
-                                                        // "0": 10
-                Object.entries(aktuellEntry).forEach(([aktionKey, aktionEntry]) => {
+
+            Object.entries(felderEntry)
+                        // a/na: {...}
+            .forEach(([aktuellKey, aktuellEntry]) => {
+
                 
-                    if (aktionEntry > 0) {
+                Object.entries(aktuellEntry)
+                                // "0": 10
+                .forEach(([aktionKey, ergAnzahlByKeys]) => {
+                
+                    if (ergAnzahlByKeys > 0) {
 
-                        const cells = tableMakerReihe(tabelle, els.uiTabHeaderArr.length);
+                        // UI-TABELLE: CELLS für weitere
+                        // FILTER-BUTTONS und AKTION-ÄNDERN-
+                        // BUTTONS ERSTELLEN
+                        const cells = tableMakerReihe(
+                            tabelle, 
+                            els.uiTabHeaderArr.length
+                        );
 
-                        const eTxt = existsKey === "e" ? "" : "nicht existent";
-                        const fTxt = felderKey === "f" ? "neue Felder vorbereitet" : "keine neuen Felder vorbereitet";
-                        const aTxt = aktuellKey === "a" ? "aktuell" : "nicht aktuell";
+                    /* -------------------------------------------------------- */
 
-                        cells[0].textContent = 
-                                    `${aktionenTexte[aktionKey]}: ${aktionEntry} Seiten (${eTxt}${!!eTxt ? "" : aTxt}, ${fTxt})`;
+                        // CELL 0: exists, felder, aktuell, aktiveAktion-
+                        // INFO-TEXTE VORBEREITEN
+                        const eTxt = 
+                            existsKey === "e" 
+                                        ? "" 
+                                        : "nicht existent";
                         
+                        const fTxt = 
+                            felderKey === "f" 
+                                        ? "neue Felder vorbereitet" 
+                                        : "keine neuen Felder vorbereitet";
+                        
+                        const aTxt = 
+                            aktuellKey === "a" 
+                                        ? "aktuell" 
+                                        : "nicht aktuell";
 
-                        const fltBtn = 
+                        // CELL 0: exists, felder, aktuell, aktiveAktion-
+                        // INFO ERSTELLEN
+                        cells[0].textContent = 
+                            `${
+                                aktionenTexte[aktionKey]
+                            }: ${
+                                ergAnzahlByKeys
+                            } Seiten (${
+                                eTxt
+                            }${
+                                !!eTxt 
+                                    ? "" 
+                                    : aTxt
+                            }, ${
+                                fTxt
+                            })`;
+                        
+                    /* -------------------------------------------------------- */
+
+                        // CELL 1: FILTER-BUTTON ERSTELLEN
+                        const filterBtn = 
                             cells[1].createEl("button", {text: "anzeigen"});
 
-                        fltBtn.addEventListener("click", () => 
-                            fltBtnFn(existsKey, felderKey, aktuellKey, aktionKey, aktionEntry)
+                        // Keys und Anzahl für FILTER-BUTTON-FN gesammelt
+                        const alleKeysUndAnzahl = { 
+                            
+                            existsKey, felderKey, 
+                            aktuellKey, aktionKey, 
+                            ergAnzahlByKeys 
+                        };
+
+                        // FILTER-BUTTON-EVL => -FN
+                        filterBtn.addEventListener("click", () => 
+                            fltByAktionKeyBtnTopFn(
+                                migManager, gesamtauswertung, alleKeysUndAnzahl
+                            )
                         );
                         
-                        if (migManager.fltExistsKey === existsKey &&
-                            migManager.fltFelderKey === felderKey &&
-                            migManager.fltAktuellKey === aktuellKey &&
-                            Number(migManager.fltAktionKey) === Number(aktionKey)) 
-                        {
-                            if (gesamtauswertung.finalAnzahl.statusGes["2"] === 0) {
+                    /* -------------------------------------------------------- */
 
-                                aktionenAuswahl[existsKey][felderKey][aktuellKey][aktionKey]
-                                .forEach(aktNr => {
+                        // CELL 2: AKTION-ÄNDERN-BUTTONS ERSTELLEN
 
-                                    const andereAktionBtn = cells[2].createEl("button", {
-                                        text: aktionenTexte[aktNr]
+                        // BEDINGUNG: gemäß Filtereinstellungen
+                        
+                        if (
+                            keysEntsprechenFilterauswahlCheck(migManager, alleKeysUndAnzahl)
+                        ) {
+
+                            // BEDINGUNG: es gibt insgesamt keine 
+                            // laut Analyse zu erstellende Seite mehr
+                            // ODER es gibt mindestens eine laut 
+                            // Analyse zu erstellende Seite gemäß
+                            // hiesiger Keys
+
+                            const ltAnalyseZuErstellendeVorhanden = 
+                                gesamtauswertung.finalAnzahl.ltAnalyseZuErstellende
+                                [existsKey]?.[felderKey]?.[aktuellKey]?.[aktionKey] > 0;
+
+                            if (
+                                gesamtauswertung.finalAnzahl.statusGes["2"] === 0 
+                                || ltAnalyseZuErstellendeVorhanden
+                            ) {
+                                
+                                // Für jede MÖGLICHE AKTION einen
+                                // AKTION-ÄNDERN-BUTTON ERSTELLEN
+                                aktionenAuswahl
+                                [existsKey][felderKey][aktuellKey][aktionKey]
+                                .forEach(buttonAktion => {
+
+                                    const andereAktionBtn = cells[2]
+                                    .createEl("button", {
+                                        text: aktionenTexte[buttonAktion]
                                     });
+
+                                    // AKTION-ÄNDERN-BUTTON EVL => -FN
+                                    andereAktionBtn
+                                    .addEventListener("click", async () => 
+                                        
+                                        await aktionAendernBtnTopFn(
+                                            migManager, gesamtauswertung, 
+                                            buttonAktion
+                                        )
+                                    );
                                 });
                             }
+
+
+                            // WENN hiesiger aktiveAktion-KEY nicht 2
+                            // kein AKTION-ÄNDERN-BUTTON
 
                             else if (Number(aktionKey) !== 2) {
 
@@ -482,48 +739,67 @@ function renderUIBox(migManager, gesamtauswertung) {
                                 });
                             }
 
-                            if (Number(aktionKey) === 2) {
+                            // WENN hiesiger aktiveAktion-KEY 2
+                            // kein AKTION-ÄNDERN-BUTTON
+                            if (
+                                Number(aktionKey) === 2 
+                                && !ltAnalyseZuErstellendeVorhanden
+                            ) {
 
-                                aktionenAuswahl[existsKey][felderKey][aktuellKey][aktionKey]
-                                .forEach(aktNr => {
+                                // Für jede MÖGLICHE AKTION einen
+                                // AKTION-ÄNDERN-BUTTON ERSTELLEN
+                                aktionenAuswahl
+                                [existsKey][felderKey][aktuellKey][aktionKey]
+                                .forEach(buttonAktion => {
 
-                                    const andereAktionBtn = cells[2].createEl("button", {
-                                        text: aktionenTexte[aktNr]
+                                    const andereAktionBtn = cells[2]
+                                    .createEl("button", {
+                                        text: aktionenTexte[buttonAktion]
                                     });
+
+                                    // AKTION-ÄNDERN-BUTTON EVL => -FN
+                                    andereAktionBtn
+                                    .addEventListener("click", async () => 
+
+                                        await aktionAendernBtnTopFn(
+                                            migManager, gesamtauswertung, 
+                                            buttonAktion
+                                        )
+                                    );
                                 });
                             }
-
-
-
-                            
                         }
                     }
                 });
             });
         });
     });
-
-
-    // Flt-Btn-Funktion für alle außer gesamt
-
-    function fltBtnFn(existsKey, felderKey, aktuellKey, aktionKey, aktionEntry) {
-
-        migManager.ergAnzeigeVon = 0;
-
-        migManager.ergAnzahlGesamt = aktionEntry;
-
-        migManager.fltKeinFlt = null;
-        migManager.fltExistsKey = existsKey;
-        migManager.fltFelderKey = felderKey;
-        migManager.fltAktuellKey = aktuellKey;
-        migManager.fltAktionKey = Number(aktionKey);
-
-        renderErgHeader(migManager, gesamtauswertung);
-        renderUIBox(migManager, gesamtauswertung);
-        renderNavInfo(migManager);
-        renderErgBox(migManager, gesamtauswertung);
-    }
 }
+
+
+
+/**
+ * 
+ */
+
+function keysEntsprechenFilterauswahlCheck(migManager, alleKeysUndAnzahl) {
+
+    const { 
+        existsKey, felderKey, aktuellKey, aktionKey
+
+    } = alleKeysUndAnzahl;
+
+    return migManager.fltExistsKey  === existsKey &&
+    migManager.fltFelderKey  === felderKey &&
+    migManager.fltAktuellKey === aktuellKey &&
+    Number(migManager.fltAktionKey) === Number(aktionKey);
+
+}
+
+
+
+
+
 
 
 
@@ -584,6 +860,9 @@ function getAktionsInfos() {
 
 
 
+
+
+
 /** Sort-Buttons
  * 
  */
@@ -641,59 +920,28 @@ function renderNavBoxes(migManager, gesamtauswertung) {
     const tabAnzahl = Math.ceil(migManager.ergAnzahlGesamt / migManager.ergAnzeigeBis);
     const aktuellerTab = Math.ceil(migManager.ergAnzeigeVon / migManager.ergAnzeigeBis)+1;
 
-    ["Top", "Below"].forEach(topAndBlw => {
+    ["Top", "Below"].forEach(topBelow => {
 
-        els[`navBtnBox${topAndBlw}`].empty();
+        els[`navBtnBox${topBelow}`].empty();
         
-        els[`navInfoBox${topAndBlw}`] = 
-            els[`navBtnBox${topAndBlw}`].createEl("span", 
+        els[`navInfoBox${topBelow}`] = 
+            els[`navBtnBox${topBelow}`].createEl("span", 
                 {text: `${aktuellerTab}/${tabAnzahl} `});
         
-        els[`navZurueckBtn${topAndBlw}`] = 
-            els[`navBtnBox${topAndBlw}`].createEl("button", { text: "zurück"});
+        els[`navZurueckBtn${topBelow}`] = 
+            els[`navBtnBox${topBelow}`].createEl("button", { text: "zurück"});
         
-        els[`navZurueckBtn${topAndBlw}`].addEventListener("click", navZurueckBtnFn);
+        els[`navZurueckBtn${topBelow}`]
+        .addEventListener("click", () => navZurueckBtnFn(migManager, gesamtauswertung));
         
-        els[`navVorBtn${topAndBlw}`] = 
-            els[`navBtnBox${topAndBlw}`].createEl("button", { text: "vor"});
+        els[`navVorBtn${topBelow}`] = 
+            els[`navBtnBox${topBelow}`].createEl("button", { text: "vor"});
         
-        els[`navVorBtn${topAndBlw}`].addEventListener("click", navVorBtnFn);
-    })
-    
-    
-
-    function navZurueckBtnFn() {
-
-        if (migManager.ergAnzeigeVon > 0) {
-            
-            if ((migManager.ergAnzeigeVon - migManager.ergAnzeigeBis) >= 0) {
-
-                migManager.ergAnzeigeVon = 
-                    migManager.ergAnzeigeVon - migManager.ergAnzeigeBis;
-            }
-
-            else {
-
-                migManager.ergAnzeigeVon = 0;
-            }
-
-            renderNavInfo(migManager);
-            renderErgBox(migManager, gesamtauswertung);
-        }
-    }
-
-    
-    function navVorBtnFn() {
-
-        if ((migManager.ergAnzeigeVon + migManager.ergAnzeigeBis) <= migManager.ergAnzahlGesamt) {
-
-            migManager.ergAnzeigeVon = migManager.ergAnzeigeVon + migManager.ergAnzeigeBis;
-
-            renderNavInfo(migManager);
-            renderErgBox(migManager, gesamtauswertung);
-        }
-    }
+        els[`navVorBtn${topBelow}`]
+        .addEventListener("click", () => navVorBtnFn(migManager, gesamtauswertung));
+    });
 }
+
 
 
 /** render nav-info nach Button-Click
@@ -722,7 +970,41 @@ function renderNavInfo(migManager) {
  * 
  */
 
-function renderInfoBox() {
+function renderBearbeitenBox(migManager, gesamtauswertung) {
+
+    const { migRootKl, instODef,
+            existsKey, felderKey, 
+            aktuellKey, aktionKey, buttonAktion
+    } = migManager;
+
+    const { els
+    } = migManager.ui;
+
+    const { userReg
+    } = gesamtauswertung;
+
+    const { status, statusGes, ltAnalyseZuErstellende 
+    } = gesamtauswertung.finalAnzahl;
+
+    els.bearbeitenBox.empty();
+
+    const rBtn = els.bearbeitenBox
+    .createEl("button", 
+        { text: "rückgängig" }
+    );
+
+    rBtn.addEventListener("click", async () => 
+        aktionAendernRueckgaengigBtnFn(migManager, gesamtauswertung)
+    );
+
+    const bBtn = els.bearbeitenBox
+    .createEl("button", 
+        { text: "bestätigen" }
+    );
+
+    bBtn.addEventListener("click", async () => 
+        aktionAendernBestaetigenBtnFn(migManager, gesamtauswertung)
+    );
 
 
 }
@@ -737,69 +1019,17 @@ function renderErgBox(migManager, gesamtauswertung) {
     
     const { els } = migManager.ui;
 
-    const { analyseObjekt, finalAnzahl } = gesamtauswertung;
-
     els.ergBox.empty();
 
     const tabelle = tableMakerReiheHd(els.ergBox, els.ergTabHeaderArr);
 
-    Object.entries(analyseObjekt)
-    
-    // Filtern
-    .filter(([key, entry]) => {
-
-        // Filter-Einstellungen
-        const fltKeinFlt = migManager.fltKeinFlt;
-        const fltExistsKey =
-            migManager.fltExistsKey === (entry.normInfos.exists ? "e" : "ne");
-        const fltFelderKey =
-            migManager.fltFelderKey === (entry.auswertung.neueFelderErstellt > 0 ? "f" : "nf");
-        const fltAktuellKey =
-            migManager.fltAktuellKey === (entry.auswertung.alleFelderAktuell ? "a" : "na");
-        const fltAktionKey = 
-            migManager.fltAktionKey === entry.auswertung.aktiveAktion;
-        
-        return fltKeinFlt || 
-            (fltExistsKey && fltFelderKey && fltAktuellKey && fltAktionKey);
-    })
-
-    // Sortieren
-    .sort(([aKey, aEntry], [bKey, bEntry]) => {
-
-        switch(migManager.sortBy) {
-
-            case "name":
-                return aKey.localeCompare(bKey);
-                break;
-
-            case "aktuell":
-                return (aEntry.auswertung.alleFelderAktuell ? 1 : 0) - 
-                    (bEntry.auswertung.alleFelderAktuell ? 1 : 0);
-                break;
-
-            case "aktiveAkt":
-                return aEntry.auswertung.aktiveAktion - 
-                    bEntry.auswertung.aktiveAktion;
-                break;
-
-            case "userAkt":
-                return aEntry.auswertung.userAuswahlAktion - 
-                    bEntry.auswertung.userAuswahlAktion;
-                break;
-        }
-    })
-
-    // Paginieren
-    .filter(([key, entries], i) => {
-
-        // von/bis-Anzeige
-        const iGrVon = i >= migManager.ergAnzeigeVon;
-        const iKlBis = i < (migManager.ergAnzeigeVon + migManager.ergAnzeigeBis);
-
-        return iGrVon && iKlBis;
-    })
-    
-    // darstellen
+    // wenn Erg in Arbeit, diese darstellen, sonst
+    // Auswahl anhand der aktuellen Kriterien erhalten
+    (
+        ergAnzeigeAuswahl = migManager.ergInArbeit.length > 0
+            ? migManager.ergInArbeit
+            : migManager.ergAuswahl
+    )
     .forEach(([key, entry], i) => {
 
         const cells = tableMakerReihe(tabelle, els.ergTabHeaderArr.length);
@@ -807,6 +1037,9 @@ function renderErgBox(migManager, gesamtauswertung) {
         renderErgCells(migManager, gesamtauswertung, cells, key, entry, i);
     })
 }
+
+
+
 
 
 
@@ -818,7 +1051,11 @@ function renderErgCells(migManager, gesamtauswertung, cells, key, entry, i) {
 
     const { obsClsObj, app, migRootKl, instODef } = migManager;
 
-    const { gesamt, status, statusGes } = gesamtauswertung.finalAnzahl;
+    const { 
+        gesamt, status, statusGes, ltAnalyseZuErstellende 
+    
+    } = gesamtauswertung.finalAnzahl;
+    
     const { userReg } = gesamtauswertung;
 
     // CELLS LEEREN
@@ -858,7 +1095,9 @@ function renderErgCells(migManager, gesamtauswertung, cells, key, entry, i) {
 
         entry.meldungen.forEach((mel, i) => {
 
-            meldungenBox.createEl("span", {text: `${mel.info}${(i+1) < entry.meldungen.length ? ", " : ""}`});
+            meldungenBox
+            .createEl("span", {text: `${mel.info}${(i+1) 
+                < entry.meldungen.length ? ", " : ""}`});
         })
     }
     // 2: Aktion, Feld ist, neue Felder
@@ -871,38 +1110,95 @@ function renderErgCells(migManager, gesamtauswertung, cells, key, entry, i) {
     const existsKey = entry.normInfos.exists ? "e" : "ne";
     const felderKey = entry.auswertung.neueFelderErstellt > 0 ? "f" : "nf";
     const aktuellKey = entry.auswertung.alleFelderAktuell ? "a" : "na";
-    let { aktiveAktion, userAuswahlAktion } = entry.auswertung;
+    let { aktiveAktion, userAuswahlAktion, analyseAktion } = entry.auswertung;
     
     const {aktionenAuswahl, aktionenTexte} = getAktionsInfos();
 
-    
-    aktionenAuswahl[existsKey][felderKey][aktuellKey][aktiveAktion].forEach(aktionNrKey => {
+    if (gesamtauswertung.finalAnzahl.statusGes["2"] === 0) {
 
-        //cells[3].createEl("div", {text: "test"})
+        aktionenAuswahl[existsKey][felderKey][aktuellKey][aktiveAktion]
+        .forEach(buttonAktion => {
+
+            const andereAktionBtn = cells[3].createEl("button", {
+                text: aktionenTexte[buttonAktion]
+            });
+
+            andereAktionBtn.addEventListener("click", async () => 
+                await andereAktionBtnFn(
+                    migManager, gesamtauswertung, 
+                    key, entry, 
+                    existsKey, felderKey, aktuellKey, aktiveAktion, 
+                    buttonAktion
+                )
+            );
+        });
+    }
+
+    else {
+
+        aktionenAuswahl[existsKey][felderKey][aktuellKey][aktiveAktion]
+        .forEach((buttonAktion, i) => {
+
+            if (Number(aktiveAktion) === 2 || Number(analyseAktion) === 2) {
+
+                // alleKeysUndInfos.buttonAktion = buttonAktion;
+
+                const andereAktionBtn = cells[3].createEl("button", {
+                    text: aktionenTexte[buttonAktion]
+                });
+
+                andereAktionBtn.addEventListener("click", async () => 
+                    await andereAktionBtnFn(
+                        migManager, gesamtauswertung, 
+                        key, entry, 
+                        existsKey, felderKey, aktuellKey, aktiveAktion, 
+                        buttonAktion
+                    )
+                );
+            }
+
+            else if (i === 0) {
+
+                cells[3].createEl("div", { 
+                    text: "Erst zu erstellende Seiten bearbeiten"
+                });
+            }
+        });
+    }
+
+    async function andereAktionBtnFn(
+        migManager, gesamtauswertung, 
+        ergKey, ergSeite, 
+        existsKey, felderKey, aktuellKey, aktiveAktion, buttonAktion
+    ) {
         
+        status[existsKey][felderKey][aktuellKey][aktiveAktion] -= 1;
+        status[existsKey][felderKey][aktuellKey][buttonAktion] += 1;
+        statusGes[aktiveAktion] -= 1;
+        statusGes[buttonAktion] += 1;
 
-        const andereAktionBtn = cells[3].createEl("button", {
-            text: aktionenTexte[aktionNrKey]
-        });
+
+        if (existsKey === "ne" && aktuellKey === "na" 
+            && Number(ergSeite.auswertung.analyseAktion) === 2
+        ) {
+
+            ltAnalyseZuErstellende
+            [existsKey][felderKey][aktuellKey][aktiveAktion] -= 1;
+            
+            ltAnalyseZuErstellende
+            [existsKey][felderKey][aktuellKey][buttonAktion] += 1;
+        }
 
 
-        andereAktionBtn.addEventListener("click", async () => {
+        ergSeite.auswertung.aktiveAktion = buttonAktion;
+        ergSeite.auswertung.userAuswahlAktion = buttonAktion;
+        userReg[ergKey].userAuswahl = buttonAktion;
 
-            status[existsKey][felderKey][aktuellKey][aktiveAktion] -= 1;
-            status[existsKey][felderKey][aktuellKey][aktionNrKey] += 1;
-            statusGes[aktiveAktion] -= 1;
-            statusGes[aktionNrKey] += 1;
-
-            entry.auswertung.aktiveAktion = aktionNrKey;
-            entry.auswertung.userAuswahlAktion = aktionNrKey;
-            userReg[key].userAuswahl = aktionNrKey;
-
-            await writeRegJSON(app, `${migRootKl} _ ${instODef}`, gesamtauswertung.userReg);
-            renderErgHeader(migManager, gesamtauswertung);
-            renderUIBox(migManager, gesamtauswertung);
-            renderErgCells(migManager, gesamtauswertung, cells, key, entry, i);
-        });
-    });
+        await writeRegJSON(app, `${migRootKl} _ ${instODef}`, gesamtauswertung.userReg);
+        renderErgHeader(migManager, gesamtauswertung);
+        renderBtnsTopBox(migManager, gesamtauswertung);
+        renderErgCells(migManager, gesamtauswertung, cells, ergKey, ergSeite, i);
+    }
 }
 
 
@@ -910,7 +1206,7 @@ function renderErgCells(migManager, gesamtauswertung, cells, key, entry, i) {
 /**
  * 
  */
-                              // cell[2]
+                        // Ergebnis-Cell[2]
 function addNeueFelderUndWerteBox(cell, ergSeite) {
 
     const { aktionenTexte } = getAktionsInfos();
@@ -974,4 +1270,283 @@ function addNeueFelderUndWerteBox(cell, ergSeite) {
         //Number(ergSeite.auswertung.neueFelderErstellt)
 }
 
+
+
+/* -------------------------------------------------------------------------------------- */
+
+/**
+ * BUTTONS
+ */
+
+
+/** FILTER: Gesamt (= kein Filter)-BUTTON
+ * 
+ */
+
+function fltGesBtnTopFn(migManager, gesamtauswertung) {
+
+    if (migManager.fltKeinFlt)
+        return;
+
+    setMigMngrStatus(
+        migManager, 
+        gesamtauswertung.finalAnzahl.gesamt
+    );
+
+    migManager.ergAuswahl = 
+        getAktuellAngezeigteErg(migManager, gesamtauswertung);
+
+    renderUI(migManager, gesamtauswertung);
+}
+
+
+
+/** FILTER-by-Keys-BUTTONS
+ *  
+ */
+
+function fltByAktionKeyBtnTopFn(migManager, gesamtauswertung, alleKeysUndAnzahl) {
+
+    if (
+        !migManager.fltKeinFlt 
+        && keysEntsprechenFilterauswahlCheck(migManager, alleKeysUndAnzahl)
+    ) 
+    return;
+
+    const { 
+        
+        existsKey, felderKey, 
+        aktuellKey, aktionKey, ergAnzahlByKeys 
+
+    } = alleKeysUndAnzahl;
+
+    setMigMngrStatus(
+        migManager,
+        ergAnzahlByKeys, 
+        0,
+        null,
+        existsKey, felderKey, aktuellKey, Number(aktionKey)
+    );
+
+    migManager.ergAuswahl = 
+        getAktuellAngezeigteErg(migManager, gesamtauswertung);
+
+    renderUI(migManager, gesamtauswertung);
+}
+
+
+
+/** AKTION-ÄNDERN-BUTTONS-FN
+ * 
+ */
+
+async function aktionAendernBtnTopFn(
+    migManager, gesamtauswertung, 
+    buttonAktion
+) {
+
+    const { migRootKl, instODef,
+            fltKeinFlt, 
+            fltExistsKey, fltFelderKey, fltAktuellKey, fltAktionKey,
+    } = migManager;
+    
+    const { els 
+    } = migManager.ui;
+    
+    const { userReg 
+    } = gesamtauswertung;
+    
+    const { status, statusGes, ltAnalyseZuErstellende 
+    } = gesamtauswertung.finalAnzahl;
+    
+
+    migManager.buttonAktion = buttonAktion;
+    migManager.ergInArbeit = getAktuellAngezeigteErg(migManager, gesamtauswertung);
+
+    
+    //els.ergBox.empty();
+
+    //const tabelle = tableMakerReiheHd(els.ergBox, els.ergTabHeaderArr);
+
+    
+    /*if (
+        migManager.ergAnzahlGesamt <= migManager.ergAnzeigeBis
+    ) {*/
+
+        
+
+        migManager.ergInArbeit.forEach(([key, entry], i) => {
+
+            if (Number(fltAktionKey) !== Number(buttonAktion)) {
+
+                status
+                [fltExistsKey][fltFelderKey][fltAktuellKey]
+                [fltAktionKey] -= 1;
+                
+                status
+                [fltExistsKey][fltFelderKey][fltAktuellKey]
+                [buttonAktion] += 1;
+                
+                statusGes[fltAktionKey] -= 1;
+                statusGes[buttonAktion] += 1;
+
+
+                if (fltExistsKey === "ne" && fltAktuellKey === "na" 
+                    && Number(entry.auswertung.analyseAktion) === 2
+                ) {
+
+                    ltAnalyseZuErstellende
+                    [fltExistsKey][fltFelderKey][fltAktuellKey]
+                    [fltAktionKey] -= 1;
+                    
+                    ltAnalyseZuErstellende
+                    [fltExistsKey][fltFelderKey][fltAktuellKey]
+                    [buttonAktion] += 1;
+                }
+
+                entry.auswertung.aktiveAktion = buttonAktion;
+                entry.auswertung.userAuswahlAktion = buttonAktion;
+                userReg[key].userAuswahl = buttonAktion;
+
+            }
+        });
+        
+        // await writeRegJSON(app, `${migRootKl} _ ${instODef}`, userReg);
+        
+        renderUI(migManager, gesamtauswertung);
+        
+    /*} 
+    
+    else {
+
+        //...
+    }*/
+    
+}
+
+
+
+/** AKTION-ÄNDERN-RÜCKGÄNGIG-MACHEN-BUTTON-FN
+ * 
+ */
+
+async function aktionAendernRueckgaengigBtnFn(migManager, gesamtauswertung) {
+
+    const { migRootKl, instODef,
+            fltKeinFlt, 
+            fltExistsKey, fltFelderKey, fltAktuellKey, fltAktionKey,
+            buttonAktion
+    } = migManager;
+    
+    const { els 
+    } = migManager.ui;
+    
+    const { userReg 
+    } = gesamtauswertung;
+    
+    const { status, statusGes, ltAnalyseZuErstellende 
+    } = gesamtauswertung.finalAnzahl;
+
+    migManager.ergInArbeit.forEach(([key, entry], i) => {
+
+        status[fltExistsKey][fltFelderKey][fltAktuellKey][fltAktionKey] += 1;
+        status[fltExistsKey][fltFelderKey][fltAktuellKey][buttonAktion] -= 1;
+        statusGes[fltAktionKey] += 1;
+        statusGes[buttonAktion] -= 1;
+
+
+        if (fltExistsKey === "ne" && fltAktuellKey === "na" 
+            && Number(entry.auswertung.analyseAktion) === 2
+        ) {
+
+            ltAnalyseZuErstellende
+            [fltExistsKey][fltFelderKey][fltAktuellKey][fltAktionKey] += 1;
+
+            ltAnalyseZuErstellende
+            [fltExistsKey][fltFelderKey][fltAktuellKey][buttonAktion] -= 1;
+        }
+
+        entry.auswertung.aktiveAktion = fltAktionKey;
+        entry.auswertung.userAuswahlAktion = null;
+        userReg[key].userAuswahl = null;
+
+    });
+
+    migManager.buttonAktion = "";
+    migManager.ergInArbeit = [];
+
+    renderUI(migManager, gesamtauswertung);
+    
+}
+
+
+
+/** AKTION-ÄNDERN-BESTÄTIGEN-BUTTON-FN
+ * 
+ */
+
+async function aktionAendernBestaetigenBtnFn(migManager, gesamtauswertung) {
+
+    const { migRootKl, instODef } = migManager;
+
+    await writeRegJSON(app, `${migRootKl} _ ${instODef}`, gesamtauswertung.userReg);
+    console.log("REG schreiben");
+
+    migManager.fltAktionKey = migManager.buttonAktion;
+    migManager.buttonAktion = "";
+    migManager.ergInArbeit = [];
+
+    renderUI(migManager, gesamtauswertung);
+}
+
+
+
+/**
+ * 
+ */
+
+function navZurueckBtnFn(migManager, gesamtauswertung) {
+
+    if (migManager.ergAnzeigeVon > 0) {
+        
+        if (
+            (migManager.ergAnzeigeVon - migManager.ergAnzeigeBis) 
+            >= 0
+        ) {
+
+            migManager.ergAnzeigeVon = 
+                migManager.ergAnzeigeVon - migManager.ergAnzeigeBis;
+        }
+
+        else {
+
+            migManager.ergAnzeigeVon = 0;
+        }
+
+        migManager.ergAuswahl = getAktuellAngezeigteErg(migManager, gesamtauswertung);
+        renderErgBox(migManager, gesamtauswertung);
+        renderNavInfo(migManager);
+    }
+}
+
+
+
+/**
+ * 
+ */
+
+function navVorBtnFn(migManager, gesamtauswertung) {
+
+    if (
+        (migManager.ergAnzeigeVon + migManager.ergAnzeigeBis) 
+        <= migManager.ergAnzahlGesamt
+    ) {
+
+        migManager.ergAnzeigeVon = migManager.ergAnzeigeVon + migManager.ergAnzeigeBis;
+
+        migManager.ergAuswahl = getAktuellAngezeigteErg(migManager, gesamtauswertung);
+        renderErgBox(migManager, gesamtauswertung);
+        renderNavInfo(migManager);
+    }
+}
 

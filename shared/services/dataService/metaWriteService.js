@@ -17,10 +17,14 @@ import { getPageNormObject } from "../pagesAndLinks/pageNormService.js";
 // error, wenn schon vorhanden
 
 export async function createPage(app, dv, path, content = "") {
+
     const existing = app.vault.getFileByPath(path);
-    if (existing) throw new Error(`Page already exists: ${path}`);
+    
+    if (existing) 
+        throw new Error(`Page already exists: ${path}`);
 
     const tFile = await app.vault.create(path, content);
+    
     return getPageNormObject(app, dv, tFile);
 }
 
@@ -28,10 +32,14 @@ export async function createPage(app, dv, path, content = "") {
 // wenn nein, erstellt neue seite
 
 export async function getOrCreatePage(app, dv, path, content = "") {
+
     const existing = app.vault.getFileByPath(path);
-    if (existing) return getPageNormObject(app, dv, existing);
+    
+    if (existing) 
+        return getPageNormObject(app, dv, existing);
 
     const tFile = await app.vault.create(path, content);
+
     return getPageNormObject(app, dv, tFile);
 }
 
@@ -39,7 +47,10 @@ export async function getOrCreatePage(app, dv, path, content = "") {
 // updateFrontmatter und Helfer
 
 export async function updateFrontmatter(app, normPage, updaterFns) {
-    if (!normPage.exists) return;
+
+    if (!normPage.exists) 
+        return;
+
     await app.fileManager.processFrontMatter(normPage.tFile, updaterFns);
 }
 

@@ -3,21 +3,32 @@
 
     // Mig-MANAGER STATUS / User-Auswahl / REGELN
     const migManager = {
+        
         obsClsObj,      
         app, dv,        
+
         migRootKl:      null,
-        instODef:       "migDef",
+        instODef:       "migInst",
+
        ergAnzahlGesamt: 0,
         ergAnzeigeVon:  0,
         ergAnzeigeBis:  100,
+
         fltKeinFlt:     true,
         fltExistsKey:   "",
         fltFelderKey:   "",
         fltAktuellKey:  "",
         fltAktionKey:   "",
+
+        buttonAktion:   "",
+        ergInArbeit:    [],
+
         sortBy:         "name",
+
         MIG_REGELN,     
+
         ui: {           
+                        
             els: {},    // < userUI
             contentEl,  
             hidden:     true,
@@ -128,7 +139,7 @@
         meldungen: [],
         auswertung: {
 
-                                        // 0 keine Aktion, 1 updaten, 2 erstellen, 3 loeschen,
+    // 0 keine Aktion, 1 updaten, 2 erstellen, 3 loeschen,
             aktiveAktion: 0, 
             analyseAktion: 0, 
             userAuswahlAktion: 0,
@@ -138,3 +149,27 @@
             neueFelderNichtAktuell: 0
         }
     };
+
+
+
+
+    // Angezeigte Erg und Filter setzen
+
+    function setMigMngrErgAnzahlUndFilter(
+        migManager,
+        anzahlGesamt = 0, 
+        anzeigeVon = 0,
+        keinFlt = true,
+        existsKey = "", felderKey = "", aktuellKey = "", aktionKey = ""
+    ) {
+
+        migManager.ergAnzahlGesamt = anzahlGesamt;
+        migManager.ergAnzeigeVon = anzeigeVon;
+
+        migManager.fltKeinFlt = keinFlt;
+
+        migManager.fltExistsKey = existsKey;
+        migManager.fltFelderKey = felderKey;
+        migManager.fltAktuellKey = aktuellKey;
+        migManager.fltAktionKey = aktionKey;
+    }

@@ -21,8 +21,6 @@ import { queryMigInstsODefs}    from "./v1QueryService.js";
 
 export async function istMigDiscovery4(depsStatusUndREGELN) {
    
-   //console.log("hallo");
-
     // REGELN UND INFOS
     const {app, dv, MIG_REGELN, migRootKl, instODef} = depsStatusUndREGELN;
 
@@ -206,41 +204,50 @@ async function getRegUndGesamtauswertung(deps, finalAuswertungObjekt) {
  */
 
 function vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, aktionNr) {
-
+    /*
     const erlaubteUserAuswahl = {
         e:  [0,1,3],
         ne: [0,2  ]
     }
+    */
 
- 
-    
-    /*const erlaubteUserAuswahl = {
-        e: {
-            "0": [0,1,3],
-            "1": [0,1,3],
-            "3": [0,1,3]
+    const aktionenAuswahl = {
+        e: { 
+            f: {
+                a: {
+        // key = analysierte Aktion: Werte = erlaubte User Aktion
+                    "0": [3],
+                    "3": [0]
+                },
+                na: {
+                    "0": [1,3],
+                    "1": [0,3],
+                    "3": [0,1],
+                }
+            },
+            nf: {
+                na: {
+                    "0": [3],
+                    "3": [0]
+                }
+            }
         },
         ne: {
-            "0": [0,2  ],
-            "2": [0,2  ]
+            f: {
+                na: {
+                    "0": [2],
+                    "2": [0]
+                }
+            },
+            nf: {
+                na: {
+                    "0": [2],
+                    "2": [0],
+                }
+            }
         }
-    }
+    };
 
-    const erlaubteUserAuswahl = {
-        "0": {
-             e: [0,1,3],
-            ne: [0,2  ]
-        },
-        "1": {
-             e: [0,1,3]
-        },
-        "2": {
-            ne: [0,2  ]
-        },
-        "3": {
-             e: [0,1,3]
-        }
-    };*/
 
     finalSeite.auswertung.analyseAktion = aktionNr;
 
@@ -265,14 +272,18 @@ function vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, aktionNr) {
                 //erlaubteUserAuswahl[`${finalSeite.auswertung.analyseAktion}`][`${finalSeite.normInfos.exists ? "e" : "ne"}`]
             );*/
             
-            const userAuswahlErlaubt = 
-                erlaubteUserAuswahl[`${finalSeite.normInfos.exists ? "e" : "ne"}`]
+            const existsKey = finalSeite.normInfos.exists ? "e" : "ne";
+            const felderKey = finalSeite.auswertung.neueFelderErstellt > 0 ? "f" : "nf";
+            const aktuellKey = finalSeite.auswertung.alleFelderAktuell ? "a" : "na";
+            const analyseAktionKey = finalSeite.auswertung.analyseAktion;
+            const aktionenAuswahlCheck = 
+                aktionenAuswahl[existsKey][felderKey][aktuellKey][analyseAktionKey]
                 //erlaubteUserAuswahl[`${finalSeite.auswertung.analyseAktion}`][`${finalSeite.normInfos.exists ? "e" : "ne"}`]
                     .some(erlaubt => erlaubt === userReg[key].userAuswahl);
 
             /*console.log(key + " / user auswahl erlaubt: " + userAuswahlErlaubt);*/
             
-            if (userAuswahlErlaubt) {
+            if (aktionenAuswahlCheck) {
 
                 finalSeite.auswertung.aktiveAktion = 
                     userReg[key].userAuswahl;
@@ -299,7 +310,7 @@ function vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, aktionNr) {
                     finalSeite.auswertung.analyseAktion;
                 
             finalSeite.auswertung.userAuswahlAktion =
-                    userReg[key].userAuswahl;
+                    null;
 
         }
     }
@@ -388,44 +399,26 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
             "1": 0,
             "2": 0,
             "3": 0
+        },
+        ltAnalyseZuErstellende: {
+            ne: {
+                f: {
+                    na: {
+                // key = aktiveAktion: gezählt wird = analyseAktion
+                        "0": 0, 
+                        "2": 0
+                    }
+                },
+                nf: {
+                    na: {
+                        "0": 0,
+                        "2": 0
+                    }
+                }
+            }
         }
     };
     
-    /*{
-       suchseiten: 0,
-        gesamt: 0,
-        "0": {
-             e: 0,
-            ne: 0
-        },
-        "1": {
-             e: 0
-        },
-        "2": {
-            ne: 0
-        },
-        "3": {
-             e: 0
-        }
-    };*/
-    
-    
-    
-    /*{ 
-       suchseiten: 0, //  wird oben hinzugefügt
-        gesamt:    0,
-        "0":       0, //  keine Aktion
-                        /* gibt es wegen:
-                            - Seite existiert nicht & soll gelöscht werden
-                            - Seite ist aktuell 
-                            - User auswahl
-                        */
-    /*
-        "1":       0, //  1
-        "2":       0, //  2
-        "3":       0, //  3
-    };
-    */
 
     function vergleichUndSetAktionAusfuehren(finalSeite, aktionNr) {
 
@@ -434,10 +427,16 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
         if (regCheckBackVal) 
             regUpdaten = true;
         
-        //console.log(`${finalSeite.normInfos.name}: anzahl felder: ${finalSeite.auswertung.neueFelderErstellt}`)
+        const existsKey        = finalSeite.normInfos.exists ? "e" : "ne";
+        const felderKey        = finalSeite.auswertung.neueFelderErstellt > 0 ? "f" : "nf";
+        const aktuellKey       = finalSeite.auswertung.alleFelderAktuell ? "a" : "na";
+        const aktiveAktionKey  = Number(finalSeite.auswertung.aktiveAktion);
+        const analyseAktionKey = Number(finalSeite.auswertung.analyseAktion);
 
-        finalAnzahl.status[finalSeite.normInfos.exists ? "e" : "ne"][finalSeite.auswertung.neueFelderErstellt > 0 ? "f" : "nf"][finalSeite.auswertung.alleFelderAktuell ? "a" : "na"][finalSeite.auswertung.aktiveAktion] += 1;
-        finalAnzahl.statusGes[finalSeite.auswertung.aktiveAktion] += 1;
+        finalAnzahl.status[existsKey][felderKey][aktuellKey][aktiveAktionKey] += 1;
+        finalAnzahl.statusGes[aktiveAktionKey] += 1;
+        if (analyseAktionKey === 2)
+            finalAnzahl.ltAnalyseZuErstellende.ne[felderKey].na += 1;
     }
 
     // SAMMEL-OBJEKT auswerten
@@ -467,32 +466,17 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
             if (!finalSeite.auswertung.alleFelderAktuell) {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 1);
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 1);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
 
             else {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 0);
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 0);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
         }
 
         else {
 
             vergleichUndSetAktionAusfuehren(finalSeite, 2);
-            /*
-            const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 2);
-            if (regCheckBackVal) regUpdaten = true;
-            finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-            */
         }
 
         
@@ -527,21 +511,11 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 3);
 
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 3);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
 
             else {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 0);
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 0);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
 
             // AN analyseObjekt anhängen
@@ -568,21 +542,11 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
             if (finalSeite.normInfos.exists) {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 3);
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 3);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
 
             else {
 
                 vergleichUndSetAktionAusfuehren(finalSeite, 0);
-                /*
-                const regCheckBackVal = vergleicheMitRegUndSetAktiveAktion(userReg, finalSeite, 0);
-                if (regCheckBackVal) regUpdaten = true;
-                finalAnzahl[finalSeite.auswertung.aktiveAktion] += 1;
-                */
             }
 
             analyseObjekt[key] = finalSeite;
@@ -611,13 +575,17 @@ async function getAnalyseAuswertungUndUserReg(deps, sammelUndMeldungenObjs) {
 
         if (!analyseObjekt.hasOwnProperty(key)) {
         
-            entry.inAnalyseObjekt = null;
-            regUpdaten = true;
+            if (!userReg[key].hasOwnProperty("inAnalyseObjekt")) {
+
+                userReg[key].inAnalyseObjekt = null;
+                regUpdaten = true;
+            }
         }
     });
 
     if (regUpdaten) {
-        console.log("REG SCHREIBEN")
+        
+        console.log("REG SCHREIBEN");
         writeRegJSON(app, `${migRootKl} _ ${instODef}`, userReg);
     }
     

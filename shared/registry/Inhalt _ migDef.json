@@ -96,7 +96,7 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Satire": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Screenshot": {
@@ -380,7 +380,7 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Präsentation": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Presseerklärung": {
@@ -512,11 +512,11 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ 3D-Video _ Stadtrundgang": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ 3D-Video": {
-    "userAuswahl": 1,
+    "userAuswahl": null,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Amateuraufnahme": {
@@ -572,7 +572,7 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Pressekonferenz": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Reactionvideo": {
@@ -592,11 +592,11 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Show _ Comedy": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Show _ Talkshow": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Social Media _ Social Media (Kurzvideo)": {
@@ -604,7 +604,7 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Standup Comedy": {
-    "userAuswahl": null,
+    "userAuswahl": 2,
     "inAnalyseObjekt": true
   },
   "Inhalt _ Vorlesungsreihe _ Vorlesung": {
@@ -1788,7 +1788,7 @@
     "inAnalyseObjekt": true
   },
   "Inhalt _ Anruf": {
-    "userAuswahl": 1,
+    "userAuswahl": null,
     "inAnalyseObjekt": true
   }
 }

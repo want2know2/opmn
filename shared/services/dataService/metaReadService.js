@@ -15,8 +15,6 @@ import { resolveLinkPath } from "../pagesAndLinks/linkService";
  */
 
 export function einzelnesFeldLesen(app, seiteNormObj, feld) {
-    
-    //console.log("exists: " + seiteNormObj.exists + ", tFile" + seiteNormObj.tFile)
 
     if (!seiteNormObj.exists) 
         return null;
@@ -25,55 +23,11 @@ export function einzelnesFeldLesen(app, seiteNormObj, feld) {
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     
-    const test514 = feld.split(".").reduce((o, k) => o?.[k], fm);
-    //console.log("test514: "  + test514)
-    return test514;
+    return feld.split(".").reduce((o, k) => o?.[k], fm);
 }
 
 
-/**
- * Übung diesdas
- * Seite hat Feld?
- * Noch nirgendwo verwendet
- * Vielleicht Quatsch.. 
- */
 
-export function checkObSeiteHatFeld(app, seiteNormObj, feld) {
-    if (!seiteNormObj.exists) 
-        return null;
-    
-    console.log("CHECK OB SEITE " + seiteNormObj.name + "HAT FELD " + feld);
-
-    const bisVorletztesfeldArr = feld.split(".");
-    const letztesFeld = bisVorletztesfeldArr.pop();
-
-    console.log("letztesFeld: " + letztesFeld)
-    /*
-    if (bisVorletztesfeldArr.length > 0)
-        bisVorletztesfeldArr.forEach(arrVal => console.log("arrVal: " + arrVal))
-    */
-
-    const tFile = seiteNormObj.tFile;
-    const cache = app.metadataCache.getFileCache(tFile);
-    const fm = cache?.frontmatter;
-    
-    
-    const fmCheckObj = bisVorletztesfeldArr.length > 0
-        ? bisVorletztesfeldArr.reduce((o, k) => o?.[k], fm)
-        : fm;
-    
-    if (!!fmCheckObj) {
-        const checkKeys = Object.keys(fmCheckObj);
-        if (checkKeys.length > 0)
-            checkKeys.forEach(key => console.log("checkKey: " + key))
-    }
-
-    const feldVorhanden = fmCheckObj?.[letztesFeld];
-    
-    console.log("Feld vorhanden: " + !!feldVorhanden);
-    
-    return !!feldVorhanden;
-}
 
 /**
  * Link in Feld vorhanden?

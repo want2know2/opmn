@@ -2,7 +2,7 @@
 ////
 // IMPORT
 
-import { dvLinkSuche } from "./queryService.js";
+import { dvLinkSuche } from "./dvQueryService.js";
 
 
 /**

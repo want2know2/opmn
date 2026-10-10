@@ -4,7 +4,7 @@
 
 import { toArray }          from "../../utils/valueUtils.js";
 import { resolveLinkPath }  from "../pagesAndLinks/linkService.js";
-import { getPageNormObject } from "../pagesAndLinks/pageNormService.js";
+import { getPageNormObject } from "../pagesAndLinks/pageNormService_ALT.js";
 
 
 ////
@@ -18,10 +18,10 @@ import { getPageNormObject } from "../pagesAndLinks/pageNormService.js";
 
 export async function createPage(app, dv, path, content = "") {
 
-    const existing = app.vault.getFileByPath(path);
+    /*const existing = app.vault.getFileByPath(path);
     
     if (existing) 
-        throw new Error(`Page already exists: ${path}`);
+        throw new Error(`Page already exists: ${path}`);*/
 
     const tFile = await app.vault.create(path, content);
     
@@ -31,17 +31,50 @@ export async function createPage(app, dv, path, content = "") {
 // prüft, ob seite vorhanden, wenn ja, gibt diese zurück
 // wenn nein, erstellt neue seite
 
-export async function getOrCreatePage(app, dv, path, content = "") {
+export async function getOrCreatePage(app, dv, anyPageFormat, content = "") {
 
-    const existing = app.vault.getFileByPath(path);
+    let tFile = {};
+    let normPage = {};
+
+    if (typeof anyPageFormat === "string") {
+
+        tFile = app.vault.getFileByPath(anyPageFormat);
+        
+        if (!tFile) 
+            tFile = await app.vault.create(path, content);
+
+        normPage = getPageNormObject(app, dv, anyPageFormat);
+    }
+
+    if (!!anyPageFormat.exists) {
     
-    if (existing) 
-        return getPageNormObject(app, dv, existing);
-
-    const tFile = await app.vault.create(path, content);
-
-    return getPageNormObject(app, dv, tFile);
+        tFile = anyPageFormat.tFile;
+        normPage = anyPageFormat;
+    }
+    
+    return normPage;
 }
+
+
+/**
+ * 
+ */
+
+export async function deletePage(app, anyPageFormat) {
+    
+    let tFile = null;
+
+    if (typeof anyPageFormat === "string") 
+        tFile = app.vault.getFileByPath(anyPageFormat);
+
+    if (!!anyPageFormat.exists)
+        tFile = anyPageFormat.tFile;
+    
+    if (!tFile) return;
+
+    await app.vault.trash(tFile, true);
+}
+
 
 ////
 // updateFrontmatter und Helfer
@@ -95,6 +128,22 @@ export function removeField(fm, fieldPath) {
 }
 
 //////////////////////
+
+// remove all frontmatter  
+export async function removeEntireFrontmatter(app, normPage) {  
+    
+    if (!normPage.exists) return;  
+  
+    await app.fileManager.processFrontMatter(normPage.tFile, (fm) => {  
+        for (const key of Object.keys(fm)) {  
+            delete fm[key];  
+        }  
+    });  
+}
+
+//////////////////////
+
+
 
 /**
  * Schreibt beliebige Werte in ein Metadatenfeld einer Seite 
@@ -245,7 +294,8 @@ export async function updateEntireFrontmatter(app, normPage, newFrontObj = {}) {
     if (!normPage.exists) return;
     await app.fileManager.processFrontMatter(normPage.tFile, (frontmatter) => {
         for (const key of Object.keys(frontmatter)) {
-            if (key !== "id") delete frontmatter[key];
+            //if (key !== "id") 
+            delete frontmatter[key];
         }
         Object.assign(frontmatter, newFrontObj);
     });

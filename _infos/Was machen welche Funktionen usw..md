@@ -1,2 +1,0 @@
-# Metadaten lesen, schreiben usw.
-

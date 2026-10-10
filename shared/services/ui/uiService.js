@@ -66,7 +66,7 @@ export function listMaker(container, listeArr) {
  * 		z.B.:
  *      mainCon: [],
  *      infoCon: ["mainCon", "span", "Willkommen beim Migrations-Manager"],
- *		usw: ["","br"]
+ *		usw: [,"br"]
  *		usf: ["mainCon","br"]
 		etc: [,,"Text diesdas bla"]
  * })

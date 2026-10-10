@@ -1,12 +1,11 @@
 
+//// VERWENDET IN irgendwelchen Test-Features
+//// Kann weg...
+
 ////
 // IMPORT
 
-import { dvLinkSuche } from "./queryService.js";
-
-
-//// VERWENDET IN DIVERSEN Test-Features
-//// Kann weg, wenn die gelöscht werden
+import { dvLinkSuche } from "./dvQueryService.js";
 
 
 ////

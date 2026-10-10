@@ -4,7 +4,7 @@
 
 import { einzelnesFeldLesen } from "../dataService/metaReadService";
 import { resolveLinkPath } from "./linkService";
-import { getPageNormObject }    from "./pageNormService";
+import { getPageNormObject }    from "./pageNormService_ALT";
 
 
 /**

@@ -23,11 +23,9 @@ export function einzelnesFeldLesen(app, seiteNormObj, feld) {
     const cache = app.metadataCache.getFileCache(tFile);
     const fm = cache?.frontmatter;
     
-    return feld.split(".").reduce((o, k) => o?.[k], fm);
+    return getFrontmatterValue(fm, feld);
+    
 }
-
-
-
 
 /**
  * Link in Feld vorhanden?
@@ -45,8 +43,18 @@ export function checkFieldArrForLink(app, normPage, fieldPath, linkPage) {
     return current.some(link => resolveLinkPath(app, link) === targetPath);
 }
 
+//-----
 
+/**
+ * 
+ */
 
+export function getFrontmatterValue(frontmatter, field) {
+    
+    return field
+        .split(".")
+        .reduce((value, key) => value?.[key], frontmatter  ?? {});
+}
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 

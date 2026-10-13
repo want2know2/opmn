@@ -9,7 +9,7 @@ import { MetadataEditorModal }    	from "../adapters/MetadataEditorModal.js";
 
 import { SeitenManagerView, 
 		 TYPE_SEITEN_MANAGER } 			from "../adapters/seitenManagerView.js";
-import { getLookups } from "../shared/services/dataService/createLookups.js";
+
 
 
 

@@ -2,7 +2,7 @@
 ////
 // IMPORT                               // FROM
 
-import { getActivePageNormObject } from "../../../shared/services/pagesAndLinks/pageFetchService.js";
+import { getActivePageNormObject } from "../../shared/services/pagesAndLinks/pageFetchService.js";
 import { feldIstEditor } from "./feldIstEditor.js";
 
 import { pStatusEditor } from "./pStatusEditor.js";

@@ -1,3 +1,4 @@
+import { getFrontmatterValue } from "../dataService/metaReadService";
 
 /**
  * Scores a query against searchable text.
@@ -165,7 +166,7 @@ function getFieldValue(page, field) {
             return page[field];
 
         default:
-            return page.getFrontmatterValue(field);
+            return getFrontmatterValue(page.frontmatter, field);
             //getNestedValue(page.frontmatter ?? {}, field);
     }
 }

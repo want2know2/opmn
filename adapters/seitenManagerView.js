@@ -3,7 +3,7 @@
 // IMPORT						    // FROM
 
 import { ItemView } 			    from "obsidian";
-import { seitenManager } from "../features/baustelleFt/seitenManager/seitenManager";
+import { seitenManager } from "../features/seitenManager/seitenManager";
 //import { migManagerTest5 }          from "../features/_migrations/v1ToV2/migFeatures/migManagerTest5.js";
 
 
@@ -49,10 +49,11 @@ export class SeitenManagerView extends ItemView {
     }
 
     render() {
+
         if (!this.dv) return;
-        this.contentEl.empty();
         
-        // migManagerTest5(this);
+        this.contentEl.empty();
+       
         seitenManager(this);
     }
 }

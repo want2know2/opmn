@@ -5,11 +5,11 @@
 
 /// ALLe imports per AHnd aktual.
 
-import { checkFieldArrForLink } from "../../../shared/services/dataService/metaReadService.js";
-import { addLinkToListField, removeLinkFromListField } from "../../../shared/services/dataService/metaWriteService.js";
-import { getPageNormObject } from "../../../shared/services/pagesAndLinks/pageNormService_ALT.js";
-import { dvQueryPStatus } from "../../../shared/services/queries/pStatusService.js";
-import { rankFuzzy } from "../../../shared/services/ui/fuzzyService_ALT.js";
+import { checkFieldArrForLink } from "../../shared/services/dataService/metaReadService.js";
+import { addLinkToListField, removeLinkFromListField } from "../../shared/services/dataService/metaWriteService.js";
+import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService_ALT.js";
+import { dvQueryPStatus } from "../../shared/services/queries/pStatusService.js";
+import { rankFuzzy } from "../../shared/services/ui/fuzzyService_ALT.js";
 import { fuzzySearch } from "./fuzzySearch.js";
 
 

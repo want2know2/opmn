@@ -8,6 +8,7 @@ export function seitenCheck(app, normSeite) {
 
     const { graphRole, klasse, inKlasse, stKlasse, ist } = frontmatter;
 
+    /* alte prüfe diesdas-Sachen..
     const erwarteterTyp = pruefeFeldWertTyp(normSeite);
 
     normSeite.meldungen = [];
@@ -20,17 +21,18 @@ export function seitenCheck(app, normSeite) {
 
     if (normSeite.meldungen.length === 0)
         normSeite.erkannteRolle = erkenneRolle(normSeite);
+    */
 
-    const lookups = getLookups(app);
-    normSeite.gecheckteFelder = lookups.felder.checkFelder(normSeite.frontmatter);
+    //const lookups = getLookups(app);
+    //normSeite.gecheckteFelder = lookups.felder.checkFelderUndWerteTyp(normSeite.frontmatter);
 
 }
 
 
-/**
+/** alte pruefeFeldWertTyp
  * 
  */
-
+/*
 function pruefeFeldWertTyp(normSeite) {
 
     const { name, frontmatter } = normSeite;
@@ -71,7 +73,7 @@ function pruefeFeldWertTyp(normSeite) {
 
     return erwarteterTyp;
 }
-
+*/
 
 
 

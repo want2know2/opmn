@@ -3,7 +3,7 @@
 // IMPORT                   // FROM 
 
 import { Modal }            from "obsidian";
-import { metadataEditor }   from "../features/baustelleFt/metadataEditor/metadataEditor.js";
+import { metadataEditor }   from "../features/metadataEditor/metadataEditor.js";
 
 // A modal dialog that hosts the `metadataEditor` feature. `this.contentEl` is
 // the modal body and is handed to the feature as its mount element, together

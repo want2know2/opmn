@@ -12,11 +12,11 @@ export function getNormPage(app, path) {
         name: "",
         wikiLink: "",
         frontmatter: {},
-        getFrontmatterValue: function(field) {
+        /*getFrontmatterValue: function(field) {
             return field
                 .split(".")
                 .reduce((value, key) => value?.[key], this.frontmatter ?? {});
-        }
+        }*/
     };
 
     if (!normObj.exists)

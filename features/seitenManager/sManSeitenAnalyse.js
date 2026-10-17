@@ -1,45 +1,71 @@
-
-
-
+import { getNormPage } from "../../shared/services/pagesAndLinks/normPageService";
+import { sManFMAnalyse } from "./sManSeitenAnalyseFM";
+import { sManRollenAnalyse } from "./sManSeitenAnalyseRolle";
 
 
 /**
- * Normalizes and examines all supplied pages for the Page Manager.
- *
- * For each page:
- * 1. Creates its normalized page representation.
- * 2. Examines its metadata and determines relevant validation results.
- *
- * Returns an array of page examination results.
- * Does not modify manager state or interact with the UI.
+ * Normalisiert und analysiert die Seiten für den Seiten-Manager.
+ * Gibt einen Array mit Analysierte-Seite-Objekten zurück. Enthält:
+ * 
+ * fmAnalyse für jedes Feld: Analyse-Objekt mit
+ * - feldTyp
+ * - feldBekannt
+ * - gehoertZuNeuerStruktur
+ * - anzahlElemente
+ * - werte (null wenn feldTyp = "object")
+ * - wertTypen
+ * - feldTypKorrekt
+ * - wertTypenKorrekt
+ * - enthalteneFelder (rekursiv, nur wenn feldTyp = "object")
+ * 
+ * rolle:
+ * 
  */
-export function getSManSeitenAnalyse(app, alleSeiten, sManAnalyseRegeln) {
+export function getSManAnalysierteSeiten(app, alleSeiten, sManAnalyseRegeln) {
 
     return alleSeiten.map(s => {
+
         const normSeite = getNormPage(app, s.path);
-        const analysierteSeite = sManEinzelSeitenAnalyse(app, normSeite, sManAnalyseRegeln);
-        return analysierteSeite;
+        return sManEinzelSeitenAnalyse(app, normSeite, sManAnalyseRegeln);
+         
     });
 }
 
 
 /**
- * Examines one normalized page for the Page Manager.
- *
- * Determines the page's relevant role, metadata status and validation
- * results needed by this feature.
- *
- * Returns an examination result associated with the normalized page.
- * Does not render UI or manage search and filter state.
+ * Analysiert eine einzelne normalisierte Seite für den Seiten-Manager.
+ * 
+ * 1. Schickt die Seite durch `sManFMAnalyse`, um die Frontmatter-Metadaten auszuwerten
+ * 2. Schickt die Seite durch `sManRollenAnalyse`, um die Rolle zu ermitteln.
+ * 
+ * Gibt die analysierte Seite zurück. Beschreibung s. `getSManAnalysierteSeiten`.
  */
 function sManEinzelSeitenAnalyse(app, normSeite, sManAnalyseRegeln) {
-
     
+    const analysierteSeite = {
+        tFile: normSeite.tFile,
+        exists: normSeite.exists,
+        name: normSeite.name,
+        path: normSeite.path,
+        wikiLink: normSeite.wikiLink,
+        frontmatter: normSeite.frontmatter,
+        fmAnalyse: {},
+        rolle: {}
+    };
+
+    sManFMAnalyse(analysierteSeite, sManAnalyseRegeln.felder);
+    analysierteSeite.rolle = sManRollenAnalyse(app, analysierteSeite, sManAnalyseRegeln);
+
+    return analysierteSeite;
 }
 
 
+
+
+
 /**
- * 
+ * Die Regeln, um die frontmatter-Felder einer Seite zu analysieren
+ * und um die Rolle der Seite zu ermitteln. 
  */
 
 export function getSManAnalyseRegeln(app) {
@@ -106,84 +132,90 @@ export function getSManAnalyseRegeln(app) {
         },
         felder: {
             id: {
-                feldTyp: "string",
-                wertTyp: "id",  // 
-                berechtigt: true,
-                check: function(wert) {
-                    
-                    return {
-                        altesFormat: /^\d{4}-\d{2}-\d{2} _ \d{2}:\d{2}:\d{2}$/.test(wert),
-                        neuesFormatFalsch: /^\d{4}-\d{2}-\d{2} _ \d{2}:\d{2}:\d{2}\.\d{3}Z _ [a-z0-9]{6}$/.test(wert),
-                        neuesFormat: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z _ [a-z0-9]{6}$/.test(wert)
-                    };
-                }
+                feldTyp: "single",
+                wertTyp: "id: neu",  // 
+                gehoertZuNeuerStruktur: true,
             },
             graphRole: {
-                feldTyp: "string",
+                feldTyp: "single",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             klasse: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             typ: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             art: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             inKlasse: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             inFeld: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             parent: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             erlaubterTyp: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             stKlasse: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             stParent: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             pstatus: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: true
+                gehoertZuNeuerStruktur: true
             },
             
             ist: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: null
+                gehoertZuNeuerStruktur: null
             },
             in: {
-                feldTyp: "array",
+                feldTyp: "multi",
                 wertTyp: "link",
-                berechtigt: null
+                gehoertZuNeuerStruktur: null
             },
+            med: {
+                feldTyp: "object",
+                wertTyp: null,
+                gehoertZuNeuerStruktur: null,
+                enthalteneFelder: {
+                    in: {
+                        feldTyp: "multi",
+                        wertTyp: "link",
+                        gehoertZuNeuerStruktur: null,
+                    }
+                    
+
+                }
+            }
 
             
         },

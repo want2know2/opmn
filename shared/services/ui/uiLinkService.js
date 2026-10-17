@@ -16,7 +16,7 @@ export function placeHoverLinkOnEl(obsClsObj, container, page, displayAs = null)
     // Zweitens: page.displayName benötigt DV, page.name / path verwenden
     // TFile, d.h. wenn beim Editieren von Seiten das Dataview-Indexing noch 
     // nicht so weit ist, wird automatisch auf name/path zurückgegriffen.
-    const display = displayAs ?? page.displayName ?? page.name ?? page.path;
+    const display = displayAs ?? /*page.displayName ??*/ page.name ?? page.path;
 
     const link = container.createEl("a", {
         text: display,

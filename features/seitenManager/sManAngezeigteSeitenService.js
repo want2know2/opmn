@@ -1,15 +1,18 @@
+import { rankPagesByFuzzySearch } from "../../shared/services/queries/fuzzySearch";
 
 
 /**
- * Derives the pages currently visible in the Page Manager.
- *
- * Applies the active filters and fuzzy search using the current
- * manager state and the stored page examination results.
- *
- * Returns the visible results without rendering them or modifying
- * the underlying examination results.
+ * Ermittelt, welche Ergebnisse derzeit angezeigt werden.
+ * Wendet die aktiven Filter und Fuzzy Search anhand des
+ * aktuellen states auf die analysierten Seiten an.
+ * Gibt die anzuzeigenden Ergebnisse zurück.
  */
-function getSManAngezeigteSeiten(managerState) {
+export function getSManAngezeigteSeiten(sManState) {
 
-    //
+    const rankedPages = rankPagesByFuzzySearch(sManState.inputSuchstring, sManState.analysierteSeiten, {
+            fields: sManState.ergSuchfelderAktiv,
+        });
+
+    return rankedPages;
 }
+

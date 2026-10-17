@@ -10,8 +10,6 @@ import { uiMaker } from "../../shared/services/ui/uiService";
 
 export function getSManUI(contentEl) {
     
-    const { app, dv, contentEl } = sManState.obsClsObj;
-
     const ui = uiMaker(contentEl, {
         
         // main Header
@@ -54,10 +52,10 @@ export function getSManUI(contentEl) {
  * from the supplied state and derived results.
  * Does not register event handlers.
  */
-function renderSManUI(sManState, ui, visibleResults) {
+export function renderSManUI(sManState, ui, angezeigteSeiten) {
 
     renderSManUISuchfelderBox(sManState, ui);
-    renderSManUIErgebnisseBox(sManState, ui, sichtbareErgebnisse)
+    renderSManUIErgebnisseBox(sManState, ui, angezeigteSeiten)
 }
 
 
@@ -87,13 +85,15 @@ function renderSManUISuchfelderBox(sManState, ui) {
  *
  * Displays the relevant page information and validation results.
  */
-function renderSManUIErgebnisseBox(ui, sichtbareErgebnisse) {
+function renderSManUIErgebnisseBox(sManState, ui) {
+
+    const { angezeigteSeiten } = sManState;
 
     ui.ergebnisContainer.empty();
 
-    for (const [i, normSeite] of pages.entries()) {
+    for (const [i, analysierteSeite] of angezeigteSeiten.entries()) {
 
-        if (i <100) {
+        if (i <sManState.angezeigteSeitenAnzahl) {
 
             const header = ui.ergebnisContainer.createEl("h6");
             const hdSpanA = header.createEl("span");
@@ -101,13 +101,17 @@ function renderSManUIErgebnisseBox(ui, sichtbareErgebnisse) {
             const checkBox = ui.ergebnisContainer.createEl("div");  
             const fmBox = ui.ergebnisContainer.createEl("div");
             const gecheckteFelderBox = ui.ergebnisContainer.createEl("div");
-
-            hdSpanA.textContent = i+1 + " ";
-            placeHoverLinkOnEl(managerState.obsClsObj, hdSpanB, normSeite);
             
             [header, checkBox, fmBox, gecheckteFelderBox].forEach(el => 
                 el.style.userSelect = "text"
             );
+
+            hdSpanA.textContent = i+1 + " ";
+            placeHoverLinkOnEl(sManState.obsClsObj, hdSpanB, analysierteSeite);
+
+            checkBox.textContent = analysierteSeite.rolle.getText();
+            
+            
         }
     }
 }

@@ -22,10 +22,10 @@ export const TYPE_FAFO_VIEW = {
 
 export class FafoView extends ItemView {
 
-    constructor(leaf, dv) {
+    constructor(leaf, dv, eventManager) {
         super(leaf);
         this.dv = dv;
-        this.
+        this.eventManager = eventManager;
     }
 
     getViewType() {

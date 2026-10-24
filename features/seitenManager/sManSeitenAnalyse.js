@@ -7,19 +7,23 @@ import { sManRollenAnalyse } from "./sManSeitenAnalyseRolle";
  * Normalisiert und analysiert die Seiten für den Seiten-Manager.
  * Gibt einen Array mit Analysierte-Seite-Objekten zurück. Enthält:
  * 
- * fmAnalyse für jedes Feld: Analyse-Objekt mit
- * - feldTyp
- * - feldBekannt
- * - gehoertZuNeuerStruktur
- * - anzahlElemente
- * - werte (null wenn feldTyp = "object")
- * - wertTypen
- * - feldTypKorrekt
- * - wertTypenKorrekt
- * - enthalteneFelder (rekursiv, nur wenn feldTyp = "object")
+ * - tFile, exists, name, path, wikilink, frontmatter
  * 
- * rolle:
+ * fmAnalyse für jedes Feld: Analyse-Objekt mit:
+ * - feldTyp (str)
+ * - feldBekannt (bool)
+ * - gehoertZuNeuerStruktur (bool)
+ * - anzahlElemente (nr)
+ * - werte (null wenn feldTyp = "object") (arr)
+ * - wertTypen (arr)
+ * - feldTypKorrekt (bool)
+ * - wertTypenKorrekt (bool)
+ * - enthalteneFelder (rekursiv, nur wenn feldTyp = "object") (obj)
  * 
+ * rolle: Objekt mit:
+ * - erkanntAls (arr)
+ * - erkanntVia (arr)
+ * - getText()
  */
 export function getSManAnalysierteSeiten(app, alleSeiten, sManAnalyseRegeln) {
 

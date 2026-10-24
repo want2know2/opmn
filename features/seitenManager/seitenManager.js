@@ -1,6 +1,5 @@
 // IMPORTs
 
-
 import { sManQueryService } from "./sManQueryService.js";
 import { getSManUI, renderSManUI } from "./sManUI.js";
 import { getSManAnalyseRegeln, getSManAnalysierteSeiten } from "./sManSeitenAnalyse.js";
@@ -59,7 +58,7 @@ function getSManState(obsClsObj) {
         obsClsObj,
         analysierteSeiten: [],
         angezeigteSeiten: [],
-        angezeigteSeitenAnzahl: 123,
+        angezeigteSeitenAnzahl: 30,
         inputSuchstring: "",
         ergSucheContainerBearbeiten: null,
         ergSuchfelderAuswahl: ["name", "art"],
@@ -87,17 +86,44 @@ function connectSManUI(sManState, ui) {
     // The key point is that addEventListener calls the event handler with an Event object as its argument. 
     ui.ergSucheInput.addEventListener("input", ergSucheInputFn);
 
+    // Buttons
     const ergSuchfelderAktivBtnFn = (suchfeld) => {
 
         if (!sManState.ergSuchfelderAktiv.includes(suchfeld))
             sManState.ergSuchfelderAktiv.push(suchfeld);
-        else {
+        else if (sManState.ergSuchfelderAktiv.length >1) {
             const index = sManState.ergSuchfelderAktiv.indexOf(suchfeld);
             sManState.ergSuchfelderAktiv.splice(index, 1)
         }
 
         updateSManView(sManState, ui);
     };
+
+    // Nutzt Event Propagation: Jedem in `renderSManUISuchfelderBox`
+    // erstellten Button wird dort an btn.dataset.suchfeld = suchfeld
+    // zugewiesen, wobei = suchfeld dort der jeweilige String aus dem
+    // `sManState.ergSuchfelderAktiv`-Array ist, anhand dessen der 
+    // Button erstellt wird.
+    // Hier wird der Event Listener an die Box angehangen, in der die
+    // Buttons enthalten sind. Das Click-Event bubbelt von der Box
+    // hoch zum Button, der entsprechende Button wird abgefangen, 
+    // indem ausgehend vom Event event.target.closest mit dem Selektor
+    // "button 'der die Eigenschaft' [data-suchfeld]" 'hat', abgefragt 
+    // wird. "[data-suchfeld]" entspricht dabei, glaube ich, der 
+    // vermurksten HTML-Notierung (aber es handelt sich um einen CSS-
+    // Selektor? Das müsste ich noch mal nachschauen..).
+    ui.ergSuchfelderBox.addEventListener("click", event => {
+
+        const btn = event.target.closest("button[data-suchfeld]");
+
+        if (!btn || !ui.ergSuchfelderBox.contains(btn))
+            return;
+
+        ergSuchfelderAktivBtnFn(btn.dataset.suchfeld);
+    });
+    
+
+
 }
 
 
@@ -112,81 +138,4 @@ function updateSManView(sManState, ui) {
     renderSManUI(sManState, ui)
 }
 
-
-//--------------------------
-
-/** 
- * 
- */
-/*
-export async function seitenManager(obsClsObj) {
-
-    const { app, dv, contentEl } = obsClsObj;
-
-    const alleSeiten = app.vault.getMarkdownFiles()
-    .map(s => {
-        const normSeite = getNormPage(app, s.path);
-        seitenCheck(app, normSeite);
-        return normSeite;
-    });
-
-    const managerState = getManagerState(obsClsObj, alleSeiten);
-
-    managerState.ergSucheInputFn = (inputSuchstring) => {
-
-        const rankedPages = rankPagesByFuzzySearch(inputSuchstring, alleSeiten, {
-            fields: managerState.ergSuchfelderAktiv,
-        });
-
-        renderSManUI(managerState, ui, rankedPages);
-    };
-
-    managerState.ergSuchfelderAktivBtnFn = (suchfeld, inputSuchstring) => {
-
-        managerState.toggleErgSuchfeldAktiv(suchfeld);
-        managerState.ergSucheInputFn(inputSuchstring);
-    };
-
-    const ui = getSManUI(managerState, alleSeiten);
-
-    renderSManUI(managerState, ui, alleSeiten);
-}
-*/
-
-/**
- * 
- */
-/*
-function getManagerState(obsClsObj) {
-
-    return {
-        obsClsObj,
-        ergSucheContainerBearbeiten: null,
-        ergSuchfelderAuswahl: ["name", "art"],
-        ergSuchfelderAktiv: ["name","art"],
-        
-        toggleArr: function(feldMitArr, value) {
-
-            const index = this[feldMitArr].indexOf(value);
-
-            if (index === -1) 
-                this[feldMitArr].push(value);
-            else if (this[feldMitArr].length >= 2)
-                this[feldMitArr].splice(index, 1);
-        },
-        
-        toggleErgSuchfeldAuswahl: function(suchfeld) {
-
-            this.toggleArr("ergSuchfelderAuswahl", suchfeld);
-        },
-
-        toggleErgSuchfeldAktiv: function(suchfeld) {
-
-            this.toggleArr("ergSuchfelderAktiv", suchfeld);
-        },
-
-        
-    }
-}
-*/
 

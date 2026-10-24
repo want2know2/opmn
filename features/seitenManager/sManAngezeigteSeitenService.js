@@ -1,4 +1,4 @@
-import { rankPagesByFuzzySearch } from "../../shared/services/queries/fuzzySearch";
+import { rankPagesByFuzzySearch } from "../../shared/services/queryService/fuzzySearch";
 
 
 /**
@@ -9,10 +9,10 @@ import { rankPagesByFuzzySearch } from "../../shared/services/queries/fuzzySearc
  */
 export function getSManAngezeigteSeiten(sManState) {
 
-    const rankedPages = rankPagesByFuzzySearch(sManState.inputSuchstring, sManState.analysierteSeiten, {
+    const angezeigteSeiten = rankPagesByFuzzySearch(sManState.inputSuchstring, sManState.analysierteSeiten, {
             fields: sManState.ergSuchfelderAktiv,
         });
 
-    return rankedPages;
+    return angezeigteSeiten;
 }
 

@@ -15,6 +15,19 @@ export function sManFMAnalyse(analysierteSeite, felderRegeln) {
 
         fmAnalyse[feldName] = analysiereFeldWert(feldWert, felderRegeln[feldName]);
     }
+
+    fmAnalyse.getText = () => {
+
+        let text = "";
+
+        Object.entries((fmAnalyse)).forEach(([key, entry]) => {
+
+            if (key !== "getText")
+                text += `${key}, `;
+        });
+
+        return text;
+    }
 }
 
 

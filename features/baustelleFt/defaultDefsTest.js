@@ -5,8 +5,8 @@
 import { buildRegistryDefault } from "../../shared/registry/defaultDefinitionenReg.js";
 import { einzelnesFeldLesen } from "../../shared/services/dataService/metaReadService.js";
 import { getPageNormObject } from "../../shared/services/pagesAndLinks/pageNormService_ALT.js";
-import { placeHoverLinkOnEl } from "../../shared/services/ui/uiLinkService.js";
-import { tableMakerReihe, tableMakerReiheHd } from "../../shared/services/ui/uiService.js";
+import { placeHoverLinkOnEl } from "../../shared/services/uiService/uiLinkService.js";
+import { tableMakerReihe, tableMakerReiheHd } from "../../shared/services/uiService/uiService.js";
 
 
 /**

@@ -33,14 +33,14 @@ export default class OpmnPlugin extends Plugin {
 		this.eventManager = new EventManager(this);
 
 		// 2. WARTEN BIS DAS HOOK LAYOUT BEREIT IST
-		// Verhindert Performance-Probleme beim Laden des Tresors (Vault Startup-Scan)
+		// Verhindert Performance-Probleme beim Laden des Vaults (Vault Startup-Scan)
 		this.app.workspace.onLayoutReady(() => {
 			console.log("OPMN: Workspace ist bereit. Starte EventManager...");
 			this.eventManager.initialize();
 		});
 		
 		
-		// VIEWS RECHIEREN
+		// VIEWS 
 		// Wir geben den Views sowohl das 'dv'-Objekt als auch unsere neue 'eventManager'-Instanz mit
 		this.registerView(TYPE_SEITEN_MANAGER.id, (leaf) => new SeitenManagerView(leaf, dv, this.eventManager));
 		this.registerView(TYPE_FAFO_VIEW.id, (leaf) => new FafoView(leaf, dv, this.eventManager));

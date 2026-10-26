@@ -1,15 +1,10 @@
 
 
+export function fafo(view, eventProperties = {}) {
 
-export function fafoAnzeige(obsClsObj) {
+    const {app, dv, contentEl} = view;
 
-    const {app, dv, contentEl} = obsClsObj;
-
-    contentEl.textContent = "hallo";
+    contentEl.textContent = `Zuletzt geändert: ${eventProperties?.file?.basename}, ${eventProperties?.eventType}`;
 }
 
 
-export function anzeigeTest(contentEl) {
-
-    contentEl.textContent = "hallo 2";
-}

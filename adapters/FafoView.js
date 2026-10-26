@@ -3,7 +3,7 @@
 // IMPORT						    // FROM
 
 import { ItemView } 			    from "obsidian";
-import { anzeigeTest, fafoAnzeige } from "../features/fafoView/fafoAnzeige";
+import { fafo } from "../features/fafoView/fafoAnzeige";
 
 
 ////
@@ -12,7 +12,7 @@ import { anzeigeTest, fafoAnzeige } from "../features/fafoView/fafoAnzeige";
 export const TYPE_FAFO_VIEW = {
     id: "opmn-fafo-view",
     text: "FAFO-View",
-    icon: "baby"
+    icon: "test-tube-diagonal"
 }
 
 
@@ -41,28 +41,45 @@ export class FafoView extends ItemView {
     }
 
     async onOpen() {
-        this.registerEvent(
+        
+        this.eventManager.registerFeature(TYPE_FAFO_VIEW.id, {
 
-            this.app.vault.on("modify", () => {
+            filter: (eventProperties) => {
 
-                anzeigeTest(this.contentEl);
-            })
-        )
+                switch (eventProperties.eventType) {
+                    case "vault.create":
+                    case "vault.rename":
+                    case "vault.delete":
+                    //case "vault.modify":
+                    //case "metadataCache.changed":
+                    //case "metadataCache.resolve":
+                        return true;
+                
+                    default:
+                        return false;
+                }
+            },
+
+            onUpdate: (eventProperties) => {
+
+                this.render(eventProperties);
+            }
+        });
         
         this.render();
     }
 
     async onClose() {
+        this.eventManager.unregisterFeature(TYPE_FAFO_VIEW.id);
         this.contentEl.empty();
     }
 
-    render() {
+    render(eventProperties = {}) {
 
         if (!this.dv) return;
         
         this.contentEl.empty();
-        fafoAnzeige(this);
-        // seitenManager(this);
+        fafo(this, eventProperties);
     }
 }
 
